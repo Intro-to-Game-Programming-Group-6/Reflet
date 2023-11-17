@@ -19,12 +19,12 @@ public class MainMenu : MonoBehaviour
 
     public void MoveToGameplay()
     {
-        SceneManager.LoadScene("TestingBobby");
+        SceneManager.LoadScene("MapOswinTest");
     }
 
     public void MoveToTutorial()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("TestingBobby");
     }
 
     public void CloseGame()

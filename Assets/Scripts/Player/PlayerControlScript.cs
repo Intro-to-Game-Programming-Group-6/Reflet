@@ -5,44 +5,64 @@ using UnityEngine.InputSystem;
 
 public class PlayerControlScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    Vector2 movementInput;
-    Rigidbody2D rb;
-    SpriteRenderer playersprite;
-    Animator animator;
+    private static PlayerControlScript instance;
+    
+    private Rigidbody2D rb;
+    private SpriteRenderer playersprite;
+    private Animator animator;
+
+    private Vector2 movementInput;
+
+    public float angleOffset = 3f;
     public float movementspeed = 3f;
-    bool attacking;
+    public float attackRange = 0f;
+
+
     public Camera playercamera;
-    public GameObject attackparticle;
-    public GameObject debug;
+    public GameObject reflector;
+
+    void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public static PlayerControlScript GetInstance()
+    {
+        return instance;
+    }
 
     void Start()
     {
-        //mainBody = GetComponent<CharacterController>();
-        rb = GetComponent<Rigidbody2D>();//.gravity = 0f;
+        rb = GetComponent<Rigidbody2D>();
         playersprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        
         rb.gravityScale = 0f;
-        attacking = false;
     }
 
-    void CheckIfAttack()
+    void Reflect()
     {
-        float attack_range = 0f;
         Vector2 clickdirection = playercamera.ScreenToWorldPoint(Mouse.current.position.ReadValue()) - rb.transform.position;
         clickdirection = clickdirection.normalized;
+
         float angle = Mathf.Atan2(clickdirection.y, clickdirection.x);
         angle = (angle + 2 * Mathf.PI) % (2 * Mathf.PI);
         angle = angle * Mathf.Rad2Deg;
-        Vector2 spawnposition = (Vector2)rb.transform.position + clickdirection * attack_range;
-        GameObject attackParticleobj = Instantiate(attackparticle, spawnposition, Quaternion.Euler(angle+90f, -90f, -90f));
-        Debug.Log(angle);
-        //debug.transform.rotation = Quaternion.Euler(angle, -90f, -90f);
-        ParticleSystem attackParticleSystem = attackParticleobj.GetComponent<ParticleSystem>();
-        Destroy(attackParticleobj, attackParticleSystem.main.duration);
+
+        Vector2 spawnposition = (Vector2)rb.transform.position + clickdirection * attackRange;
+
+        print(angle);
+
+        Instantiate(reflector, spawnposition, Quaternion.Euler(0, 0, angle - angleOffset));
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (rb.velocity == Vector2.zero)
@@ -74,9 +94,9 @@ public class PlayerControlScript : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && Sword.GetInstance() == null)
         {
-            CheckIfAttack();
+            Reflect();
         }
     }
 }

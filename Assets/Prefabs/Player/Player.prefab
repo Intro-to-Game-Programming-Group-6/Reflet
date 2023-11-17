@@ -152,6 +152,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementspeed: 3
+  playercamera: {fileID: 0}
+  attackparticle: {fileID: 2060900179291159282, guid: ca6705a3f9070d14d819d179493bcfa0, type: 3}
+  debug: {fileID: 2060900179291159282, guid: ca6705a3f9070d14d819d179493bcfa0, type: 3}
 --- !u!50 &4708606104394250502
 Rigidbody2D:
   serializedVersion: 4

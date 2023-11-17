@@ -17,8 +17,8 @@ public class PlayerControlScript : MonoBehaviour
     public float movementspeed = 3f;
     public float attackRange = 0f;
 
-
     public Camera playercamera;
+    public Transform swordSpawnPoint;
     public GameObject reflector;
 
     void Awake()
@@ -56,11 +56,11 @@ public class PlayerControlScript : MonoBehaviour
         angle = (angle + 2 * Mathf.PI) % (2 * Mathf.PI);
         angle = angle * Mathf.Rad2Deg;
 
-        Vector2 spawnposition = (Vector2)rb.transform.position + clickdirection * attackRange;
+        Vector2 spawnposition = (Vector2)swordSpawnPoint.position + clickdirection * attackRange;
 
-        print(angle);
+        GameObject instantiatedObject = Instantiate(reflector, spawnposition, Quaternion.Euler(0, 0, angle - angleOffset));
 
-        Instantiate(reflector, spawnposition, Quaternion.Euler(0, 0, angle - angleOffset));
+        instantiatedObject.transform.parent = gameObject.transform;
     }
 
     void Update()

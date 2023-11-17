@@ -17,7 +17,6 @@ public class PlayerControlScript : MonoBehaviour
     public float movementspeed = 3f;
     public float attackRange = 0f;
 
-    public Camera playercamera;
     public Transform swordSpawnPoint;
     public GameObject reflector;
 
@@ -49,7 +48,7 @@ public class PlayerControlScript : MonoBehaviour
 
     void Reflect()
     {
-        Vector2 clickdirection = playercamera.ScreenToWorldPoint(Mouse.current.position.ReadValue()) - rb.transform.position;
+        Vector2 clickdirection = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - rb.transform.position;
         clickdirection = clickdirection.normalized;
 
         float angle = Mathf.Atan2(clickdirection.y, clickdirection.x);

@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemySample : MonoBehaviour
 {
     public GameObject bullet;
+    public Vector3 offset;
 
     void Start()
     {
@@ -13,7 +14,7 @@ public class EnemySample : MonoBehaviour
 
     void Shoot()
     {
-        Instantiate(bullet, gameObject.transform.position, Quaternion.Euler(0, 0, 0));
+        Instantiate(bullet, gameObject.transform.position + offset, Quaternion.Euler(0, 0, 0));
     }
 
     IEnumerator ShootBullets()

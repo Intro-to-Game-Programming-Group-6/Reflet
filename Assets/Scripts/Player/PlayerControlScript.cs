@@ -8,7 +8,7 @@ public class PlayerControlScript : MonoBehaviour
     private static PlayerControlScript instance;
     
     private Rigidbody2D rb;
-    private SpriteRenderer playersprite;
+    private SpriteRenderer playerSprite;
     private Animator animator;
 
     private Vector2 movementInput;
@@ -16,6 +16,8 @@ public class PlayerControlScript : MonoBehaviour
     public float angleOffset = 3f;
     public float movementspeed = 3f;
     public float attackRange = 0f;
+
+    public bool interactable;
 
     public Transform swordSpawnPoint;
     public GameObject reflector;
@@ -40,10 +42,25 @@ public class PlayerControlScript : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        playersprite = GetComponent<SpriteRenderer>();
+        playerSprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         
         rb.gravityScale = 0f;
+        interactable = false;
+    }
+
+    void Update()
+    {
+        if (rb.velocity == Vector2.zero)
+            animator.SetBool("isWalking", false);
+        else
+            animator.SetBool("isWalking", true);
+        if (movementInput.x >= 0f)
+            playerSprite.flipX = false;
+        else
+            playerSprite.flipX = true;
+        rb.velocity = (movementInput)*movementspeed;
+        
     }
 
     void Reflect()
@@ -60,20 +77,6 @@ public class PlayerControlScript : MonoBehaviour
         GameObject instantiatedObject = Instantiate(reflector, spawnposition, Quaternion.Euler(0, 0, angle - angleOffset));
 
         instantiatedObject.transform.parent = gameObject.transform;
-    }
-
-    void Update()
-    {
-        if (rb.velocity == Vector2.zero)
-            animator.SetBool("isWalking", false);
-        else
-            animator.SetBool("isWalking", true);
-        if (movementInput.x >= 0f)
-            playersprite.flipX = false;
-        else
-            playersprite.flipX = true;
-        rb.velocity = (movementInput)*movementspeed;
-        
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -97,5 +100,15 @@ public class PlayerControlScript : MonoBehaviour
         {
             Reflect();
         }
+    }
+
+    public bool GetInteractions()
+    {
+        return interactable;
+    }
+
+    public void ToggleInteractions(bool value)
+    {
+        interactable = value;
     }
 }

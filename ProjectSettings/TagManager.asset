@@ -47,3 +47,6 @@ TagManager:
   - name: Main
     uniqueID: 548196675
     locked: 0
+  - name: UI
+    uniqueID: 3890548939
+    locked: 0

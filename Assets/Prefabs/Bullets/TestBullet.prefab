@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e37a76f86d95d504fb29ff57a55f0132, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selfPrefab: {fileID: 5363932746482136507}
   bulletSpeed: 5
   bulletLifeTime: 2
   rb: {fileID: 7856817284173792347}
@@ -133,7 +134,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

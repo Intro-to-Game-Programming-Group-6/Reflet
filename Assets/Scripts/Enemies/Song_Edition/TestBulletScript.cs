@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TestBulletScript : MonoBehaviour
 {
+    public GameObject selfPrefab;
     public float bulletSpeed;
     public float bulletLifeTime;
     private float lifetimeCount;
@@ -40,21 +41,29 @@ public class TestBulletScript : MonoBehaviour
     public void ReflectBullet(Vector2 inNorm)
     {
         Vector2 re_dir = Vector2.Reflect(rb.velocity, inNorm).normalized;
-        rb.velocity = re_dir * bulletSpeed;
+        rb.velocity = -re_dir * bulletSpeed;
     }
 
     //Test boucing with wall
-    /*
+    Vector2 lastvelocity;
+    private void FixedUpdate()
+    {
+        lastvelocity = rb.velocity;
+    }
+    
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Hit!");
-        Vector2 inVelo = rb.velocity;
-        rb.velocity = Vector2.zero;
+        Debug.Log("Hit Wall!");
+        //Vector2 inVelo = rb.velocity;
+        //rb.velocity = Vector2.zero;
         Vector2 inNorm = collision.contacts[0].normal;
         //ReflectBullet(inVelo, inNorm);
+        Vector2 re_dir = Vector2.Reflect(lastvelocity, inNorm).normalized;
+
+        rb.velocity = re_dir * bulletSpeed;
 
     }
-    */
+    
     /*
     private void OnTriggerEnter2D(Collider2D collision)
     {

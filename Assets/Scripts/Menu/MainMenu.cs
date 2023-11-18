@@ -7,12 +7,16 @@ public class MainMenu : MonoBehaviour
 {
     public void MoveToGameplay()
     {
-        // SceneManager.LoadScene("MapOswinTest");
+        SceneManager.LoadScene("MapOswinTest");
     }
 
     public void MoveToTutorial()
     {
         SceneManager.LoadScene("Tutorial");
+    }
+
+    public void MoveToPause() {
+        SceneManager.LoadScene("PausedMenu");
     }
 
     public void CloseGame()

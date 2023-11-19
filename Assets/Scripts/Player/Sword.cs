@@ -38,20 +38,17 @@ public class Sword : MonoBehaviour
 
     void Update()
     {
-        if(isRotating)
-        {
-            Rotate();
-
-            rotationTimer += Time.deltaTime;
-
-            if (rotationTimer >= rotationDuration)
-            {
-                isRotating = false;
-            }
-        }
-        else
-        {
+        if (!isRotating) {
             Destroy(gameObject);
+            return;
+        }
+        Rotate();
+
+        rotationTimer += Time.deltaTime;
+
+        if (rotationTimer >= rotationDuration)
+        {
+            isRotating = false;
         }
     }
 

@@ -77,8 +77,6 @@ public class PlayerControlScript : MonoBehaviour
         GameObject instantiatedObject = Instantiate(reflector, spawnposition, Quaternion.Euler(0, 0, angle - angleOffset));
 
         instantiatedObject.transform.parent = gameObject.transform;
-
-
     }
 
     public void OnMove(InputAction.CallbackContext context)

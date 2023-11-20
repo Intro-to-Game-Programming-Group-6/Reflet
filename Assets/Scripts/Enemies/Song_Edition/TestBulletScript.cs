@@ -38,10 +38,10 @@ public class TestBulletScript : MonoBehaviour
 
     }
 
-    public void ReflectBullet(Vector2 inNorm)
+    public void ReflectBullet(Vector2 inVelocity, Vector2 inNorm)
     {
-        Vector2 re_dir = Vector2.Reflect(rb.velocity, inNorm).normalized;
-        rb.velocity = -re_dir * bulletSpeed;
+        Vector2 re_dir = Vector2.Reflect(inVelocity, inNorm).normalized;
+        rb.velocity = re_dir * bulletSpeed;
     }
 
     //Test boucing with wall
@@ -51,6 +51,7 @@ public class TestBulletScript : MonoBehaviour
         lastvelocity = rb.velocity;
     }
     
+    //Make bullet Bounce off the wall
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("Hit Wall!");
@@ -74,7 +75,9 @@ public class TestBulletScript : MonoBehaviour
 
         Vector2 inNorm = contacts[0].normal;
 
-        ReflectBullet(inNorm);
+        Vector2 re_dir = Vector2.Reflect(lastvelocity, inNorm).normalized;
+
+        rb.velocity = re_dir * bulletSpeed;
     }
     */
 }

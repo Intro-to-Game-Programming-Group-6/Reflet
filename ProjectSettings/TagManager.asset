@@ -3,12 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Bullet
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Player
+  - 
   - Water
   - UI
   - 
@@ -46,7 +47,4 @@ TagManager:
     locked: 0
   - name: Main
     uniqueID: 548196675
-    locked: 0
-  - name: UI
-    uniqueID: 3890548939
     locked: 0

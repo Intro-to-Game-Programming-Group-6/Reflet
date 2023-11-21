@@ -8,13 +8,22 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: ce7f0dfa15ba8e841939cfd3c853dc9e
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/TestingBobby.unity
     guid: 6e3400588ffe6b64fa852b0bcacb3985
   - enabled: 1
     path: Assets/Scenes/Tutorial.unity
     guid: 9d2a003a35d34fb4faed7ccb25d9090e
+  - enabled: 1
+    path: Assets/Scenes/Test Bullet Reflect.unity
+    guid: 9dc9673c7412f3e4b85a3f85bf64dae9
+  - enabled: 1
+    path: Assets/Scenes/OptionMenu.unity
+    guid: 654034961b67f8447a37a28e2571464b
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: ca5ec47e8578f994191460aa4bd4947c
   m_configObjects: {}

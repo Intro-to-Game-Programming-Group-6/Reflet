@@ -17,9 +17,7 @@ public class PlayerControlScript : MonoBehaviour
     public float movementspeed = 3f;
     public float attackRange = 0f;
 
-    public bool interactable;
-
-    public Transform swordSpawnPoint;
+    public Transform spawnPoint;
     public GameObject reflector;
 
     void Awake()
@@ -46,7 +44,6 @@ public class PlayerControlScript : MonoBehaviour
         animator = GetComponent<Animator>();
         
         rb.gravityScale = 0f;
-        interactable = false;
     }
 
     void Update()
@@ -72,7 +69,7 @@ public class PlayerControlScript : MonoBehaviour
         angle = (angle + 2 * Mathf.PI) % (2 * Mathf.PI);
         angle = angle * Mathf.Rad2Deg;
 
-        Vector2 spawnposition = (Vector2)swordSpawnPoint.position + clickdirection * attackRange;
+        Vector2 spawnposition = (Vector2)spawnPoint.position + clickdirection * attackRange;
 
         GameObject instantiatedObject = Instantiate(reflector, spawnposition, Quaternion.Euler(0, 0, angle - angleOffset));
 
@@ -100,15 +97,5 @@ public class PlayerControlScript : MonoBehaviour
         {
             Reflect();
         }
-    }
-
-    public bool GetInteractions()
-    {
-        return interactable;
-    }
-
-    public void ToggleInteractions(bool value)
-    {
-        interactable = value;
     }
 }

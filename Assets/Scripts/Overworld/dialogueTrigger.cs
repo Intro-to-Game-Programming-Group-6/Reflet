@@ -7,11 +7,15 @@ public class dialogueTrigger : MonoBehaviour
     public TextAsset dialogue;
     public bool canPlay;
 
+    public GameObject exclamation;
     private bool playerDetected;
 
     private void Start()
     {
         playerDetected = false;
+        exclamation = gameObject.transform.GetChild(0).gameObject;
+
+        exclamation.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -19,7 +23,7 @@ public class dialogueTrigger : MonoBehaviour
         if(collision.tag == "Player")
         {
             playerDetected = true;
-            PlayerControlScript.GetInstance().ToggleInteractions(true);
+            exclamation.SetActive(true);
         }
     }
 
@@ -28,7 +32,7 @@ public class dialogueTrigger : MonoBehaviour
         if (collision.tag == "Player")
         {
             playerDetected = false;
-            PlayerControlScript.GetInstance().ToggleInteractions(false);
+            exclamation.SetActive(false);
         }
     }
 }

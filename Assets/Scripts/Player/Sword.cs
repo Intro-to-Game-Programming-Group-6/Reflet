@@ -10,10 +10,10 @@ public class Sword : MonoBehaviour
     public Transform pivotPoint;
     public float rotationSpeed;
 
-    public float rotationDuration = 1.0f;
-    private float rotationTimer = 0.0f;
+    public float duration = 1.0f;
+    private float timer = 0.0f;
 
-    private bool isRotating;
+    private bool active;
 
     void Awake()
     {
@@ -34,28 +34,22 @@ public class Sword : MonoBehaviour
 
     void OnEnable()
     {
-        isRotating = true;
+        active = true;
     }
 
     void Update()
     {
-        if (!isRotating) {
+        if (!active) {
             Destroy(gameObject);
             return;
         }
-        Rotate();
 
-        rotationTimer += Time.deltaTime;
+        timer += Time.deltaTime;
 
-        if (rotationTimer >= rotationDuration)
+        if (timer >= duration)
         {
-            isRotating = false;
+            active = false;
         }
-    }
-
-    void Rotate()
-    {
-        transform.RotateAround(pivotPoint.position, Vector3.forward, rotationSpeed * Time.deltaTime);
     }
 
     //make sword reflect bullet

@@ -12,8 +12,7 @@ public class PlayerControlScript : MonoBehaviour
     private Animator animator;
 
     private Vector2 movementInput;
-
-    public float angleOffset = 3f;
+    
     public float movementspeed = 3f;
     public float attackRange = 0f;
 
@@ -49,15 +48,24 @@ public class PlayerControlScript : MonoBehaviour
     void Update()
     {
         if (rb.velocity == Vector2.zero)
+        {
             animator.SetBool("isWalking", false);
+        }
         else
+        {
             animator.SetBool("isWalking", true);
+        }
+
         if (movementInput.x >= 0f)
+        {
             playerSprite.flipX = false;
+        }
         else
+        {
             playerSprite.flipX = true;
-        rb.velocity = (movementInput)*movementspeed;
-        
+        }
+            
+        rb.velocity = (movementInput)*movementspeed;   
     }
 
     void Reflect()
@@ -71,7 +79,7 @@ public class PlayerControlScript : MonoBehaviour
 
         Vector2 spawnposition = (Vector2)spawnPoint.position + clickdirection * attackRange;
 
-        GameObject instantiatedObject = Instantiate(reflector, spawnposition, Quaternion.Euler(0, 0, angle - angleOffset));
+        GameObject instantiatedObject = Instantiate(reflector, spawnposition, Quaternion.Euler(0, 0, angle - 90));
 
         instantiatedObject.transform.parent = gameObject.transform;
     }

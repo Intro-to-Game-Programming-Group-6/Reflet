@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Sword : MonoBehaviour
+public class Reflector : MonoBehaviour
 {
-    private static Sword instance;
-
-    public Transform pivotPoint;
-    public float rotationSpeed;
+    private static Reflector instance;
 
     public float duration = 1.0f;
     private float timer = 0.0f;
@@ -27,7 +24,7 @@ public class Sword : MonoBehaviour
         }
     }
 
-    public static Sword GetInstance()
+    public static Reflector GetInstance()
     {
         return instance;
     }

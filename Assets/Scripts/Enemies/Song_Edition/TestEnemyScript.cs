@@ -18,6 +18,8 @@ public class TestEnemyScript : MonoBehaviour
     public bool playerInAttackRange;
     bool isAttacking = false;
 
+    public int health = 2;
+
     protected virtual void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -60,7 +62,7 @@ public class TestEnemyScript : MonoBehaviour
     {
         while (true)
         {
-            GameObject bullet = Instantiate(bulletPrefab, agent.transform.position, Quaternion.identity);
+            GameObject bullet = Instantiate(bulletPrefab, agent.transform.position, Quaternion.identity, gameObject.transform);
             bullet.GetComponent<TestBulletScript>().ShootAt(player);
             yield return new WaitForSeconds(attackDelay);
         }
@@ -71,8 +73,22 @@ public class TestEnemyScript : MonoBehaviour
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, attackRange);
-
         }
+    }
+
+    public void AdjustHealth(int deltaHealth)
+    {
+        health += deltaHealth;
+
+        if(health <= 0)
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
     }
 
 }

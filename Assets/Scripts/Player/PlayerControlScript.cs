@@ -64,11 +64,11 @@ public class PlayerControlScript : MonoBehaviour
             animator.SetBool("isWalking", true);
         }
 
-        if (movementInput.x >= 0f)
+        if (movementInput.x > 0f)
         {
             playerSprite.flipX = false;
         }
-        else
+        else if (movementInput.x < 0f)
         {
             playerSprite.flipX = true;
         }
@@ -95,9 +95,7 @@ public class PlayerControlScript : MonoBehaviour
 
         Vector2 spawnposition = (Vector2)spawnPoint.position + clickdirection * attackRange;
 
-        GameObject instantiatedObject = Instantiate(reflector, spawnposition, Quaternion.Euler(0, 0, angle - 90));
-
-        instantiatedObject.transform.parent = gameObject.transform;
+        GameObject instantRef = Instantiate(reflector, spawnposition, Quaternion.Euler(0, 0, angle - 90), gameObject.transform);
     }
 
     IEnumerator Dash()

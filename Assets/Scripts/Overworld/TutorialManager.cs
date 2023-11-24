@@ -33,29 +33,32 @@ public class TutorialManager : MonoBehaviour
         currentState = 0;
     }
 
-    public void UpdateState(InputAction.CallbackContext context) {
-        if (context.performed && !MissionLog.GetInstance().isUpdating){
-            string action = context.action.name;
+    public void PlayerMoved(InputAction.CallbackContext context)
+    {
+        if(currentState != 0)
+        {
+            return;
+        }
 
-            switch (currentState)
-            {
-                case 0:
-                    if(action == "Move")
-                    {
-                        currentState = 1;
-                        StartCoroutine(MissionLog.GetInstance().UpdateLog("Left Click to Reflect"));
-                    }
-                    break;
-                case 1:
-                    if(action == "Attack")
-                    {
-                        currentState = 2;
-                        StartCoroutine(MissionLog.GetInstance().UpdateLog("Reflect bullets back at enemies"));
-                        GameObject enemy = Instantiate(tutorialEnemy, new Vector3(3, -10, 0), Quaternion.identity);
-                    }
-                    break;
-                
-            }
+        if (context.performed && !MissionLog.GetInstance().isUpdating)
+        {
+            currentState = 1;
+            StartCoroutine(MissionLog.GetInstance().UpdateLog("Left Click to Reflect"));
+        }
+    }
+
+    public void PlayerReflected(InputAction.CallbackContext context)
+    {
+        if(currentState != 1)
+        {
+            return;
+        }
+
+        if (context.performed && !MissionLog.GetInstance().isUpdating)
+        {
+            currentState = 2;
+            StartCoroutine(MissionLog.GetInstance().UpdateLog("Reflect bullets back at enemies"));
+            GameObject enemy = Instantiate(tutorialEnemy, new Vector3(3, -10, 0), Quaternion.identity);
         }
     }
 }

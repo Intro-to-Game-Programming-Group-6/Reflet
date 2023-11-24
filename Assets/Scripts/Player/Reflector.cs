@@ -50,28 +50,4 @@ public class Reflector : MonoBehaviour
             active = false;
         }
     }
-
-    //make reflector reflect bullet
-    //[SerializeField] private Rigidbody2D playerRb;
-    // public void OnTriggerEnter2D(Collider2D collision)
-    // {
-    //     Rigidbody2D bulletRb;
-    //     if (collision.tag == "Bullet")
-    //     {
-    //         bulletRb = collision.GetComponent<Rigidbody2D>();
-    //         Vector2 bulletInVelocity = bulletRb.velocity;
-    //         float bulletspeed = bulletInVelocity.magnitude;
-    //         Vector2 clickdirection = (CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - transform.position).normalized;
-    //         //Vector2 re_dir = Vector2.Reflect(bulletInVelocity, clickdirection);
-    //         //test reflect same way
-    //         Vector2 re_dir = Vector2.Reflect(bulletInVelocity, bulletInVelocity.normalized);
-    //         bulletRb.velocity = re_dir*bulletspeed;
-    //     }
-    //     //get inNorm
-    //     //Vector2 clickdirection = (CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - transform.position).normalized;
-    //     //get inVelocity from bullet
-
-    //     //Call Reflect from bullet
-
-    // }
 }

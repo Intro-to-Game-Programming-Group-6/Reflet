@@ -10,14 +10,22 @@ public class PlayerControlScript : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer playerSprite;
     private Animator animator;
+    private bool isSprinting;
 
     private Vector2 movementInput;
-    
+    private Vector2 dashDirection;
+
     public float movementspeed = 3f;
     public float attackRange = 0f;
+    public float dashSpeed = 3f;
+    public float sprintspeed = 4.25f;
+    private bool currentlyDashing, canDash;
 
     public Transform spawnPoint;
     public GameObject reflector;
+    
+
+    int count = 0;
 
     void Awake()
     {
@@ -41,8 +49,8 @@ public class PlayerControlScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerSprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        
         rb.gravityScale = 0f;
+        canDash = true;
     }
 
     void Update()
@@ -64,8 +72,16 @@ public class PlayerControlScript : MonoBehaviour
         {
             playerSprite.flipX = true;
         }
-            
-        rb.velocity = (movementInput)*movementspeed;   
+        if (currentlyDashing) return;
+        if (isSprinting)
+        {
+            rb.velocity = (movementInput) * sprintspeed;
+        }
+        else
+        {
+            rb.velocity = (movementInput) * movementspeed;
+        }
+        
     }
 
     void Reflect()
@@ -82,6 +98,20 @@ public class PlayerControlScript : MonoBehaviour
         GameObject instantiatedObject = Instantiate(reflector, spawnposition, Quaternion.Euler(0, 0, angle - 90));
 
         instantiatedObject.transform.parent = gameObject.transform;
+    }
+
+    IEnumerator Dash()
+    {
+        canDash = false;
+        currentlyDashing = true;
+        Debug.Log("dashing " + ++count);
+        dashDirection = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - rb.transform.position;
+        dashDirection = dashDirection.normalized;
+        rb.velocity = dashDirection * dashSpeed;
+        yield return new WaitForSeconds(0.5f);
+        currentlyDashing = false;
+        yield return new WaitForSeconds(1.5f);
+        canDash = true;
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -104,6 +134,26 @@ public class PlayerControlScript : MonoBehaviour
         if (context.performed && Sword.GetInstance() == null)
         {
             Reflect();
+        }
+    }
+
+    public void OnDash(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            StartCoroutine(Dash());
+        }
+    }
+
+    public void OnSprint(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            isSprinting = true;
+        }
+        if (context.canceled)
+        {
+            isSprinting = false;
         }
     }
 }

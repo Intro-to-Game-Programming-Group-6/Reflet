@@ -10,9 +10,9 @@ public class MainMenu : MonoBehaviour
     {
         instance = this;
 
-        if (HealthManager.GetInstance() != null)
+        if (PlayerManager.GetInstance() != null)
         {
-            Destroy(HealthManager.GetInstance().gameObject);
+            Destroy(PlayerManager.GetInstance().gameObject);
         }
     }
 

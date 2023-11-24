@@ -94,6 +94,7 @@ public class TestBulletScript : MonoBehaviour
         }
         else if(collision.gameObject.CompareTag("Enemy") && isReflected)
         {
+            collision.gameObject.GetComponent<TestEnemyScript>().AdjustHealth(-1);
             Destroy(gameObject);
         }
         

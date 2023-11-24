@@ -9,6 +9,8 @@ public class TutorialManager : MonoBehaviour
 
     private int currentState;
 
+    public GameObject tutorialEnemy;
+
     void Awake()
     {
         if(instance == null)
@@ -49,6 +51,7 @@ public class TutorialManager : MonoBehaviour
                     {
                         currentState = 2;
                         StartCoroutine(MissionLog.GetInstance().UpdateLog("Reflect bullets back at enemies"));
+                        GameObject enemy = Instantiate(tutorialEnemy, new Vector3(3, -10, 0), Quaternion.identity);
                     }
                     break;
                 

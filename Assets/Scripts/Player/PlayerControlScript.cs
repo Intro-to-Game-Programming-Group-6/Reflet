@@ -79,7 +79,7 @@ public class PlayerControlScript : MonoBehaviour
 
         Vector2 spawnposition = (Vector2)spawnPoint.position + clickdirection * attackRange;
 
-        Instantiate(reflector, spawnposition, Quaternion.Euler(0, 0, angle - 90), gameObject.transform);
+        GameObject instantRef = Instantiate(reflector, spawnposition, Quaternion.Euler(0, 0, angle - 90), gameObject.transform);
     }
 
     public void OnMove(InputAction.CallbackContext context)

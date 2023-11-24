@@ -32,6 +32,8 @@ public class Reflector : MonoBehaviour
     void OnEnable()
     {
         active = true;
+        
+        Physics2D.IgnoreCollision(GetComponent<Collider2D>(), PlayerControlScript.GetInstance().GetComponent<Collider2D>(), true);
     }
 
     void Update()

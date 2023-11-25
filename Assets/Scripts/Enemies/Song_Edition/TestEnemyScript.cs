@@ -62,7 +62,7 @@ public class TestEnemyScript : MonoBehaviour
     {
         while (true)
         {
-            GameObject bullet = Instantiate(bulletPrefab, agent.transform.position, Quaternion.identity, gameObject.transform);
+            GameObject bullet = Instantiate(bulletPrefab, agent.transform.position, Quaternion.identity);
             bullet.GetComponent<TestBulletScript>().ShootAt(player);
             yield return new WaitForSeconds(attackDelay);
         }

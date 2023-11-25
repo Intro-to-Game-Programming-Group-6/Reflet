@@ -82,6 +82,7 @@ public class TestEnemyScript : MonoBehaviour
 
         if(health <= 0)
         {
+            Vial.GetInstance().AddVialPoint(1);
             Die();
         }
     }

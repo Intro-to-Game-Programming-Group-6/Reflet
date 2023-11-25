@@ -5,12 +5,16 @@ using UnityEngine;
 public class TestBulletScript : MonoBehaviour
 {
     public GameObject selfPrefab;
-    
-    public bool isReflected;
 
+    public enum Status {
+        FRESHLY_CREATED,
+        REFLECTED_BY_PLAYER,
+        REFLECTED_NOT_BY_PLAYER
+    }
+    
+    public Status status;
     public float bulletSpeed;
     public float bulletLifeTime;
-    private float lifetimeCount;
     private Vector2 lastvelocity;
 
     private Rigidbody2D rb;
@@ -18,8 +22,7 @@ public class TestBulletScript : MonoBehaviour
 
     private void OnEnable()
     {
-        lifetimeCount = 0;
-        isReflected = false;
+        status = Status.FRESHLY_CREATED;
 
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
@@ -27,10 +30,8 @@ public class TestBulletScript : MonoBehaviour
         col.enabled = false;
     }
 
-    private void Update()
-    {
-        lifetimeCount += 0.001f;
-        if (lifetimeCount >= bulletLifeTime) EndLifetime();
+    private void Start() {
+        Destroy(gameObject, bulletLifeTime);
     }
 
     public void ShootAt(Transform player)
@@ -38,17 +39,6 @@ public class TestBulletScript : MonoBehaviour
         Vector2 direction = player.position - transform.position;
         //GetComponent<Rigidbody2D>().AddForce(direction.normalized * bulletSpeed, ForceMode2D.Force);
         rb.velocity = direction.normalized * bulletSpeed;
-    }
-
-    private void EndLifetime()
-    {
-        //make it disappear after sometime
-        //double check
-        if (lifetimeCount >= bulletLifeTime)
-        {
-            Destroy(this.gameObject);
-        }
-
     }
 
     //Test boucing with wall
@@ -68,7 +58,7 @@ public class TestBulletScript : MonoBehaviour
             Vector2 inNorm = collision.contacts[0].normal;
             //ReflectBullet(inVelo, inNorm);
             Vector2 re_dir = Vector2.Reflect(lastvelocity, inNorm).normalized;
-
+            status = Status.REFLECTED_NOT_BY_PLAYER;
             rb.velocity = re_dir * bulletSpeed;
         }
         else if(collision.gameObject.CompareTag("Reflector"))
@@ -81,20 +71,18 @@ public class TestBulletScript : MonoBehaviour
 
             rb.velocity = re_dir * bulletSpeed;
             
-            isReflected = true;
+            status = Status.REFLECTED_BY_PLAYER;
         }
         else if(collision.gameObject.CompareTag("Player"))
         {
             PlayerManager.GetInstance().AdjustHealth(-1);
             Destroy(gameObject);
         }
-        else if(collision.gameObject.CompareTag("Enemy") && !isReflected)
+        else if(collision.gameObject.CompareTag("Enemy"))
         {
-            Destroy(gameObject);
-        }
-        else if(collision.gameObject.CompareTag("Enemy") && isReflected)
-        {
-            collision.gameObject.GetComponent<TestEnemyScript>().AdjustHealth(-1);
+            if(status == Status.REFLECTED_BY_PLAYER) {
+                collision.gameObject.GetComponent<TestEnemyScript>().AdjustHealth(-1);
+            }
             Destroy(gameObject);
         }
         

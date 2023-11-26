@@ -18,6 +18,8 @@ public class TestEnemyScript : MonoBehaviour
     public bool playerInAttackRange;
     bool isAttacking = false;
 
+    public int health = 2;
+
     protected virtual void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -71,8 +73,23 @@ public class TestEnemyScript : MonoBehaviour
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, attackRange);
-
         }
+    }
+
+    public void AdjustHealth(int deltaHealth)
+    {
+        health += deltaHealth;
+
+        if(health <= 0)
+        {
+            Vial.GetInstance().AddVialPoint(1);
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
     }
 
 }

@@ -5,14 +5,28 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public void MoveToGameplay()
+    private static MainMenu instance;
+    void Awake()
     {
-        // SceneManager.LoadScene("MapOswinTest");
+        instance = this;
+
+        if (PlayerManager.GetInstance() != null)
+        {
+            Destroy(PlayerManager.GetInstance().gameObject);
+        }
     }
 
-    public void MoveToTutorial()
+    public static MainMenu GetInstance()
     {
-        SceneManager.LoadScene("Tutorial");
+        return instance;
+    }
+    public void MoveToGameplay()
+    {
+        SceneManager.LoadScene("Test Bullet Reflect");
+    }
+
+    public void MoveToSettings() {
+        SceneManager.LoadScene("OptionMenu");
     }
 
     public void CloseGame()

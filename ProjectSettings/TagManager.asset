@@ -5,11 +5,14 @@ TagManager:
   serializedVersion: 2
   tags:
   - Bullet
+  - Obstacles
+  - Reflector
+  - Enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Player
+  - 
   - Water
   - UI
   - 
@@ -45,9 +48,9 @@ TagManager:
   - name: Background
     uniqueID: 4081861487
     locked: 0
+  - name: Overworld Text
+    uniqueID: 2329859823
+    locked: 0
   - name: Main
     uniqueID: 548196675
-    locked: 0
-  - name: UI
-    uniqueID: 3890548939
     locked: 0

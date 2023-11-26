@@ -10,17 +10,22 @@ public class PlayerControlScript : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer playerSprite;
     private Animator animator;
+    private bool isSprinting;
 
     private Vector2 movementInput;
+    private Vector2 dashDirection;
 
-    public float angleOffset = 3f;
     public float movementspeed = 3f;
     public float attackRange = 0f;
+    public float dashSpeed = 3f;
+    public float sprintspeed = 4.25f;
+    private bool currentlyDashing, canDash;
 
-    public bool interactable;
-
-    public Transform swordSpawnPoint;
+    public Transform spawnPoint;
     public GameObject reflector;
+    
+
+    int count = 0;
 
     void Awake()
     {
@@ -44,22 +49,38 @@ public class PlayerControlScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerSprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        
         rb.gravityScale = 0f;
-        interactable = false;
+        canDash = true;
     }
 
     void Update()
     {
         if (rb.velocity == Vector2.zero)
+        {
             animator.SetBool("isWalking", false);
+        }
         else
+        {
             animator.SetBool("isWalking", true);
-        if (movementInput.x >= 0f)
+        }
+
+        if (movementInput.x > 0f)
+        {
             playerSprite.flipX = false;
-        else
+        }
+        else if (movementInput.x < 0f)
+        {
             playerSprite.flipX = true;
-        rb.velocity = (movementInput)*movementspeed;
+        }
+        if (currentlyDashing) return;
+        if (isSprinting)
+        {
+            rb.velocity = (movementInput) * sprintspeed;
+        }
+        else
+        {
+            rb.velocity = (movementInput) * movementspeed;
+        }
         
     }
 
@@ -72,13 +93,23 @@ public class PlayerControlScript : MonoBehaviour
         angle = (angle + 2 * Mathf.PI) % (2 * Mathf.PI);
         angle = angle * Mathf.Rad2Deg;
 
-        Vector2 spawnposition = (Vector2)swordSpawnPoint.position + clickdirection * attackRange;
+        Vector2 spawnposition = (Vector2)spawnPoint.position + clickdirection * attackRange;
 
-        GameObject instantiatedObject = Instantiate(reflector, spawnposition, Quaternion.Euler(0, 0, angle - angleOffset));
+        GameObject instantRef = Instantiate(reflector, spawnposition, Quaternion.Euler(0, 0, angle - 90), gameObject.transform);
+    }
 
-        instantiatedObject.transform.parent = gameObject.transform;
-
-
+    IEnumerator Dash()
+    {
+        canDash = false;
+        currentlyDashing = true;
+        Debug.Log("dashing " + ++count);
+        dashDirection = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - rb.transform.position;
+        dashDirection = dashDirection.normalized;
+        rb.velocity = dashDirection * dashSpeed;
+        yield return new WaitForSeconds(0.5f);
+        currentlyDashing = false;
+        yield return new WaitForSeconds(1.5f);
+        canDash = true;
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -104,13 +135,23 @@ public class PlayerControlScript : MonoBehaviour
         }
     }
 
-    public bool GetInteractions()
+    public void OnDash(InputAction.CallbackContext context)
     {
-        return interactable;
+        if (context.performed)
+        {
+            StartCoroutine(Dash());
+        }
     }
 
-    public void ToggleInteractions(bool value)
+    public void OnSprint(InputAction.CallbackContext context)
     {
-        interactable = value;
+        if (context.performed)
+        {
+            isSprinting = true;
+        }
+        if (context.canceled)
+        {
+            isSprinting = false;
+        }
     }
 }

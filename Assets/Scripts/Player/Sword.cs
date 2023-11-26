@@ -10,10 +10,10 @@ public class Sword : MonoBehaviour
     public Transform pivotPoint;
     public float rotationSpeed;
 
-    public float rotationDuration = 1.0f;
-    private float rotationTimer = 0.0f;
+    public float duration = 1.0f;
+    private float timer = 0.0f;
 
-    private bool isRotating;
+    private bool active;
 
     void Awake()
     {
@@ -34,34 +34,25 @@ public class Sword : MonoBehaviour
 
     void OnEnable()
     {
-        isRotating = true;
+        active = true;
     }
 
     void Update()
     {
-        if(isRotating)
-        {
-            Rotate();
-
-            rotationTimer += Time.deltaTime;
-
-            if (rotationTimer >= rotationDuration)
-            {
-                isRotating = false;
-            }
-        }
-        else
-        {
+        if (!active) {
             Destroy(gameObject);
+            return;
+        }
+
+        timer += Time.deltaTime;
+
+        if (timer >= duration)
+        {
+            active = false;
         }
     }
 
-    void Rotate()
-    {
-        transform.RotateAround(pivotPoint.position, Vector3.forward, rotationSpeed * Time.deltaTime);
-    }
-
-    //make sword reflect bullet
+    //make reflector reflect bullet
     //[SerializeField] private Rigidbody2D playerRb;
     public void OnTriggerEnter2D(Collider2D collision)
     {

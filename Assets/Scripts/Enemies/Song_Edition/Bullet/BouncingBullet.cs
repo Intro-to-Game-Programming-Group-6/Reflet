@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class BouncingBullet : BaseBulletBehavior
 {
@@ -14,17 +15,38 @@ public class BouncingBullet : BaseBulletBehavior
         base.OnEnable();
         col = GetComponent<Collider2D>();
 
-        col.enabled = false; //prevent it to crash with enemy collider
+        //col.enabled = false; 
+        col.isTrigger = true;//prevent it to crash with enemy collider
     }
+    //special case of our only non-trigger type of bullet
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.CompareTag("Player"))
         {
+            PlayerManager.GetInstance().AdjustHealth(-1);
             Destroy(this.gameObject);
         }
-        else if (collision.gameObject.tag == "Wall" | collision.gameObject.tag == "Obstacle")
+        else if (collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("Hit " + collision.gameObject.tag);
+            if (status == Status.OWNED_BY_PLAYER)
+            {
+                collision.gameObject.GetComponent<BaseEnemyBehavior>().AdjustHealth(-1);
+                Destroy(gameObject);
+            }
+            
+        }
+        //All Reflectable should have this
+        else if (collision.gameObject.CompareTag("Reflector"))
+        {
+            Vector2 inNorm = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - GameObject.Find("Player").transform.position;
+
+            ReflectBullet(inNorm);
+
+            status = Status.OWNED_BY_PLAYER; //allow bullet to hit enemy maybe reverse back to owned by enemy when we add enemy that can also reflect bullet in the future
+        }
+        else if (collision.gameObject.CompareTag("Wall") | collision.gameObject.CompareTag("Obstacles"))
+        {
+            //Debug.Log("Hit " + collision.gameObject.tag);
             //Get direction to bounce
             Vector2 inNorm = collision.contacts[0].normal;
             //ReflectBullet
@@ -34,13 +56,19 @@ public class BouncingBullet : BaseBulletBehavior
 
     }
 
+    protected override void OnTriggerEnter2D(Collider2D collision)
+    {
+        //do nothing since this is only non-trigger bullet
+    }
+
     //make it act normally after leaving enemy
     //another fix: make the bullet appear outside of the enemy collider
     void OnTriggerExit2D(Collider2D collider)
     {
         if (collider.CompareTag("Enemy"))
         {
-            col.enabled = true;
+            col.isTrigger = false;
         }
     }
+    
 }

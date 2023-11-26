@@ -71,7 +71,7 @@ public class BaseEnemyBehavior : MonoBehaviour
 
         if (HP <= 0)
         {
-            //Vial.GetInstance().AddVialPoint(1);
+            Vial.GetInstance().AddVialPoint(1);
             Die();
         }
     }

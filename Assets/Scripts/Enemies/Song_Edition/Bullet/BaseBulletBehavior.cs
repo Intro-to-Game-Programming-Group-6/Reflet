@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class BaseBulletBehavior : MonoBehaviour
 {
@@ -41,7 +42,7 @@ public class BaseBulletBehavior : MonoBehaviour
         rb.velocity = direction.normalized * bulletSpeed;
         //transform.LookAt(target);
         //Use this instance of lookat
-        //transform.right = target.position - transform.position;
+        //transform.right = target.position - transform.position; //still not work
     }
 
     protected virtual void EndLifetime()
@@ -68,5 +69,33 @@ public class BaseBulletBehavior : MonoBehaviour
         //Vector3 re_dir3d = re_dir;
         //transform.LookAt(re_dir);
         //transform.right =  re_dir3d;
+    }
+
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    {
+        //Basic for all bullet
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            PlayerManager.GetInstance().AdjustHealth(-1);
+            Destroy(gameObject);
+        }
+        else if (collision.gameObject.CompareTag("Enemy"))
+        {
+            if (status == Status.OWNED_BY_PLAYER)
+            {
+                collision.gameObject.GetComponent<BaseEnemyBehavior>().AdjustHealth(-1);
+                Destroy(gameObject);
+            }
+            
+        }
+        //All Reflectable should have this
+        else if (collision.gameObject.CompareTag("Reflector"))
+        {
+            Vector2 inNorm = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - GameObject.Find("Player").transform.position;
+
+            ReflectBullet(inNorm);
+
+            status = Status.OWNED_BY_PLAYER; //allow bullet to hit enemy maybe reverse back to owned by enemy when we add enemy that can also reflect bullet in the future
+        }
     }
 }

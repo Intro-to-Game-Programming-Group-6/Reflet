@@ -8,25 +8,13 @@ public class NormalBullet : BaseBulletBehavior
     //is trigger
     //Checked
     //Detroy on wall contact
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected override void OnTriggerEnter2D(Collider2D collision)
     {
-        
-        if(collision.tag == "Player")
-        {
-            //PlayerManager.GetInstance().AdjustHealth(-1);
-            Destroy(gameObject);
-        }
-        else if(collision.tag == "Wall" | collision.tag == "Obstacle")
+        base.OnTriggerEnter2D(collision);
+        //this bullet doesn't bounce against wall and obstacles
+        if(collision.gameObject.CompareTag("Wall") | collision.gameObject.CompareTag("Obstacles"))
         {
             Destroy(this.gameObject);
-        }
-        else if (collision.gameObject.CompareTag("Enemy"))
-        {
-            if (status == Status.OWNED_BY_PLAYER)
-            {
-                collision.gameObject.GetComponent<BaseEnemyBehavior>().AdjustHealth(-1);
-            }
-            Destroy(gameObject);
         }
     }
 

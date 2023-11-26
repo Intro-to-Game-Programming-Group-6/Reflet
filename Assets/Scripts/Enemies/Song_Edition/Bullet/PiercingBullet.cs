@@ -8,19 +8,16 @@ public class PiercingBullet : BaseBulletBehavior
     //is trigger
     //Checked
     //possible bug: player reflect this bullet while it still inside wall
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected override void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if (collision.tag == "Player")
-        {
-
-        }
-        else if (collision.tag == "Wall")
+        base.OnTriggerEnter2D(collision);
+        if (collision.gameObject.CompareTag("Wall"))
         {
             Destroy(this.gameObject);
         }
         //pierce through obstacle lower its speed
-        else if(collision.tag == "Obstacle")
+        else if(collision.gameObject.CompareTag("Obstacles"))
         {
             Vector2 cur_dir = rb.velocity.normalized;
             float cur_speed = rb.velocity.magnitude;
@@ -32,7 +29,7 @@ public class PiercingBullet : BaseBulletBehavior
     private void OnTriggerExit2D(Collider2D collision)
     {
         //getting on off obstacle return to its normal speed
-        if(collision.tag == "Obstacle")
+        if(collision.gameObject.CompareTag("Obstacles"))
         {
             Vector2 cur_dir = rb.velocity.normalized;
             float cur_speed = rb.velocity.magnitude;

@@ -4,25 +4,34 @@ using UnityEngine;
 
 public class ExplosiveBullet : BaseBulletBehavior
 {
-    //Explosive Bullet Behavior: Not Reflectable/Explode on contact with anything or when end of life time
+    //Explosive Bullet Behavior: only Not Reflectable bullet right now/Explode on contact with anything or when end of life time
     //is trigger
     //Checked
-    public override void ReflectBullet(Vector2 inNorm)
+    //may add area of explosion in future
+    protected override void OnTriggerEnter2D(Collider2D collision)
     {
-        //DoDamage with get reflect
-        Destroy(this.gameObject);
-        
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-
-        if (collision.tag == "Player")
+        //Basic for all bullet
+        if (collision.gameObject.CompareTag("Player"))
         {
-            //Do Damage
-            Destroy(this.gameObject);
+            PlayerManager.GetInstance().AdjustHealth(-1);
+            Destroy(gameObject);
         }
-        else if (collision.tag == "Wall" | collision.tag == "Obstacle")
+        else if (collision.gameObject.CompareTag("Enemy"))
+        {
+            if (status == Status.OWNED_BY_PLAYER)
+            {
+                collision.gameObject.GetComponent<BaseEnemyBehavior>().AdjustHealth(-1);
+                Destroy(gameObject);
+            }
+            
+        }
+        else if (collision.gameObject.CompareTag("Reflector"))
+        {
+            //Make this also do damage
+            PlayerManager.GetInstance().AdjustHealth(-1);
+            Destroy(gameObject);
+        }
+        if (collision.gameObject.CompareTag("Wall") | collision.gameObject.CompareTag("Obstacles"))
         {
             Destroy(this.gameObject);
         }

@@ -8,11 +8,12 @@ TagManager:
   - Obstacles
   - Reflector
   - Enemy
+  - Wall
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - 

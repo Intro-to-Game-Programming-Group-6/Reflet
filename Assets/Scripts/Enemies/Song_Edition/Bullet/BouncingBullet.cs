@@ -52,6 +52,15 @@ public class BouncingBullet : BaseBulletBehavior
             //ReflectBullet
             ReflectBullet(inNorm);
         }
+        else if (collision.gameObject.CompareTag("Bullet"))
+        {
+            //uncommend this if choose bouncing to not collapse with other bouncing
+            //col.isTrigger = true;
+            //uncommend this to make bouncing bounce each other
+            Vector2 inNorm = collision.contacts[0].normal;
+            //ReflectBullet
+            ReflectBullet(inNorm);
+        }
 
 
     }
@@ -68,6 +77,11 @@ public class BouncingBullet : BaseBulletBehavior
         if (collider.CompareTag("Enemy"))
         {
             col.isTrigger = false;
+        }
+        else if (collider.CompareTag("Bullet"))
+        {
+            //uncommend this if choose bouncing to not collapse with other bouncing
+            //col.isTrigger = false;
         }
     }
     

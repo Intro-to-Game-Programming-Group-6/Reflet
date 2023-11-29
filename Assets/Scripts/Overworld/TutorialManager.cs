@@ -6,10 +6,9 @@ using UnityEngine.InputSystem;
 public class TutorialManager : MonoBehaviour
 {
     private static TutorialManager instance;
+    [SerializeField] Transform EnemySpawn;
 
     private int currentState;
-
-    public GameObject tutorialEnemy;
 
     void Awake()
     {
@@ -61,11 +60,17 @@ public class TutorialManager : MonoBehaviour
             EnemyManager.GetInstance().SpawnEnemy(0, new Vector3(3, -10, 0));
         }
     }
-
+    public void OnPlayerKilledEnemy() {
+        if (currentState != 0)
+            return;
+    }
     public void OnPlayerKilledEnemies() {
+        if (currentState != 3) return;
         currentState = 4;
         StartCoroutine(MissionLog.GetInstance().UpdateLog("Click R to heal"));
     }
+
+
 }
 
 //0: WASD to move

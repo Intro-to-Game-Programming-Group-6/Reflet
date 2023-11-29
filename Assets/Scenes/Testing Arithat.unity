@@ -524,6 +524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 0}
+  vialMaxPoint: 10
 --- !u!114 &457396483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1044,7 +1045,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 995656269}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10, y: -15, z: -0.04780673}
+  m_LocalPosition: {x: -9.5, y: -14.5, z: -0.04780673}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1227,7 +1228,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1330816410}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: -9, z: -0.04780673}
+  m_LocalPosition: {x: 4.5, y: -9.5, z: -0.04780673}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1601,12 +1602,63 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1995154027}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dad5db0d7b77e34f9804ead00d5bf1e, type: 3}
+  m_Script: {fileID: 11500000, guid: 6bc2f4c43ec3f374582e736469bf0c45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tutorialEnemy: {fileID: 6574059943205436719, guid: c47f0476dac8bb2408ebe1b3218c7c70, type: 3}
+  tutorialEnemy: {fileID: 0}
+  PlayerLearnedMove:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  PlayerLearnedReflect:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1995154029}
+        m_TargetAssemblyTypeName: TutorialManagerArithat, Assembly-CSharp
+        m_MethodName: PlayerReflects
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1995154029}
+        m_TargetAssemblyTypeName: TutorialManagerArithat, Assembly-CSharp
+        m_MethodName: SpawnFirstEnemy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  PlayerLearnedAttack:
+    m_PersistentCalls:
+      m_Calls: []
+  PlayerVialFull:
+    m_PersistentCalls:
+      m_Calls: []
+  PlayerHealed:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2054659982
 GameObject:
   m_ObjectHideFlags: 0
@@ -3535,19 +3587,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyCount: 0
   enemyWaveStarted: 0
-  corner1: {fileID: 1330816411}
-  corner2: {fileID: 995656270}
+  upperCorner: {fileID: 0}
+  lowerCorner: {fileID: 0}
   EnemyPrefabs:
   - {fileID: 6574059943205436719, guid: c47f0476dac8bb2408ebe1b3218c7c70, type: 3}
   onEnemyDie:
     m_PersistentCalls:
-      m_Calls: []
-  onEnemyExtinct:
-    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1995154029}
-        m_TargetAssemblyTypeName: TutorialManager, Assembly-CSharp
-        m_MethodName: OnPlayerKilledEnemies
+        m_TargetAssemblyTypeName: TutorialManagerArithat, Assembly-CSharp
+        m_MethodName: PlayerAttacks
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3557,18 +3606,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1132832508}
-        m_TargetAssemblyTypeName: TutorialManager, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 1995154029}
+        m_TargetAssemblyTypeName: TutorialManagerArithat, Assembly-CSharp
+        m_MethodName: SpawnNewEnemy
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onEnemyExtinct:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &2938103797120997050 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2938103797664573493, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
@@ -7231,11 +7283,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -7267,11 +7319,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: PlayerMoved
+      value: PlayerMoves
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: PlayerReflected
+      value: PlayerReflects
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -7279,11 +7331,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: TutorialManager, Assembly-CSharp
+      value: TutorialManagerArithat, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: TutorialManager, Assembly-CSharp
+      value: TutorialManagerArithat, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName

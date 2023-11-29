@@ -60,5 +60,6 @@ public class EnemyManager : MonoBehaviour
 
     public void HandleEnemyDeath() {
         enemyCount--;
+        onEnemyDie?.Invoke();
     }
 }

@@ -58,8 +58,13 @@ public class TutorialManager : MonoBehaviour
         {
             currentState = 2;
             StartCoroutine(MissionLog.GetInstance().UpdateLog("Reflect bullets back at enemies"));
-            GameObject enemy = Instantiate(tutorialEnemy, new Vector3(3, -10, 0), Quaternion.identity);
+            EnemyManager.GetInstance().SpawnEnemy(0, new Vector3(3, -10, 0));
         }
+    }
+
+    public void OnPlayerKilledEnemies() {
+        currentState = 4;
+        StartCoroutine(MissionLog.GetInstance().UpdateLog("Click R to heal"));
     }
 }
 

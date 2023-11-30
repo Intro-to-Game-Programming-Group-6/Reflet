@@ -63,9 +63,9 @@ public class TutorialManager : MonoBehaviour
     }
 }
 
-//0: WASD to move
-//1: Click On Screen to Reflect
-//2: Kill enemy
-//3: Kill enemies
-//4: Heal
-//5: Exit
+// 0: WASD to move
+// 1: Click On Screen to Reflect
+// 2: Kill enemy
+// 3: Kill enemies
+// 4: Heal
+// 5: Exit

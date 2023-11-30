@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 6574059943205436721}
   - component: {fileID: 6574059943205436720}
   - component: {fileID: 3785797124970929378}
-  - component: {fileID: 3785797124970929381}
   - component: {fileID: 1014845347047652964}
+  - component: {fileID: 831995478226476141}
+  - component: {fileID: 2079769819360724707}
   m_Layer: 0
   m_Name: Slime Blue
   m_TagString: Enemy
@@ -28,7 +29,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6574059943205436719}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.63, y: -9.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -117,7 +118,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 6574059943205436719}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 1
+  m_Radius: 0.6
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -126,31 +127,10 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1
+  m_Height: 0.8
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &3785797124970929381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6574059943205436719}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 422ab6330e3889b4c8bb3fe16268a2df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agent: {fileID: 3785797124970929378}
-  player: {fileID: 0}
-  isPlayer:
-    serializedVersion: 2
-    m_Bits: 8
-  bulletPrefab: {fileID: 5363932746482136507, guid: e41eb17c42af95d498f6a3dcc2384908, type: 3}
-  attackRange: 3.5
-  attackDelay: 3
-  playerInAttackRange: 0
 --- !u!61 &1014845347047652964
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -164,7 +144,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.1}
+  m_Offset: {x: -0.0033558607, y: -0.16040373}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -175,5 +155,48 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.2, y: 0.8}
+  m_Size: {x: 1.0590575, y: 0.6255007}
   m_EdgeRadius: 0
+--- !u!50 &831995478226476141
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6574059943205436719}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 10
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 2
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!114 &2079769819360724707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6574059943205436719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9752fd4ce1f6aef4d9d5368f9370632a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 3785797124970929378}
+  player: {fileID: 0}
+  isPlayer:
+    serializedVersion: 2
+    m_Bits: 8
+  bulletPrefab: {fileID: 0}
+  attackRange: 3
+  attackDelay: 3
+  HP: 3
+  playerInAttackRange: 0

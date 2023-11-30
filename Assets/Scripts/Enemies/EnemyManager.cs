@@ -48,18 +48,20 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public UnityEvent onEnemyDie; //TODO
-    public UnityEvent onEnemyExtinct;
-
+    public UnityEvent EnemyDie;
+    
+    //public UnityEvent onEnemyExtinct;
+    /*
     IEnumerator ListenEnemyExtinct(System.Action callback) {
         yield return new WaitUntil(() => enemyCount == 0);
         Debug.Log("Enemy Extincted");
         callback.Invoke();
         yield return null;
     }
+    */
 
     public void HandleEnemyDeath() {
         enemyCount--;
-        onEnemyDie?.Invoke();
+        EnemyDie?.Invoke();
     }
 }

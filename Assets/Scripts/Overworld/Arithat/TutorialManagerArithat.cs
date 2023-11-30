@@ -35,7 +35,7 @@ public class TutorialManagerArithat : MonoBehaviour
     public UnityEvent PlayerHealed;
 
     public void PlayerMoves() {
-        if(currentState == 0) {
+        if(currentState == 0 && !MissionLog.GetInstance().isUpdating) {
             currentState = 1;
             PlayerLearnedMove.Invoke();
             UpdateLog("Left click to reflect");
@@ -43,7 +43,7 @@ public class TutorialManagerArithat : MonoBehaviour
     }
 
     public void PlayerReflects() {
-        if (currentState == 1) {
+        if (currentState == 1 && !MissionLog.GetInstance().isUpdating) {
             currentState = 2;
             PlayerLearnedReflect.Invoke();
             UpdateLog("Reflect bullets back at enemies");
@@ -51,7 +51,7 @@ public class TutorialManagerArithat : MonoBehaviour
     }
 
     public void PlayerAttacks() {
-        if(currentState == 2 && EnemyManager.GetInstance().enemyCount == 0) {
+        if(currentState == 2 && EnemyManager.GetInstance().enemyCount == 0 && !MissionLog.GetInstance().isUpdating) {
             currentState = 3;
             PlayerLearnedAttack.Invoke();
             UpdateLog("Kill more enemies to fill up the vial");
@@ -59,7 +59,7 @@ public class TutorialManagerArithat : MonoBehaviour
     }
 
     public void PlayerFillsVial() {
-        if(currentState == 3 && Vial.GetInstance().isFull()) {
+        if(currentState == 3 && Vial.GetInstance().isFull() && !MissionLog.GetInstance().isUpdating) {
             currentState = 4;
             PlayerVialFull.Invoke();
             UpdateLog("Click R to heal");
@@ -67,7 +67,7 @@ public class TutorialManagerArithat : MonoBehaviour
     }
 
     public void PlayerHeals() {
-        if(currentState == 4) {
+        if(currentState == 4 && !MissionLog.GetInstance().isUpdating) {
             currentState = 5;
             PlayerHealed.Invoke();
             UpdateLog("End of the tutorial");

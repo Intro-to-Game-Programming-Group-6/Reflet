@@ -8,7 +8,7 @@ public class Vial : MonoBehaviour
     public static Vial instance;
     public Slider slider;
     int vialPoint = 0;
-    int vialMaxPoint = 10;
+    public int vialMaxPoint = 10;
     public void Awake() {
         if (instance == null) {
             instance = this;
@@ -45,5 +45,9 @@ public class Vial : MonoBehaviour
             return;
         PlayerManager.GetInstance().AdjustHealth(1);
         vialPoint = 0;
+    }
+
+    public bool isFull() {
+        return vialPoint == vialMaxPoint;
     }
 }

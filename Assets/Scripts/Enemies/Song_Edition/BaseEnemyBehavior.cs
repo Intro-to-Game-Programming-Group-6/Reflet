@@ -87,6 +87,7 @@ public class BaseEnemyBehavior : MonoBehaviour
 
     private void Die()
     {
+        EnemyManager.GetInstance().HandleEnemyDeath();
         Destroy(this.gameObject);
     }
 

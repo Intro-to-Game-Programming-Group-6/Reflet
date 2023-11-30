@@ -14,6 +14,9 @@ public class EnemyManager : MonoBehaviour
 
     [SerializeField] private List<GameObject> EnemyPrefabs;
 
+    public UnityEvent EnemySpawned;
+    public UnityEvent EnemyDie;
+
     public void Awake() {
         if (instance == null)
             instance = this;
@@ -34,11 +37,10 @@ public class EnemyManager : MonoBehaviour
         GameObject enemy = EnemyPrefabs[index];
         Instantiate(enemy, position, Quaternion.identity);
         enemyCount++;
+        EnemySpawned?.Invoke();
     }
 
-    public void Update() {
-    }
-
+    /*
     public void StartEnemyWave(int enemyNum) {
         enemyWaveStarted = true;
         for (int i = 0; i < enemyNum; i++) {
@@ -48,10 +50,6 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public UnityEvent EnemyDie;
-    
-    //public UnityEvent onEnemyExtinct;
-    /*
     IEnumerator ListenEnemyExtinct(System.Action callback) {
         yield return new WaitUntil(() => enemyCount == 0);
         Debug.Log("Enemy Extincted");

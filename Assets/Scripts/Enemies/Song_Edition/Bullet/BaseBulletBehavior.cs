@@ -75,8 +75,11 @@ public class BaseBulletBehavior : MonoBehaviour
         //Basic for all bullet
         if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerManager.GetInstance().AdjustHealth(-1);
-            Destroy(gameObject);
+            if (status == Status.OWNED_BY_PLAYER)
+            {
+                PlayerManager.GetInstance().AdjustHealth(-1);
+                Destroy(gameObject);
+            }
         }
         else if (collision.gameObject.CompareTag("Enemy"))
         {

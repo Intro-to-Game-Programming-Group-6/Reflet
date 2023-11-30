@@ -8,26 +8,40 @@ public class VolumeSettingsBehaviour : MonoBehaviour
     [SerializeField] private Slider _slider;
     [SerializeField] private Toggle _toggle;
 
-    // private bool isToggleOn;
-
-    // always set the slider.interactable to the toggle value
-    private void Start()
+    private void Awake()
     {
-        _toggle.onValueChanged.AddListener(delegate {
-                        ToggleSliderInteractable();
-                        });
+        // Initalize by player prefs
+        _toggle.isOn = PlayerPrefs.GetFloat("Mute") == 0f? true:false;
+        _slider.value = PlayerPrefs.GetFloat("CurrVolume");
+        _slider.interactable = _toggle.isOn;
+
+        // Add listener after initializing toggle and slider
+        _toggle.onValueChanged.AddListener(delegate {ToggleSliderInteractable(); });
+        _slider.onValueChanged.AddListener(delegate {ValueChangeCheck(); });
     }
 
-    private float saved_slider_value;
     private void ToggleSliderInteractable(){
+        // Update Slider UI
         _slider.interactable = _toggle.isOn;
-        
         if (_toggle.isOn) {
-            _slider.value = saved_slider_value;
+            // Load TempVolume to Slider
+            _slider.value = PlayerPrefs.GetFloat("TempVolume");
         }else{
-            saved_slider_value = _slider.value;
+            // Save Volume to TempVolume
+            PlayerPrefs.SetFloat("TempVolume", _slider.value);
             _slider.value = 0;
         }
 
+        // Update Player Prefs Volume and Mute
+        PlayerPrefs.SetFloat("CurrVolume", _slider.value);
+        PlayerPrefs.SetFloat("Mute", _toggle.isOn? 0f:1f);
     }
+
+    private void ValueChangeCheck()
+    {
+        // Update Player Prefs Volume
+        PlayerPrefs.SetFloat("CurrVolume", _slider.value);
+    }
+
+
 }

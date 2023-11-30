@@ -106,9 +106,9 @@ public class PlayerControlScript : MonoBehaviour
         dashDirection = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - rb.transform.position;
         dashDirection = dashDirection.normalized;
         rb.velocity = dashDirection * dashSpeed;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.5f); // Dash duration
         currentlyDashing = false;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.5f); // Cool-down duration
         canDash = true;
     }
 
@@ -139,6 +139,7 @@ public class PlayerControlScript : MonoBehaviour
     {
         if (context.performed)
         {
+            if (!canDash) return;
             StartCoroutine(Dash());
         }
     }

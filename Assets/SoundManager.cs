@@ -1,18 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class In_Game_UI : MonoBehaviour
+public class SoundManager : MonoBehaviour
 {
     // Start is called before the first frame update
-    public Canvas InGameUI;
-    public Canvas PauseMenu;
-    private float origin_timescale;
+    // Get camera audio listener
 
     void Start()
     {
-        PauseMenu.enabled = false;
+        // Get camera audio listener
+        // Set volume to the current volume
+
     }
 
     // Update is called once per frame
@@ -20,6 +19,4 @@ public class In_Game_UI : MonoBehaviour
     {
         
     }
-
-
 }

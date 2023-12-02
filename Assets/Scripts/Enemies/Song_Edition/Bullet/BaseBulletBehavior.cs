@@ -8,7 +8,7 @@ public class BaseBulletBehavior : MonoBehaviour
     //public GameObject selfPrefab;
     public float bulletSpeed;
     public float bulletLifeTime;
-    private float lifetimeCount;
+    protected float lifetimeCount;
     public float bulletDamage;
     [SerializeField] protected Rigidbody2D rb;
 
@@ -38,11 +38,11 @@ public class BaseBulletBehavior : MonoBehaviour
     }
     public virtual void ShootAt(Transform target)
     {
-        Vector2 direction = target.position - transform.position;
-        rb.velocity = direction.normalized * bulletSpeed;
-        //transform.LookAt(target);
+        Vector2 direction = (target.position - transform.position).normalized;
+        rb.velocity = direction * bulletSpeed;
+        //transform.LookAt(target); this look 'into' the screen
         //Use this instance of lookat
-        //transform.right = target.position - transform.position; //still not work
+        transform.right = direction; //work now but don't know why
     }
 
     protected virtual void EndLifetime()
@@ -66,9 +66,8 @@ public class BaseBulletBehavior : MonoBehaviour
     {
         Vector2 re_dir = Vector2.Reflect(lastvelocity, inNorm).normalized;
         rb.velocity = re_dir * bulletSpeed;
-        //Vector3 re_dir3d = re_dir;
-        //transform.LookAt(re_dir);
-        //transform.right =  re_dir3d;
+        //reset the direction of bullet
+        transform.right =  re_dir;
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
@@ -76,8 +75,11 @@ public class BaseBulletBehavior : MonoBehaviour
         //Basic for all bullet
         if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerManager.GetInstance().AdjustHealth(-1);
-            Destroy(gameObject);
+            if (status == Status.OWNED_BY_PLAYER)
+            {
+                PlayerManager.GetInstance().AdjustHealth(-1);
+                Destroy(gameObject);
+            }
         }
         else if (collision.gameObject.CompareTag("Enemy"))
         {

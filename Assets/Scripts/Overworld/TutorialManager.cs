@@ -56,9 +56,9 @@ public class TutorialManager : MonoBehaviour
 
         if (context.performed && !MissionLog.GetInstance().isUpdating)
         {
-            currentState = 2;
-            StartCoroutine(MissionLog.GetInstance().UpdateLog("Reflect bullets back at enemies"));
-            GameObject enemy = Instantiate(tutorialEnemy, new Vector3(3, -10, 0), Quaternion.identity);
+            //currentState = 2;
+            //StartCoroutine(MissionLog.GetInstance().UpdateLog("Reflect bullets back at enemies"));
+            //GameObject enemy = Instantiate(tutorialEnemy, new Vector3(3, -10, 0), Quaternion.identity);
         }
     }
 }

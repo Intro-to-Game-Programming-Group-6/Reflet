@@ -26,12 +26,17 @@ public class PlayerControlScript : MonoBehaviour
     public Dash DashAbility;
 
     int count = 0;
-
-    public enum AbilityStatus
-    {
-        COOLDOWN, READY, ACTIVE
-    };
     GameObject shield;
+
+    //all about dash.
+    public DashManager Dash_Manager;
+    public int DashID;
+    public float DashSpeed;
+    public float DashDuration;
+    public float DashCooldown;
+    public int DashCounter;
+    public TrailRenderer trail;
+    //
 
     void Awake()
     {
@@ -60,8 +65,14 @@ public class PlayerControlScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerSprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        Dash_Manager = GetComponent<DashManager>();
+        trail = GetComponent<TrailRenderer>();
         rb.gravityScale = 0f;
         canDash = true;
+        DashDuration = 0.5f;
+        DashCooldown = 1.5f;
+        DashID = 2;
+        trail.emitting = false;
     }
 
     void Update()
@@ -83,7 +94,11 @@ public class PlayerControlScript : MonoBehaviour
         {
             playerSprite.flipX = true;
         }
-        if (currentlyDashing) return;
+        if (currentlyDashing)
+        {
+            trail.emitting = true;
+            return;
+        }
         //if (DashAbility.Ability_Status == AbilityStatus.ACTIVE) return;
         if (isSprinting)
         {
@@ -93,7 +108,7 @@ public class PlayerControlScript : MonoBehaviour
         {
             rb.velocity = (movementInput) * movementspeed;
         }
-
+        trail.emitting = false;
     }
 
     void Reflect()
@@ -170,7 +185,7 @@ public class PlayerControlScript : MonoBehaviour
     {
         if (context.performed && canDash)
         {
-            StartCoroutine(DashAbility.GoDash(this));
+            Dash_Manager.StartDash(this);
         }
     }
 

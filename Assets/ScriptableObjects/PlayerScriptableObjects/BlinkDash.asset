@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bee8b1fd7af2e7345b5e679d9890adee, type: 3}
-  m_Name: DashAbility
+  m_Script: {fileID: 11500000, guid: a61916254c8de0247a93e9022efb8fb1, type: 3}
+  m_Name: BlinkDash
   m_EditorClassIdentifier: 
   upgrade_name: 
   upgrade_description: 
   upgradeID: 0
-  Ability_Status: 1
+  Ability_Status: 0

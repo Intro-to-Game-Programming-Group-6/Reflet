@@ -59,7 +59,7 @@ public class TutorialManagerArithat : MonoBehaviour
     }
 
     public void PlayerFillsVial() {
-        if(currentState == 3 && Vial.GetInstance().isFull() && !MissionLog.GetInstance().isUpdating) {
+        if(currentState == 3 && PlayerManager.GetInstance().VialFullState() && !MissionLog.GetInstance().isUpdating) {
             currentState = 4;
             PlayerVialFull.Invoke();
             UpdateLog("Click R to heal");
@@ -83,7 +83,7 @@ public class TutorialManagerArithat : MonoBehaviour
     }
 
     public void SpawnNewEnemy() {
-        if(!Vial.GetInstance().isFull()) {
+        if(!PlayerManager.GetInstance().VialFullState()) {
             EnemyManager.GetInstance().SpawnEnemy(0, new Vector3(3, -10, 0));
         } else {
             PlayerFillsVial();

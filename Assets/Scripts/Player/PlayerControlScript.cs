@@ -14,7 +14,7 @@ public class PlayerControlScript : MonoBehaviour
 
     private Vector2 movementInput;
     private Vector2 dashDirection;
-
+    
     public float movementspeed = 3f;
     public float attackRange = 0f;
     public float dashSpeed = 3f;
@@ -72,6 +72,7 @@ public class PlayerControlScript : MonoBehaviour
         {
             playerSprite.flipX = true;
         }
+        
         if (currentlyDashing) return;
         if (isSprinting)
         {
@@ -102,7 +103,7 @@ public class PlayerControlScript : MonoBehaviour
     {
         canDash = false;
         currentlyDashing = true;
-        Debug.Log("dashing " + ++count);
+        // Debug.Log("dashing " + ++count);
         dashDirection = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - rb.transform.position;
         dashDirection = dashDirection.normalized;
         rb.velocity = dashDirection * dashSpeed;

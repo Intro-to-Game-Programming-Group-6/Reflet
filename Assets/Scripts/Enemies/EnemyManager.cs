@@ -7,33 +7,43 @@ using UnityEngine.XR;
 
 public class EnemyManager : MonoBehaviour
 {
-    public static EnemyManager instance;
-    public int enemyCount;
-    public bool enemyWaveStarted;
-    public Transform upperCorner, lowerCorner;
+    private static EnemyManager instance;
 
     [SerializeField] private List<GameObject> EnemyPrefabs;
 
+    public int enemyCount;
+    public bool enemyWaveStarted;
+    public Transform upperCorner;
+    public Transform lowerCorner;
     public UnityEvent EnemySpawned;
     public UnityEvent EnemyDie;
 
-    public void Awake() {
+    public void Awake()
+    {
         if (instance == null)
+        {
             instance = this;
-        if (instance != this)
+        }
+        else
+        {
             Destroy(gameObject);
+        }
+            
     }
 
-    public void Start() {
+    public void Start()
+    {
         enemyCount = 0;
         enemyWaveStarted = false;
     }
-    public static EnemyManager GetInstance() {
+
+    public static EnemyManager GetInstance() 
+    {
         return instance;
     }
 
-
-    public void SpawnEnemy(int index, Vector3 position) {
+    public void SpawnEnemy(int index, Vector3 position)
+    {
         GameObject enemy = EnemyPrefabs[index];
         Instantiate(enemy, position, Quaternion.identity);
         enemyCount++;
@@ -58,7 +68,8 @@ public class EnemyManager : MonoBehaviour
     }
     */
 
-    public void HandleEnemyDeath() {
+    public void HandleEnemyDeath()
+    {
         enemyCount--;
         EnemyDie?.Invoke();
     }

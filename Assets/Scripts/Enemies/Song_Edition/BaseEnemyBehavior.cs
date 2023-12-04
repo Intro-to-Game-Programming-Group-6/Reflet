@@ -71,7 +71,7 @@ public class BaseEnemyBehavior : MonoBehaviour
 
         if (HP <= 0)
         {
-            Vial.GetInstance().AddVialPoint(1);
+            PlayerManager.GetInstance().AddVialPoint(1);
             Die();
         }
     }
@@ -81,7 +81,6 @@ public class BaseEnemyBehavior : MonoBehaviour
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, attackRange);
-
         }
     }
 

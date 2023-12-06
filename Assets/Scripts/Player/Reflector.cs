@@ -38,6 +38,7 @@ public class Reflector : MonoBehaviour
 
     void Update()
     {
+        /*
         if (!active) {
             Destroy(gameObject);
             return;
@@ -49,5 +50,6 @@ public class Reflector : MonoBehaviour
         {
             active = false;
         }
+        */
     }
 }

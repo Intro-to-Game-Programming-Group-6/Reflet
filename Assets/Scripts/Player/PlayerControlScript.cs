@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerControlScript : MonoBehaviour
 {
     private static PlayerControlScript instance;
-    
+
     private Rigidbody2D rb;
     private SpriteRenderer playerSprite;
     private Animator animator;
@@ -19,17 +19,28 @@ public class PlayerControlScript : MonoBehaviour
     public float attackRange = 0f;
     public float dashSpeed = 3f;
     public float sprintspeed = 4.25f;
-    private bool currentlyDashing, canDash;
+    public bool currentlyDashing, canDash;
 
     public Transform spawnPoint;
     public GameObject reflector;
-    
+    public Dash DashAbility;
 
     int count = 0;
+    GameObject shield;
+
+    //all about dash.
+    public DashManager Dash_Manager;
+    public int DashID;
+    public float DashSpeed;
+    public float DashDuration;
+    public float DashCooldown;
+    public int DashCounter;
+    public TrailRenderer trail;
+    //
 
     void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
         }
@@ -44,13 +55,24 @@ public class PlayerControlScript : MonoBehaviour
         return instance;
     }
 
+    public Rigidbody2D GetRigidBody()
+    {
+        return rb;
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         playerSprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        Dash_Manager = GetComponent<DashManager>();
+        trail = GetComponent<TrailRenderer>();
         rb.gravityScale = 0f;
         canDash = true;
+        DashDuration = 0.5f;
+        DashCooldown = 1.5f;
+        DashID = 2;
+        trail.emitting = false;
     }
 
     void Update()
@@ -72,8 +94,12 @@ public class PlayerControlScript : MonoBehaviour
         {
             playerSprite.flipX = true;
         }
-        
-        if (currentlyDashing) return;
+        if (currentlyDashing)
+        {
+            trail.emitting = true;
+            return;
+        }
+        //if (DashAbility.Ability_Status == AbilityStatus.ACTIVE) return;
         if (isSprinting)
         {
             rb.velocity = (movementInput) * sprintspeed;
@@ -82,7 +108,7 @@ public class PlayerControlScript : MonoBehaviour
         {
             rb.velocity = (movementInput) * movementspeed;
         }
-        
+        trail.emitting = false;
     }
 
     void Reflect()
@@ -95,8 +121,18 @@ public class PlayerControlScript : MonoBehaviour
         angle = angle * Mathf.Rad2Deg;
 
         Vector2 spawnposition = (Vector2)spawnPoint.position + clickdirection * attackRange;
+        Debug.Log(spawnposition);
+        //GameObject instantRef = Instantiate(reflector, spawnposition, Quaternion.Euler(0, 0, angle - 90), gameObject.transform);
+        if (shield == null)
+        {
+            shield = Instantiate(reflector, spawnposition, Quaternion.Euler(0, 0, angle - 90), gameObject.transform);
+        }
+        else
+        {
+            shield.transform.position = spawnposition;
+            shield.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
+        }
 
-        GameObject instantRef = Instantiate(reflector, spawnposition, Quaternion.Euler(0, 0, angle - 90), gameObject.transform);
     }
 
     IEnumerator Dash()
@@ -130,18 +166,26 @@ public class PlayerControlScript : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.performed && Sword.GetInstance() == null)
+        if (context.performed || Mouse.current.leftButton.isPressed)// && Sword.GetInstance() == null)
         {
             Reflect();
+        }
+        else if (context.canceled)
+        {
+            // Check if the shield is active and destroy it
+            if (shield != null)
+            {
+                Destroy(shield);
+                shield = null;
+            }
         }
     }
 
     public void OnDash(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && canDash)
         {
-            if (!canDash) return;
-            StartCoroutine(Dash());
+            Dash_Manager.StartDash(this);
         }
     }
 

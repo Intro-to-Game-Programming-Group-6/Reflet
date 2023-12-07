@@ -9,14 +9,26 @@ public class BaseEnemyBehavior : MonoBehaviour
     public Transform player;
     public LayerMask isPlayer;
 
+    [Header("Prefabs")]
     [SerializeField] GameObject bulletPrefab;
+
     public float attackRange;
     public float attackDelay;
-    [SerializeField] private int HP;
+
+    
+    [Header("Health values")]
+    [SerializeField] private int maxHealth;
+    [SerializeField] private int currentHealth;
 
     public bool playerInAttackRange;
     bool isAttacking = false;
 
+    List<GameObject> hearts = new List<GameObject>();
+    Coroutine[] heartCoroutines;
+
+    [Header("Heart Sprites")]
+    [SerializeField] Sprite full;
+    [SerializeField] Sprite empty;
 
     protected virtual void Awake()
     {
@@ -25,6 +37,18 @@ public class BaseEnemyBehavior : MonoBehaviour
         //this 2 line make navmesh work in 2d (must have in everything use navmesh)
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+    }
+
+    protected virtual void OnEnable()
+    {
+        heartCoroutines = new Coroutine[maxHealth];
+
+        foreach (Transform heart in transform)
+        {
+            hearts.Add(heart.gameObject);
+            heart.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        }
+        
     }
 
     //Basic enemy only walk to player and attack
@@ -36,9 +60,10 @@ public class BaseEnemyBehavior : MonoBehaviour
         else Chasing();
     }
 
+    //just walk until reach attack range
     protected virtual void Chasing()
     {
-        //just walk until reach attack range
+        
         agent.isStopped = false;
         agent.SetDestination(player.position);
 
@@ -67,11 +92,18 @@ public class BaseEnemyBehavior : MonoBehaviour
 
     public void AdjustHealth(int deltaHealth)
     {
-        HP += deltaHealth;
+        print(deltaHealth);
+        
+        currentHealth += deltaHealth;
 
-        if (HP <= 0)
+        if(hearts.Count == maxHealth)
         {
-            Vial.GetInstance().AddVialPoint(1);
+            UpdateHearts();
+        }
+        
+        if (currentHealth <= 0)
+        {
+            PlayerManager.GetInstance().AddVialPoint(1);
             Die();
         }
     }
@@ -81,7 +113,6 @@ public class BaseEnemyBehavior : MonoBehaviour
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, attackRange);
-
         }
     }
 
@@ -91,5 +122,33 @@ public class BaseEnemyBehavior : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    private void UpdateHearts()
+    {
+        for (int i = 0; i < maxHealth; i ++)
+        {
+            if (heartCoroutines[i] != null)
+            {
+                StopCoroutine(heartCoroutines[i]);
+            }
 
+            heartCoroutines[i] = StartCoroutine(ShowHeart(hearts[i], i));
+
+            if(i < currentHealth)
+            {
+                hearts[i].GetComponent<SpriteRenderer>().sprite = full;
+            }
+            else
+            {
+                hearts[i].GetComponent<SpriteRenderer>().sprite = empty;
+            }
+        }
+    }
+
+    IEnumerator ShowHeart(GameObject heart, int idx)
+    {
+        heart.GetComponent<SpriteRenderer>().enabled = true;
+        yield return new WaitForSeconds(1f);
+        heart.GetComponent<SpriteRenderer>().enabled = false;
+        heartCoroutines[idx] = null;
+    }
 }

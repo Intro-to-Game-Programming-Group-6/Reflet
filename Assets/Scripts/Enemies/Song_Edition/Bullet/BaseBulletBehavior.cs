@@ -9,7 +9,7 @@ public class BaseBulletBehavior : MonoBehaviour
     public float bulletSpeed;
     public float bulletLifeTime;
     protected float lifetimeCount;
-    public float bulletDamage;
+    public int bulletDamage;
     [SerializeField] protected Rigidbody2D rb;
 
     public enum Status
@@ -75,9 +75,9 @@ public class BaseBulletBehavior : MonoBehaviour
         //Basic for all bullet
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (status == Status.OWNED_BY_PLAYER)
+            if (status == Status.OWNED_BY_ENEMY)
             {
-                PlayerManager.GetInstance().AdjustHealth(-1);
+                PlayerManager.GetInstance().AdjustHealth(-bulletDamage);
                 Destroy(gameObject);
             }
         }
@@ -85,7 +85,7 @@ public class BaseBulletBehavior : MonoBehaviour
         {
             if (status == Status.OWNED_BY_PLAYER)
             {
-                collision.gameObject.GetComponent<BaseEnemyBehavior>().AdjustHealth(-1);
+                collision.gameObject.GetComponent<BaseEnemyBehavior>().AdjustHealth(-bulletDamage);
                 Destroy(gameObject);
             }
             

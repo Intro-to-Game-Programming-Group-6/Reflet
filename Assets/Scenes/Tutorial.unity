@@ -1360,6 +1360,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dad5db0d7b77e34f9804ead00d5bf1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerLearnedMove:
+    m_PersistentCalls:
+      m_Calls: []
+  PlayerLearnedReflect:
+    m_PersistentCalls:
+      m_Calls: []
+  PlayerLearnedAttack:
+    m_PersistentCalls:
+      m_Calls: []
+  PlayerKilledEnemy:
+    m_PersistentCalls:
+      m_Calls: []
+  PlayerVialFull:
+    m_PersistentCalls:
+      m_Calls: []
+  PlayerHealed:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2054659982
 GameObject:
   m_ObjectHideFlags: 0
@@ -3287,7 +3305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemyPrefabs:
-  - {fileID: 6574059943205436719, guid: c47f0476dac8bb2408ebe1b3218c7c70, type: 3}
+  - {fileID: 5950629212138440001, guid: 814d2baffd188374bae0029ae4754253, type: 3}
   enemyCount: 0
   enemyWaveStarted: 0
   upperCorner: {fileID: 0}
@@ -6964,11 +6982,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[1].m_Mode
@@ -7016,11 +7034,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: PlayerMoved
+      value: PlayerMoves
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: PlayerReflected
+      value: PlayerAttacks
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[1].m_MethodName

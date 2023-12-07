@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class Reflector : MonoBehaviour
 {
-    private static Reflector instance;
+    //private static Reflector instance;
 
     public float duration = 1.0f;
     private float timer = 0.0f;
@@ -14,6 +14,7 @@ public class Reflector : MonoBehaviour
 
     void Awake()
     {
+        /*
         if(instance == null)
         {
             instance = this;
@@ -22,18 +23,27 @@ public class Reflector : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        */
     }
 
+    /*
     public static Reflector GetInstance()
     {
         return instance;
     }
+    */
 
     void OnEnable()
     {
         active = true;
         
         Physics2D.IgnoreCollision(GetComponent<Collider2D>(), PlayerControlScript.GetInstance().GetComponent<Collider2D>(), true);
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        Debug.Log("collision happened!");
+        Debug.Log(collision.gameObject.tag);
     }
 
     void Update()

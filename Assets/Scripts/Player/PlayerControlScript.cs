@@ -29,6 +29,7 @@ public class PlayerControlScript : MonoBehaviour
     GameObject shield;
 
     //all about dash.
+    [HideInInspector]
     public DashManager Dash_Manager;
     public int DashID;
     public float DashSpeed;
@@ -36,6 +37,15 @@ public class PlayerControlScript : MonoBehaviour
     public float DashCooldown;
     public int DashCounter;
     public TrailRenderer trail;
+    //
+
+    //all about reflecting
+    bool isReflecting;
+    //Rotating Shields.
+    private float orbitRadius = 3f;
+    private int numShields = 4;
+    private float rotationSpeed = 100f;
+    private List<GameObject> tameng = new List<GameObject>();
     //
 
     void Awake()
@@ -72,7 +82,8 @@ public class PlayerControlScript : MonoBehaviour
         DashDuration = 0.5f;
         DashCooldown = 1.5f;
         DashID = 2;
-        trail.emitting = false;
+        trail.emitting = true;
+        isReflecting = false;
     }
 
     void Update()
@@ -109,6 +120,11 @@ public class PlayerControlScript : MonoBehaviour
             rb.velocity = (movementInput) * movementspeed;
         }
         trail.emitting = false;
+        if (isReflecting)
+        {
+            Reflect();
+            RotateShields();
+        }
     }
 
     void Reflect()
@@ -121,7 +137,7 @@ public class PlayerControlScript : MonoBehaviour
         angle = angle * Mathf.Rad2Deg;
 
         Vector2 spawnposition = (Vector2)spawnPoint.position + clickdirection * attackRange;
-        Debug.Log(spawnposition);
+        //Debug.Log(spawnposition);
         //GameObject instantRef = Instantiate(reflector, spawnposition, Quaternion.Euler(0, 0, angle - 90), gameObject.transform);
         if (shield == null)
         {
@@ -133,6 +149,51 @@ public class PlayerControlScript : MonoBehaviour
             shield.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
         }
 
+    }
+
+
+    void CreateOrbitingShields()
+    {
+        if (tameng.Count == numShields) return;
+        for (int i = 0; i < numShields; i++)
+        {
+            Debug.Log($"Shield no: {i}");
+            float angle = i * (360f / numShields);
+            Vector2 orbitPosition = rb.transform.position + new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)) * orbitRadius;
+            GameObject generated = Instantiate(reflector, orbitPosition, Quaternion.identity, gameObject.transform);
+            tameng.Add(generated);
+        }
+        Debug.Log($"Number of shields created: {tameng.Count}");
+    }
+
+    void RotateShields()
+    {
+        foreach (GameObject singular_shield in tameng)
+        {
+            GameObject kaca = singular_shield;
+            //float angle = singular_shield.angle;
+            if (kaca != null)
+            {
+                Vector2 shieldPosition = (Vector2)kaca.transform.position - (Vector2)rb.transform.position;
+                float angle = Mathf.Atan2(shieldPosition.y, shieldPosition.x) * Mathf.Rad2Deg;
+
+                angle += rotationSpeed * Time.deltaTime;
+                //Debug.Log(angle);
+                kaca.transform.position = (Vector2)rb.transform.position + new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)) * orbitRadius;
+                kaca.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
+            }
+        }
+        
+    }
+
+    void DestroyRotating()
+    {
+        foreach (GameObject singular_shield in tameng)
+        {
+            if (singular_shield != null)
+                Destroy(singular_shield);
+        }
+        tameng.Clear();
     }
 
     IEnumerator Dash()
@@ -168,7 +229,9 @@ public class PlayerControlScript : MonoBehaviour
     {
         if (context.performed || Mouse.current.leftButton.isPressed)// && Sword.GetInstance() == null)
         {
-            Reflect();
+            //Reflect();
+            CreateOrbitingShields();
+            isReflecting = true;
         }
         else if (context.canceled)
         {
@@ -178,6 +241,8 @@ public class PlayerControlScript : MonoBehaviour
                 Destroy(shield);
                 shield = null;
             }
+            isReflecting = false;
+            DestroyRotating();
         }
     }
 

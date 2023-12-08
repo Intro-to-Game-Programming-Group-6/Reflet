@@ -62,7 +62,7 @@ public class TutorialManager : MonoBehaviour
 
     public void PlayerAttacks()
     {
-        if(currentState == 2 && EnemyManager.GetInstance().enemyCount == 0 && !MissionLog.GetInstance().isUpdating)
+        if(currentState == 2 && !MissionLog.GetInstance().isUpdating)
         {
             currentState = 3;
             PlayerLearnedAttack.Invoke();

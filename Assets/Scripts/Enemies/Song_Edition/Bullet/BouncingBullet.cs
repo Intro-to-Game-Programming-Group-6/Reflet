@@ -9,6 +9,13 @@ public class BouncingBullet : BaseBulletBehavior
     //not trigger
     //Checked
     //Bouncing against wall and obstacle
+
+    public override string GetBulletType()
+    {
+        // Return a unique identifier for the bullet type
+        return "BouncingBullet";
+    }
+
     [SerializeField] protected Collider2D col;
     protected override void OnEnable()
     {
@@ -84,5 +91,4 @@ public class BouncingBullet : BaseBulletBehavior
             //col.isTrigger = false;
         }
     }
-    
 }

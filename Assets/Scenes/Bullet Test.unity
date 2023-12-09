@@ -645,6 +645,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 0
   maxHealth: 3
+  vialMaxPoint: 10
 --- !u!4 &831127246
 Transform:
   m_ObjectHideFlags: 0
@@ -1512,7 +1513,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1864360257
 Transform:
   m_ObjectHideFlags: 0
@@ -1574,7 +1575,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dad5db0d7b77e34f9804ead00d5bf1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemySpawn: {fileID: 0}
+  PlayerLearnedMove:
+    m_PersistentCalls:
+      m_Calls: []
+  PlayerLearnedReflect:
+    m_PersistentCalls:
+      m_Calls: []
+  PlayerLearnedAttack:
+    m_PersistentCalls:
+      m_Calls: []
+  PlayerKilledEnemy:
+    m_PersistentCalls:
+      m_Calls: []
+  PlayerVialFull:
+    m_PersistentCalls:
+      m_Calls: []
+  PlayerHealed:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2054659982
 GameObject:
   m_ObjectHideFlags: 0

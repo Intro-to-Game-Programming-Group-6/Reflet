@@ -100,4 +100,15 @@ public class BaseBulletBehavior : MonoBehaviour
             status = Status.OWNED_BY_PLAYER; //allow bullet to hit enemy maybe reverse back to owned by enemy when we add enemy that can also reflect bullet in the future
         }
     }
+
+    public virtual string GetBulletType()
+    {
+        // Return a unique identifier for the bullet type
+        return "BaseBullet";
+    }
+
+    public void PlayerForceOwnership()
+    {
+        status = Status.OWNED_BY_PLAYER;
+    }
 }

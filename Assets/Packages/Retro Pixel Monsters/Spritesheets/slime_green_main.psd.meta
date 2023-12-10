@@ -1659,7 +1659,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       slime_green_main_6: 21300012
-      slime_green_main_56: 21300112
+      slime_green_main_4: 21300008
       slime_green_main_44: 21300088
       slime_green_main_21: 21300042
       slime_green_main_57: 21300114
@@ -1721,7 +1721,7 @@ TextureImporter:
       slime_green_main_11: 21300022
       slime_green_main_33: 21300066
       slime_green_main_32: 21300064
-      slime_green_main_4: 21300008
+      slime_green_main_56: 21300112
   spritePackingTag: 
   pSDRemoveMatte: 1
   pSDShowRemoveMatteOption: 1

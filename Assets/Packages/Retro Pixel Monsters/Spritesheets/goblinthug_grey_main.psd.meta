@@ -1658,9 +1658,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      goblinthug_grey_main_49: 21300098
-      goblinthug_grey_main_50: 21300100
-      goblinthug_grey_main_61: 21300122
+      goblinthug_grey_main_44: 21300088
+      goblinthug_grey_main_62: 21300124
       goblinthug_grey_main_18: 21300036
       goblinthug_grey_main_0: 21300000
       goblinthug_grey_main_2: 21300004
@@ -1684,13 +1683,13 @@ TextureImporter:
       goblinthug_grey_main_29: 21300058
       goblinthug_grey_main_24: 21300048
       goblinthug_grey_main_17: 21300034
+      goblinthug_grey_main_54: 21300108
       goblinthug_grey_main_23: 21300046
       goblinthug_grey_main_36: 21300072
       goblinthug_grey_main_32: 21300064
-      goblinthug_grey_main_54: 21300108
+      goblinthug_grey_main_58: 21300116
       goblinthug_grey_main_51: 21300102
       goblinthug_grey_main_14: 21300028
-      goblinthug_grey_main_58: 21300116
       goblinthug_grey_main_7: 21300014
       goblinthug_grey_main_31: 21300062
       goblinthug_grey_main_19: 21300038
@@ -1703,6 +1702,7 @@ TextureImporter:
       goblinthug_grey_main_6: 21300012
       goblinthug_grey_main_8: 21300016
       goblinthug_grey_main_40: 21300080
+      goblinthug_grey_main_61: 21300122
       goblinthug_grey_main_30: 21300060
       goblinthug_grey_main_11: 21300022
       goblinthug_grey_main_35: 21300070
@@ -1719,9 +1719,9 @@ TextureImporter:
       goblinthug_grey_main_26: 21300052
       goblinthug_grey_main_21: 21300042
       goblinthug_grey_main_12: 21300024
+      goblinthug_grey_main_49: 21300098
+      goblinthug_grey_main_50: 21300100
       goblinthug_grey_main_48: 21300096
-      goblinthug_grey_main_44: 21300088
-      goblinthug_grey_main_62: 21300124
   spritePackingTag: 
   pSDRemoveMatte: 1
   pSDShowRemoveMatteOption: 1

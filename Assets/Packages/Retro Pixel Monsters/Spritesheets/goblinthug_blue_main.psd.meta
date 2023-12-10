@@ -1659,7 +1659,6 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       goblinthug_blue_main_0: 21300000
-      goblinthug_blue_main_57: 21300114
       goblinthug_blue_main_16: 21300032
       goblinthug_blue_main_39: 21300078
       goblinthug_blue_main_20: 21300040
@@ -1719,6 +1718,7 @@ TextureImporter:
       goblinthug_blue_main_61: 21300122
       goblinthug_blue_main_53: 21300106
       goblinthug_blue_main_8: 21300016
+      goblinthug_blue_main_57: 21300114
       goblinthug_blue_main_54: 21300108
       goblinthug_blue_main_18: 21300036
       goblinthug_blue_main_25: 21300050

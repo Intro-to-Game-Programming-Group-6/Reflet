@@ -1661,7 +1661,6 @@ TextureImporter:
       skeleton_regular_main_40: 21300080
       skeleton_regular_main_42: 21300084
       skeleton_regular_main_17: 21300034
-      skeleton_regular_main_63: 21300126
       skeleton_regular_main_49: 21300098
       skeleton_regular_main_46: 21300092
       skeleton_regular_main_30: 21300060
@@ -1715,6 +1714,7 @@ TextureImporter:
       skeleton_regular_main_5: 21300010
       skeleton_regular_main_35: 21300070
       skeleton_regular_main_51: 21300102
+      skeleton_regular_main_63: 21300126
       skeleton_regular_main_32: 21300064
       skeleton_regular_main_20: 21300040
       skeleton_regular_main_6: 21300012

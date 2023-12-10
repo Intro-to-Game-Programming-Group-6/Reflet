@@ -10,7 +10,7 @@ public class PlayerControlScript : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer playerSprite;
     private Animator animator;
-    private bool isSprinting;
+    // private bool isSprinting;
 
     private Vector2 movementInput;
     private Vector2 dashDirection;
@@ -18,7 +18,7 @@ public class PlayerControlScript : MonoBehaviour
     public float movementspeed = 3f;
     public float attackRange = 0f;
     public float dashSpeed = 3f;
-    public float sprintspeed = 4.25f;
+    // public float sprintspeed = 4.25f;
     public bool currentlyDashing, canDash;
 
     public Transform spawnPoint;
@@ -37,6 +37,7 @@ public class PlayerControlScript : MonoBehaviour
     public float DashCooldown;
     public int DashCounter;
     public TrailRenderer trail;
+    public bool mirrorRotate;
     //
 
     //all about reflecting
@@ -105,20 +106,25 @@ public class PlayerControlScript : MonoBehaviour
         {
             playerSprite.flipX = true;
         }
+
         if (currentlyDashing)
         {
             trail.emitting = true;
             return;
         }
+
         //if (DashAbility.Ability_Status == AbilityStatus.ACTIVE) return;
-        if (isSprinting)
-        {
-            rb.velocity = (movementInput) * sprintspeed;
-        }
-        else
-        {
-            rb.velocity = (movementInput) * movementspeed;
-        }
+        // if (isSprinting)
+        // {
+        //     rb.velocity = (movementInput) * sprintspeed;
+        // }
+        // else
+        // {
+        //     rb.velocity = (movementInput) * movementspeed;
+        // }
+
+        rb.velocity = (movementInput) * movementspeed;
+
         trail.emitting = false;
         if (isReflecting)
         {
@@ -150,7 +156,6 @@ public class PlayerControlScript : MonoBehaviour
         }
 
     }
-
 
     void CreateOrbitingShields()
     {
@@ -196,19 +201,19 @@ public class PlayerControlScript : MonoBehaviour
         tameng.Clear();
     }
 
-    IEnumerator Dash()
-    {
-        canDash = false;
-        currentlyDashing = true;
-        // Debug.Log("dashing " + ++count);
-        dashDirection = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - rb.transform.position;
-        dashDirection = dashDirection.normalized;
-        rb.velocity = dashDirection * dashSpeed;
-        yield return new WaitForSeconds(0.5f); // Dash duration
-        currentlyDashing = false;
-        yield return new WaitForSeconds(1.5f); // Cool-down duration
-        canDash = true;
-    }
+    // IEnumerator Dash()
+    // {
+    //     canDash = false;
+    //     currentlyDashing = true;
+    //     // Debug.Log("dashing " + ++count);
+    //     dashDirection = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - rb.transform.position;
+    //     dashDirection = dashDirection.normalized;
+    //     rb.velocity = dashDirection * dashSpeed;
+    //     yield return new WaitForSeconds(0.5f); // Dash duration
+    //     currentlyDashing = false;
+    //     yield return new WaitForSeconds(1.5f); // Cool-down duration
+    //     canDash = true;
+    // }
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -230,7 +235,10 @@ public class PlayerControlScript : MonoBehaviour
         if (context.performed || Mouse.current.leftButton.isPressed)// && Sword.GetInstance() == null)
         {
             //Reflect();
-            CreateOrbitingShields();
+            if(mirrorRotate)
+            {
+                CreateOrbitingShields();
+            }
             isReflecting = true;
         }
         else if (context.canceled)
@@ -254,15 +262,23 @@ public class PlayerControlScript : MonoBehaviour
         }
     }
 
-    public void OnSprint(InputAction.CallbackContext context)
+    public void OnHeal(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if(context.performed && PlayerManager.GetInstance().canHeal)
         {
-            isSprinting = true;
-        }
-        if (context.canceled)
-        {
-            isSprinting = false;
+            PlayerManager.GetInstance().Heal();
         }
     }
+
+    // public void OnSprint(InputAction.CallbackContext context)
+    // {
+    //     if (context.performed)
+    //     {
+    //         isSprinting = true;
+    //     }
+    //     if (context.canceled)
+    //     {
+    //         isSprinting = false;
+    //     }
+    // }
 }

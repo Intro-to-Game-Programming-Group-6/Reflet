@@ -1658,12 +1658,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      windsprite_main_29: 21300058
+      windsprite_main_57: 21300114
       windsprite_main_19: 21300038
       windsprite_main_30: 21300060
       windsprite_main_56: 21300112
       windsprite_main_55: 21300110
-      windsprite_main_57: 21300114
+      windsprite_main_41: 21300082
       windsprite_main_24: 21300048
       windsprite_main_47: 21300094
       windsprite_main_34: 21300068
@@ -1721,7 +1721,7 @@ TextureImporter:
       windsprite_main_38: 21300076
       windsprite_main_32: 21300064
       windsprite_main_20: 21300040
-      windsprite_main_41: 21300082
+      windsprite_main_29: 21300058
   spritePackingTag: 
   pSDRemoveMatte: 1
   pSDShowRemoveMatteOption: 1

@@ -10,7 +10,7 @@ public class PlayerControlScript : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer playerSprite;
     private Animator animator;
-    // private bool isSprinting;
+    private bool isSprinting;
 
     private Vector2 movementInput;
     private Vector2 dashDirection;
@@ -18,7 +18,7 @@ public class PlayerControlScript : MonoBehaviour
     public float movementspeed = 3f;
     public float attackRange = 0f;
     public float dashSpeed = 3f;
-    // public float sprintspeed = 4.25f;
+    public float sprintspeed = 4.25f;
     public bool currentlyDashing, canDash;
 
     public Transform spawnPoint;

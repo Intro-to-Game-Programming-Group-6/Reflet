@@ -8,12 +8,6 @@ public class PiercingBullet : BaseBulletBehavior
     //is trigger
     //Checked
     //possible bug: player reflect this bullet while it still inside wall
-
-    public override string GetBulletType()
-    {
-        // Return a unique identifier for the bullet type
-        return "PiercingBullet";
-    }
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
 

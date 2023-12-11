@@ -14,7 +14,7 @@ public class PlayerControlScript : MonoBehaviour
 
     private Vector2 movementInput;
     private Vector2 dashDirection;
-    
+
     public float movementspeed = 3f;
     public float attackRange = 0f;
     public float dashSpeed = 3f;
@@ -100,8 +100,6 @@ public class PlayerControlScript : MonoBehaviour
         ManageSprite();
         ManageMovement();
         ManageShieldAction();
-        if(bullet_holder != null)
-        Debug.Log(bullet_holder);
     }
 
     void ManageMovement()
@@ -215,7 +213,7 @@ public class PlayerControlScript : MonoBehaviour
                 kaca.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
             }
         }
-        
+
     }
 
     void DestroyRotating()
@@ -245,7 +243,7 @@ public class PlayerControlScript : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.performed && shield_cooldown<=0f)// && Sword.GetInstance() == null)
+        if (context.performed && shield_cooldown <= 0f)// && Sword.GetInstance() == null)
         {
             //Reflect();
             CreateOrbitingShields();
@@ -286,15 +284,15 @@ public class PlayerControlScript : MonoBehaviour
 
     public void FindBullet()
     {
-        float steal_distance = 4f;
-        float thickness = 2f;
-        Vector2 clickdirection = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - rb.transform.position;
-        clickdirection = clickdirection.normalized * steal_distance;
+        float steal_distance = 5f;
+        float thickness = 5f;
         Vector2 boxSize = new Vector2(thickness, steal_distance);
-        Collider2D[] hitColliders = Physics2D.OverlapBoxAll(transform.position, boxSize, 0f);
-
+        Collider2D[] hitColliders = Physics2D.OverlapBoxAll(transform.position, boxSize, 0f);//, Vector2.SignedAngle(Vector2.right, clickdirection));
+        //Debug.DrawRay(rb.transform.position, clickdirection.normalized * steal_distance, Color.red, 1f);
         foreach (Collider2D collider in hitColliders)
         {
+            float distanceToPlayer = Vector2.Distance(collider.transform.position, rb.transform.position);
+            if (distanceToPlayer > steal_distance) continue;
             // Check the tag of the object
             if (collider.CompareTag("Bullet"))
             {
@@ -309,6 +307,8 @@ public class PlayerControlScript : MonoBehaviour
     {
         bullet_holder = Instantiate(bullet, transform.position, Quaternion.identity);
         bullet_holder.SetActive(false);
+        BaseBulletBehavior bulletbehav = bullet_holder.GetComponent<BaseBulletBehavior>();
+        bulletbehav.PlayerForceOwnership();
         Destroy(bullet);
         Debug.Log("projectile stolen!");
     }
@@ -320,20 +320,14 @@ public class PlayerControlScript : MonoBehaviour
         {
             Debug.Log("peluru lagi dibuang");
             float bulletSpeed = 15f;
+            BaseBulletBehavior bulletbehav = bullet_holder.GetComponent<BaseBulletBehavior>();
+            string get_bullet_type = bulletbehav.GetBulletType();
             bullet_holder.SetActive(true);
             bullet_holder.transform.position = transform.position;
             // Make the projectile reappear in the game view
             GameObject newProjectile = bullet_holder;// Instantiate(bullet_holder, transform.position, Quaternion.identity);
-            BaseBulletBehavior bulletbehav = newProjectile.GetComponent<BaseBulletBehavior>();
-            string get_bullet_type = bulletbehav.GetBulletType();
-            bulletbehav.PlayerForceOwnership();
 
-            BouncingBullet bounce = newProjectile.GetComponent<BouncingBullet>();
-            CircleCollider2D collid = newProjectile.GetComponent<CircleCollider2D>();
-            bounce.enabled = true;
-            collid.enabled = true;
-            //Physics2D.IgnoreCollision(GetComponent<Collider2D>(), collid, true);
-            // Print information about each component
+            ActivateBullet(newProjectile, get_bullet_type);
 
             Vector2 direction = (CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - rb.transform.position).normalized;
             newProjectile.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
@@ -342,12 +336,52 @@ public class PlayerControlScript : MonoBehaviour
         }
     }
 
+    public void ActivateBullet(GameObject newProjectile, string bullet_type)
+    {
+        switch (bullet_type)
+        {
+            case "ExplosiveBullet":
+                ExplosiveBullet explode = newProjectile.GetComponent<ExplosiveBullet>();
+                CircleCollider2D explode_collid = newProjectile.GetComponent<CircleCollider2D>();
+                explode.PlayerForceOwnership();
+                explode.enabled = true;
+                explode_collid.enabled = true;
+                break;
+
+            case "BouncingBullet":
+                BouncingBullet bounce = newProjectile.GetComponent<BouncingBullet>();
+                CircleCollider2D collid = newProjectile.GetComponent<CircleCollider2D>();
+                bounce.PlayerForceOwnership();
+                bounce.enabled = true;
+                collid.enabled = true;
+                break;
+
+            case "NormalBullet":
+                NormalBullet normal = newProjectile.GetComponent<NormalBullet>();
+                CircleCollider2D normal_collid = newProjectile.GetComponent<CircleCollider2D>();
+                normal.PlayerForceOwnership();
+                normal.enabled = true;
+                normal_collid.enabled = true;
+                break;
+
+            case "PiercingBullet":
+                PiercingBullet pierce = newProjectile.GetComponent<PiercingBullet>();
+                PolygonCollider2D pierce_collid = newProjectile.GetComponent<PolygonCollider2D>();
+                pierce.PlayerForceOwnership();
+                pierce.enabled = true;
+                pierce_collid.enabled = true;
+                break;
+        }
+        return;
+    }
+
     public void OnSteal(InputAction.CallbackContext context)
     {
         if (context.performed && bullet_holder == null)
         {
+            Debug.Log("searching");
             FindBullet();
-            //return;
+            return;
         }
         else if (context.performed && bullet_holder != null)
         {
@@ -355,14 +389,7 @@ public class PlayerControlScript : MonoBehaviour
             if (bullet_holder == null)
                 Debug.Log("bullet shot");
         }
+
     }
 
-    public void tembakasal(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            ShootStolenProjectile();
-            Debug.Log("nembak");
-        }
-    }
 }

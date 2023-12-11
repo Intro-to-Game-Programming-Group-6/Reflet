@@ -8,11 +8,6 @@ public class NormalBullet : BaseBulletBehavior
     //is trigger
     //Checked
     //Detroy on wall contact
-    public override string GetBulletType()
-    {
-        // Return a unique identifier for the bullet type
-        return "NormalBullet";
-    }
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
         base.OnTriggerEnter2D(collision);

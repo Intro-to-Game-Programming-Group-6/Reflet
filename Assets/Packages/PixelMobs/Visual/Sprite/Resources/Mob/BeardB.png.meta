@@ -330,7 +330,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Beard_7: 21300014
+      Beard_4: 21300008
       Beard_3: 21300006
       Beard_2: 21300004
       Beard_8: 21300016
@@ -338,8 +338,8 @@ TextureImporter:
       Beard_5: 21300010
       Beard_6: 21300012
       Beard_0: 21300000
+      Beard_7: 21300014
       Beard_1: 21300002
-      Beard_4: 21300008
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

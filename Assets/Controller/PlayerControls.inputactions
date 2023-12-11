@@ -33,15 +33,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Sprinting",
-                    "type": "Button",
-                    "id": "334f87c2-8d22-4d0d-b4f4-2eec13657d14",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Heal",
                     "type": "Button",
                     "id": "7539e9a0-f732-4780-8b06-d0fc096eab21",
@@ -135,17 +126,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "40b42c41-a85d-4cc6-8e7c-a323036400e5",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Sprinting",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

@@ -92,7 +92,7 @@ public class BaseEnemyBehavior : MonoBehaviour
 
     public void AdjustHealth(int deltaHealth)
     {
-        print(deltaHealth);
+        // print(deltaHealth);
         
         currentHealth += deltaHealth;
 
@@ -104,7 +104,7 @@ public class BaseEnemyBehavior : MonoBehaviour
         if (currentHealth <= 0)
         {
             PlayerManager.GetInstance().AddVialPoint(1);
-            Die();
+            Destroy(this.gameObject);
         }
     }
 
@@ -116,10 +116,15 @@ public class BaseEnemyBehavior : MonoBehaviour
         }
     }
 
-    private void Die()
+    // private void Die()
+    // {
+    //     EnemyManager.GetInstance().HandleEnemyDeath();
+    //     Destroy(this.gameObject);
+    // }
+
+    private void OnDestroy()
     {
         EnemyManager.GetInstance().HandleEnemyDeath();
-        Destroy(this.gameObject);
     }
 
     private void UpdateHearts()

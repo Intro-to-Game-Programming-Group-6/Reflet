@@ -10,8 +10,10 @@ public class PlayerManager : MonoBehaviour
     public int currentHealth;
     public int maxHealth = 3;
 
-    private int vialPoint = 0;
+    public int vialPoint;
     public int vialMaxPoint = 10;
+
+    public bool canHeal;
 
     private void Awake()
     {
@@ -33,6 +35,8 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+        vialPoint = 0;
+        canHeal = false;
     }
 
     public void AdjustHearts(int deltaHeart) {
@@ -58,28 +62,25 @@ public class PlayerManager : MonoBehaviour
     {
         vialPoint += deltaPoint;
 
-        if(vialPoint > vialMaxPoint)
+        if(vialPoint >= vialMaxPoint)
         {
+            canHeal = true;
             vialPoint = vialMaxPoint;
         }
 
         Vial.GetInstance().UpdateVial(vialPoint);
     }
 
-    public void UseVial()
-    {
-        if(vialPoint < vialMaxPoint)
-        {
-            return;
-        }
-            
-        AdjustHealth(1);
-        vialPoint = 0;
-        Vial.GetInstance().UpdateVial(vialPoint);
-    }
-
     public bool VialFullState()
     {
         return vialPoint == vialMaxPoint;
+    }
+
+    public void Heal()
+    {
+        canHeal = false;
+        AdjustHealth(1);
+        vialPoint = 0;
+        Vial.GetInstance().UpdateVial(vialPoint);   
     }
 }

@@ -10,7 +10,7 @@ public class PlayerControlScript : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer playerSprite;
     private Animator animator;
-    private bool isSprinting;
+    // private bool isSprinting;
 
     private Vector2 movementInput;
     private Vector2 dashDirection;
@@ -18,7 +18,7 @@ public class PlayerControlScript : MonoBehaviour
     public float movementspeed = 3f;
     public float attackRange = 0f;
     public float dashSpeed = 3f;
-    public float sprintspeed = 4.25f;
+    // public float sprintspeed = 4.25f;
     public bool currentlyDashing, canDash;
 
     public Transform spawnPoint;
@@ -37,6 +37,7 @@ public class PlayerControlScript : MonoBehaviour
     public float DashCooldown;
     public int DashCounter;
     public TrailRenderer trail;
+    public bool mirrorRotate;
     //
 
     //all about reflecting
@@ -246,7 +247,10 @@ public class PlayerControlScript : MonoBehaviour
         if (context.performed && shield_cooldown <= 0f)// && Sword.GetInstance() == null)
         {
             //Reflect();
-            CreateOrbitingShields();
+            if(mirrorRotate)
+            {
+                CreateOrbitingShields();
+            }
             isReflecting = true;
         }
         else if (context.canceled)
@@ -270,17 +274,25 @@ public class PlayerControlScript : MonoBehaviour
         }
     }
 
-    public void OnSprint(InputAction.CallbackContext context)
+    public void OnHeal(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if(context.performed && PlayerManager.GetInstance().canHeal)
         {
-            isSprinting = true;
-        }
-        if (context.canceled)
-        {
-            isSprinting = false;
+            PlayerManager.GetInstance().Heal();
         }
     }
+
+    // public void OnSprint(InputAction.CallbackContext context)
+    // {
+    //     if (context.performed)
+    //     {
+    //         isSprinting = true;
+    //     }
+    //     if (context.canceled)
+    //     {
+    //         isSprinting = false;
+    //     }
+    // }
 
     public void FindBullet()
     {

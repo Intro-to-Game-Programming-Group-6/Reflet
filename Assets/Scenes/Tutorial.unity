@@ -423,7 +423,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 0
   maxHealth: 3
+  vialPoint: 0
   vialMaxPoint: 10
+  canHeal: 0
 --- !u!4 &831127246
 Transform:
   m_ObjectHideFlags: 0
@@ -1360,24 +1362,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dad5db0d7b77e34f9804ead00d5bf1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerLearnedMove:
-    m_PersistentCalls:
-      m_Calls: []
-  PlayerLearnedReflect:
-    m_PersistentCalls:
-      m_Calls: []
-  PlayerLearnedAttack:
-    m_PersistentCalls:
-      m_Calls: []
-  PlayerKilledEnemy:
-    m_PersistentCalls:
-      m_Calls: []
-  PlayerVialFull:
-    m_PersistentCalls:
-      m_Calls: []
-  PlayerHealed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &2054659982
 GameObject:
   m_ObjectHideFlags: 0
@@ -7018,11 +7002,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.size
-      value: 5
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_ActionId
+      value: 7539e9a0-f732-4780-8b06-d0fc096eab21
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[4].m_ActionId
       value: 7539e9a0-f732-4780-8b06-d0fc096eab21
+      objectReference: {fileID: 0}
+    - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_ActionName
+      value: Player/Heal[/Keyboard/r]
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[4].m_ActionName
@@ -7042,18 +7034,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
@@ -7098,11 +7094,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: PlayerMoves
+      value: PlayerMoved
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: PlayerAttacks
+      value: PlayerReflected
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
@@ -7110,11 +7106,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnSprint
+      value: OnHeal
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: PlayerDashed
+      value: PlayerHeal
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
@@ -7146,6 +7142,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143798, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}

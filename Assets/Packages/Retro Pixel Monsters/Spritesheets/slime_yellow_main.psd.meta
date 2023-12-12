@@ -1658,10 +1658,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      slime_yellow_main_20: 21300040
+      slime_yellow_main_41: 21300082
       slime_yellow_main_53: 21300106
-      slime_yellow_main_9: 21300018
       slime_yellow_main_63: 21300126
+      slime_yellow_main_9: 21300018
       slime_yellow_main_42: 21300084
       slime_yellow_main_55: 21300110
       slime_yellow_main_28: 21300056
@@ -1720,8 +1720,8 @@ TextureImporter:
       slime_yellow_main_62: 21300124
       slime_yellow_main_54: 21300108
       slime_yellow_main_22: 21300044
+      slime_yellow_main_20: 21300040
       slime_yellow_main_5: 21300010
-      slime_yellow_main_41: 21300082
   spritePackingTag: 
   pSDRemoveMatte: 1
   pSDShowRemoveMatteOption: 1

@@ -1639,19 +1639,19 @@ TextureImporter:
       skeleton_rpc_wizard_main_11: 21300022
       skeleton_rpc_wizard_main_15: 21300030
       skeleton_rpc_wizard_main_29: 21300058
-      skeleton_rpc_wizard_main_42: 21300084
+      skeleton_rpc_wizard_main_63: 21300126
       skeleton_rpc_wizard_main_7: 21300014
       skeleton_rpc_wizard_main_38: 21300076
-      skeleton_rpc_wizard_main_3: 21300006
+      skeleton_rpc_wizard_main_26: 21300052
+      skeleton_rpc_wizard_main_42: 21300084
       skeleton_rpc_wizard_main_40: 21300080
       skeleton_rpc_wizard_main_62: 21300124
       skeleton_rpc_wizard_main_13: 21300026
       skeleton_rpc_wizard_main_32: 21300064
       skeleton_rpc_wizard_main_44: 21300088
       skeleton_rpc_wizard_main_47: 21300094
-      skeleton_rpc_wizard_main_20: 21300040
+      skeleton_rpc_wizard_main_31: 21300062
       skeleton_rpc_wizard_main_8: 21300016
-      skeleton_rpc_wizard_main_63: 21300126
       skeleton_rpc_wizard_main_19: 21300038
       skeleton_rpc_wizard_main_22: 21300044
       skeleton_rpc_wizard_main_5: 21300010
@@ -1660,13 +1660,13 @@ TextureImporter:
       skeleton_rpc_wizard_main_10: 21300020
       skeleton_rpc_wizard_main_49: 21300098
       skeleton_rpc_wizard_main_30: 21300060
-      skeleton_rpc_wizard_main_35: 21300070
+      skeleton_rpc_wizard_main_59: 21300118
       skeleton_rpc_wizard_main_1: 21300002
+      skeleton_rpc_wizard_main_35: 21300070
       skeleton_rpc_wizard_main_12: 21300024
       skeleton_rpc_wizard_main_45: 21300090
       skeleton_rpc_wizard_main_33: 21300066
       skeleton_rpc_wizard_main_61: 21300122
-      skeleton_rpc_wizard_main_59: 21300118
       skeleton_rpc_wizard_main_53: 21300106
       skeleton_rpc_wizard_main_56: 21300112
       skeleton_rpc_wizard_main_17: 21300034
@@ -1696,8 +1696,8 @@ TextureImporter:
       skeleton_rpc_wizard_main_24: 21300048
       skeleton_rpc_wizard_main_48: 21300096
       skeleton_rpc_wizard_main_51: 21300102
-      skeleton_rpc_wizard_main_26: 21300052
-      skeleton_rpc_wizard_main_31: 21300062
+      skeleton_rpc_wizard_main_20: 21300040
+      skeleton_rpc_wizard_main_3: 21300006
   spritePackingTag: 
   pSDRemoveMatte: 1
   pSDShowRemoveMatteOption: 1

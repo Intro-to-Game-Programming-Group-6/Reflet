@@ -9,14 +9,10 @@ public class TutorialManager : MonoBehaviour
     private static TutorialManager instance;
 
     private int currentState;
+    private int tutorialEnemyCount = 3;
 
-    [Header("Unity Events")]
-    [SerializeField] UnityEvent PlayerLearnedMove;
-    [SerializeField] UnityEvent PlayerLearnedReflect;
-    [SerializeField] UnityEvent PlayerLearnedAttack;
-    [SerializeField] UnityEvent PlayerKilledEnemy;
-    [SerializeField] UnityEvent PlayerVialFull;
-    [SerializeField] UnityEvent PlayerHealed;
+    private Coroutine spawnCoroutine = null;
+    private GameObject tutorialEnemy = null;
 
     void Awake()
     {
@@ -40,135 +36,115 @@ public class TutorialManager : MonoBehaviour
         currentState = 0;
     }
 
-    public void PlayerMoves()
-    {
-        if(currentState == 0 && !MissionLog.GetInstance().isUpdating)
-        {
-            currentState = 1;
-            PlayerLearnedMove.Invoke();
-            UpdateLog("Left click to reflect");
-        }
-    }
-
-    public void PlayerReflects()
-    {
-        if (currentState == 1 && !MissionLog.GetInstance().isUpdating)
-        {
-            currentState = 2;
-            PlayerLearnedReflect.Invoke();
-            UpdateLog("Reflect bullets back at enemies");
-        }
-    }
-
-    public void PlayerAttacks()
-    {
-        if(currentState == 2 && !MissionLog.GetInstance().isUpdating)
-        {
-            currentState = 3;
-            PlayerLearnedAttack.Invoke();
-            UpdateLog("Kill more enemies to fill up the vial");
-        }
-    }
-
-    public void PlayerFillsVial()
-    {
-        if(currentState == 3 && PlayerManager.GetInstance().VialFullState() && !MissionLog.GetInstance().isUpdating)
-        {
-            currentState = 4;
-            PlayerVialFull.Invoke();
-            UpdateLog("Click R to heal");
-        }
-    }
-
-    public void PlayerHeals()
-    {
-        if(currentState == 4 && !MissionLog.GetInstance().isUpdating)
-        {
-            currentState = 5;
-            PlayerHealed.Invoke();
-            UpdateLog("End of the tutorial");
-        }
-    }
-
     public void UpdateLog(string message)
     {
         StartCoroutine(MissionLog.GetInstance().UpdateLog(message));
     }
 
-    public void SpawnFirstEnemy()
+    public void PlayerMoved(InputAction.CallbackContext context)
     {
-        EnemyManager.GetInstance().SpawnEnemy(0, new Vector3(3, -10, 0));
-    }
-
-    public void SpawnNewEnemy()
-    {
-        if(!PlayerManager.GetInstance().VialFullState())
+        if(currentState != 0)
         {
-            EnemyManager.GetInstance().SpawnEnemy(0, new Vector3(3, -10, 0));
+            return;
         }
-        else
+
+        if (context.performed && !MissionLog.GetInstance().isUpdating)
         {
-            PlayerFillsVial();
+            currentState = 1;
+            StartCoroutine(MissionLog.GetInstance().UpdateLog("Press Space to Dash"));
         }
     }
 
-    // void Update()
-    // {
-    //     if(EnemyManager.GetInstance().enemyCount == 0 && currentState == 3)
-    //     {
-    //         OnPlayerKilledEnemies();
-    //     }
-    // }
+    public void PlayerDashed(InputAction.CallbackContext context)
+    {
+        if(currentState != 1)
+        {
+            return;
+        }
 
-    // public void PlayerMoved(InputAction.CallbackContext context)
-    // {
-    //     if(currentState != 0)
-    //     {
-    //         return;
-    //     }
+        if (context.performed && !MissionLog.GetInstance().isUpdating)
+        {
+            currentState = 2;
+            StartCoroutine(MissionLog.GetInstance().UpdateLog("Left Click to Reflect"));
+        }
+    }
 
-    //     if (context.performed && !MissionLog.GetInstance().isUpdating)
-    //     {
-    //         currentState = 1;
-    //         StartCoroutine(MissionLog.GetInstance().UpdateLog("Press Space to Dash"));
-    //     }
-    // }
+    public void PlayerReflected(InputAction.CallbackContext context)
+    {
+        if(currentState != 2)
+        {
+            return;
+        }
 
-    // public void PlayerDashed(InputAction.CallbackContext context)
-    // {
-    //     if(currentState != 1)
-    //     {
-    //         return;
-    //     }
+        if (context.performed && !MissionLog.GetInstance().isUpdating)
+        {
+            currentState = 3;
+            StartCoroutine(MissionLog.GetInstance().UpdateLog("Reflect bullets back at enemies"));
+            if(spawnCoroutine == null)
+            {
+                spawnCoroutine = StartCoroutine(SpawnEnemies());
+            }
+        }
+    }
 
-    //     if (context.performed && !MissionLog.GetInstance().isUpdating)
-    //     {
-    //         currentState = 2;
-    //         StartCoroutine(MissionLog.GetInstance().UpdateLog("Left Click to Reflect"));
-    //     }
-    // }
+    public void PlayerKilledEnemies()
+    {
+        if(currentState != 3)
+        {
+            return;
+        }
 
-    // public void PlayerReflected(InputAction.CallbackContext context)
-    // {
-    //     if(currentState != 2)
-    //     {
-    //         return;
-    //     }
+        currentState = 4;
+        PlayerManager.GetInstance().AddVialPoint(10);
+        StartCoroutine(MissionLog.GetInstance().UpdateLog("Click R to heal"));
+    }
 
-    //     if (context.performed && !MissionLog.GetInstance().isUpdating)
-    //     {
-    //         currentState = 3;
-    //         StartCoroutine(MissionLog.GetInstance().UpdateLog("Reflect bullets back at enemies"));
-    //         EnemyManager.GetInstance().SpawnEnemy(0, new Vector3(3, -10, 0));
-    //     }
-    // }
+    public void PlayerHeal(InputAction.CallbackContext context)
+    {
+        if(currentState != 4)
+        {
+            return;
+        }
 
-    // public void OnPlayerKilledEnemies()
-    // {
-    //     currentState = 4;
-    //     PlayerManager.GetInstance().AddVialPoint(10);
-    //     StartCoroutine(MissionLog.GetInstance().UpdateLog("Click R to heal"));
-    // }
+        if (context.performed && !MissionLog.GetInstance().isUpdating)
+        {
+            currentState = 5;
+        }
+    }
+
+    IEnumerator SpawnEnemies()
+    {
+        Vector3 enemySpawnPoint1 = new Vector3(3, -10, 0);
+        Vector3 enemySpawnPoint2 = new Vector3(-8, -10, 0);
+
+        bool spawnPoint = true;
+        int currentEnemyCount = 0;
+
+        while(currentEnemyCount != tutorialEnemyCount)
+        {
+            if(EnemyManager.GetInstance().enemyCount == 0)
+            {
+                currentEnemyCount += 1;
+
+                yield return new WaitForSeconds(1.5f);
+
+                if(spawnPoint)
+                {
+                    tutorialEnemy = EnemyManager.GetInstance().SpawnEnemy(0, enemySpawnPoint1); 
+                    spawnPoint = false;
+                }
+                else
+                {
+                    tutorialEnemy = EnemyManager.GetInstance().SpawnEnemy(0, enemySpawnPoint2);
+                    spawnPoint = true;
+                }
+                
+            }
+            yield return null;
+        }
+        PlayerKilledEnemies();
+        yield return null;
+    }
 }
 
 // 0: WASD to move

@@ -23,6 +23,10 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private BarController m_heartController;
     [SerializeField] private BarController m_vialController;
 
+    [SerializeField] private bool m_canHeal;
+    public bool CanHeal { get { return m_canHeal; } set { m_canHeal = value; } }
+    
+
     public static PlayerManager GetInstance()
     {
         return instance;
@@ -47,6 +51,9 @@ public class PlayerManager : MonoBehaviour
 
         m_vialController.SetMax(m_maxVialPoint);
         m_vialController.SetValue(m_vialPoint);
+
+        m_vialPoint = 0;
+        m_canHeal = false;
     }
 
     public void AdjustHearts(int deltaHeart) {
@@ -72,25 +79,27 @@ public class PlayerManager : MonoBehaviour
     {
         m_vialPoint += deltaPoint;
 
-        if(m_vialPoint > m_maxVialPoint)
+        if(m_vialPoint >= m_maxVialPoint)
         {
+            canHeal = true;
             m_vialPoint = m_maxVialPoint;
         }
 
         m_vialController.SetValue(m_vialPoint);
     }
 
-    public void UseVial()
+    public bool VialFullState()
     {
         if(m_vialPoint < m_maxVialPoint)
         {
             // TODO: cannot anim
             return;
         }
-            
+        m_canHeal = false;
         AddHealth(1);
         m_vialPoint = 0;
         m_vialController.SetValue(m_vialPoint);
+        // TODO: Vial.GetInstance().UpdateVial(vialPoint);
     }
 
     public bool VialFullState()

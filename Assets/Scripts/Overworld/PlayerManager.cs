@@ -5,13 +5,28 @@ using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
-    private static PlayerManager instance;
+    public static PlayerManager instance;
 
-    public int currentHealth;
-    public int maxHealth = 3;
+    public int maxHealth { get { return m_maxHealthPoint; } }
+    public int currentHealth { get { return m_healthPoint; } }
 
-    private int vialPoint = 0;
-    public int vialMaxPoint = 10;
+    [SerializeField] private int m_maxHealthPoint;
+    [SerializeField] private int m_healthPoint;
+
+    public int maxVial { get { return m_maxVialPoint; } }
+    public int currentVial { get { return m_vialPoint; } }
+
+    [SerializeField] private int m_maxVialPoint;
+    [SerializeField] private int m_vialPoint;
+
+
+    [SerializeField] private BarController m_heartController;
+    [SerializeField] private BarController m_vialController;
+
+    public static PlayerManager GetInstance()
+    {
+        return instance;
+    }
 
     private void Awake()
     {
@@ -25,61 +40,61 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public static PlayerManager GetInstance()
-    {
-        return instance;
-    }
-
     void Start()
     {
-        currentHealth = maxHealth;
+        m_heartController.SetMax(m_maxHealthPoint);
+        m_heartController.SetValue(m_healthPoint);
+
+        m_vialController.SetMax(m_maxVialPoint);
+        m_vialController.SetValue(m_vialPoint);
     }
 
     public void AdjustHearts(int deltaHeart) {
-        maxHealth += deltaHeart;
-
-        AdjustHealth(0);
+        m_maxHealthPoint += deltaHeart;
+        AddHealth(0);
     }
 
-    public void AdjustHealth(int deltaHealth) {
-        currentHealth += deltaHealth;
+    public void AddHealth(int deltaHealth) {
+        m_healthPoint += deltaHealth;
 
-        if (currentHealth > maxHealth)
+        if (m_healthPoint > m_maxHealthPoint)
         {
-            currentHealth = maxHealth;
+            m_healthPoint = m_maxHealthPoint;
         }
-        if (currentHealth < 0)
+        if (m_healthPoint < 0)
         {
-            currentHealth = 0;
+            m_healthPoint = 0;
         }
+        m_heartController.SetValue(m_healthPoint);
     }
 
     public void AddVialPoint(int deltaPoint)
     {
-        vialPoint += deltaPoint;
+        m_vialPoint += deltaPoint;
 
-        if(vialPoint > vialMaxPoint)
+        if(m_vialPoint > m_maxVialPoint)
         {
-            vialPoint = vialMaxPoint;
+            m_vialPoint = m_maxVialPoint;
         }
 
-        Vial.GetInstance().UpdateVial(vialPoint);
+        m_vialController.SetValue(m_vialPoint);
     }
 
     public void UseVial()
     {
-        if(vialPoint < vialMaxPoint)
+        if(m_vialPoint < m_maxVialPoint)
         {
+            // TODO: cannot anim
             return;
         }
             
-        AdjustHealth(1);
-        vialPoint = 0;
-        Vial.GetInstance().UpdateVial(vialPoint);
+        AddHealth(1);
+        m_vialPoint = 0;
+        m_vialController.SetValue(m_vialPoint);
     }
 
     public bool VialFullState()
     {
-        return vialPoint == vialMaxPoint;
+        return m_vialPoint == m_maxVialPoint;
     }
 }

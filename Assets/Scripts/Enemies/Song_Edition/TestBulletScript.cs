@@ -75,13 +75,13 @@ public class TestBulletScript : MonoBehaviour
         }
         else if(collision.gameObject.CompareTag("Player"))
         {
-            PlayerManager.GetInstance().AdjustHealth(-1);
+            PlayerManager.GetInstance().AddHealth(-1);
             Destroy(gameObject);
         }
         else if(collision.gameObject.CompareTag("Enemy"))
         {
             if(status == Status.REFLECTED_BY_PLAYER) {
-                collision.gameObject.GetComponent<TestEnemyScript>().AdjustHealth(-1);
+                collision.gameObject.GetComponent<TestEnemyScript>().AddHealth(-1);
             }
             Destroy(gameObject);
         }

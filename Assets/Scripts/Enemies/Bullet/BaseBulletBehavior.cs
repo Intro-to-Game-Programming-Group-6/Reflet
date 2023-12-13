@@ -10,8 +10,9 @@ public class BaseBulletBehavior : MonoBehaviour
     public float bulletSpeed;
     public float bulletLifeTime;
     protected float lifetimeCount;
-    public float bulletDamage;
+    public int bulletDamage;
     public float knockbackForce = 2f;
+    [SerializeField] protected Rigidbody2D rb;
 
     public enum Status
     {
@@ -78,7 +79,7 @@ public class BaseBulletBehavior : MonoBehaviour
         {
             if (status == Status.OWNED_BY_ENEMY)
             {
-                PlayerManager.GetInstance().AdjustHealth(-1);
+                PlayerManager.GetInstance().AdjustHealth(-bulletDamage);
                 Destroy(gameObject);
             }
         }

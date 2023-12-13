@@ -31,7 +31,7 @@ public class SpreadBullet : BaseBulletBehavior
     {
         Vector2 ori_dir = rb.velocity.normalized;
         //case that number of bullet out = 1
-        if (numberOfBulletsOut >= 1)
+        if (numberOfBulletsOut <= 1)
         {
             GameObject childbullet = Instantiate(childBulletPrefeb, transform.position, transform.rotation);
             Rigidbody2D childRb = childbullet.GetComponent<Rigidbody2D>();

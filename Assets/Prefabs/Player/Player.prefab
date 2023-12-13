@@ -348,7 +348,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6507202684667143754}
         m_TargetAssemblyTypeName: PlayerControlScript, Assembly-CSharp
-        m_MethodName: OnSprint
+        m_MethodName: OnHeal
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -358,12 +358,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 334f87c2-8d22-4d0d-b4f4-2eec13657d14
-    m_ActionName: Player/Sprinting[/Keyboard/shift]
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: 7539e9a0-f732-4780-8b06-d0fc096eab21
     m_ActionName: Player/Heal[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6507202684667143754}
+        m_TargetAssemblyTypeName: PlayerControlScript, Assembly-CSharp
+        m_MethodName: OnSteal
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a7c50ea2-d6d1-4b32-aed3-a92c7ddbf1c8
+    m_ActionName: Player/Special[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -397,6 +409,7 @@ MonoBehaviour:
   DashCooldown: 0
   DashCounter: 0
   trail: {fileID: 0}
+  mirrorRotate: 0
 --- !u!50 &6507202684667143797
 Rigidbody2D:
   serializedVersion: 4

@@ -49,6 +49,15 @@ public class PlayerControlScript : MonoBehaviour
     [HideInInspector][SerializeField] List<GameObject> tameng = new List<GameObject>();
     #endregion
 
+    private float shield_time;
+    private float max_shield_time = 3f;
+    private float shield_cooldown;
+    private float max_shield_cooldown = 2f;
+    //
+
+    //all about bullet stealing
+    GameObject bullet_holder;
+
     void Awake()
     {
         if (instance == null)
@@ -81,9 +90,37 @@ public class PlayerControlScript : MonoBehaviour
 
         rb.gravityScale = 0f;
         trail.emitting = true;
+        isReflecting = false;
+        shield_time = max_shield_time;
+        shield_cooldown = 0f;
     }
 
     void Update()
+    {
+        ManageSprite();
+        ManageMovement();
+        ManageShieldAction();
+    }
+
+    void ManageMovement()
+    {
+        if (currentlyDashing)
+        {
+            trail.emitting = true;
+            return;
+        }
+        if (isSprinting)
+        {
+            rb.velocity = (movementInput) * sprintspeed;
+        }
+        else
+        {
+            rb.velocity = (movementInput) * movementspeed;
+        }
+        trail.emitting = false;
+    }
+
+    void ManageSprite()
     {
         if (rb.velocity == Vector2.zero)
         {
@@ -102,20 +139,26 @@ public class PlayerControlScript : MonoBehaviour
         {
             playerSprite.flipX = true;
         }
+    }
 
-        if (currentlyDashing)
-        {
-            trail.emitting = true;
-        }
-
-        rb.velocity = (movementInput) * movementspeed;
-
-        trail.emitting = false;
+    void ManageShieldAction()
+    {
         if (isReflecting)
         {
             Reflect();
             RotateShields();
+            shield_time -= Time.deltaTime;
+            if (shield_time <= 0f)
+            {
+                isReflecting = false;
+                shield_time = max_shield_time;
+                Destroy(shield);
+                DestroyRotating();
+                shield_cooldown = max_shield_cooldown;
+                return;
+            }
         }
+        shield_cooldown -= Time.deltaTime;
     }
 
     void Reflect()
@@ -139,12 +182,10 @@ public class PlayerControlScript : MonoBehaviour
             shield.transform.position = spawnposition;
             shield.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
         }
-
     }
-
     void CreateOrbitingShields()
     {
-        if (tameng.Count == numShields) return;
+        if (isReflecting) return;
         for (int i = 0; i < numShields; i++)
         {
             // Debug.Log($"Shield no: {i}");
@@ -155,7 +196,6 @@ public class PlayerControlScript : MonoBehaviour
         }
         // Debug.Log($"Number of shields created: {tameng.Count}");
     }
-
     void RotateShields()
     {
         foreach (GameObject singular_shield in tameng)
@@ -171,7 +211,7 @@ public class PlayerControlScript : MonoBehaviour
                 kaca.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
             }
         }
-        
+
     }
 
     void DestroyRotating()
@@ -201,7 +241,7 @@ public class PlayerControlScript : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.performed || Mouse.current.leftButton.isPressed)// && Sword.GetInstance() == null)
+        if (context.performed && shield_cooldown <= 0f)// && Sword.GetInstance() == null)
         {
             if(mirrorRotate)
             {

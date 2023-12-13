@@ -766,6 +766,38 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5030838003937041575, guid: b8ea6e12146eb364ebd0d419ae235f18, type: 3}
   m_PrefabInstance: {fileID: 5030838005139601939}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1117636473
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1117636474}
+  m_Layer: 0
+  m_Name: Test Boucing Bullet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1117636474
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117636473}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.49, y: -9.26, z: -0.023329224}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 524764102}
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1132832508
 GameObject:
   m_ObjectHideFlags: 0
@@ -1148,6 +1180,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dad5db0d7b77e34f9804ead00d5bf1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerLearnedMove:
+    m_PersistentCalls:
+      m_Calls: []
+  PlayerLearnedReflect:
+    m_PersistentCalls:
+      m_Calls: []
+  PlayerLearnedAttack:
+    m_PersistentCalls:
+      m_Calls: []
+  PlayerKilledEnemy:
+    m_PersistentCalls:
+      m_Calls: []
+  PlayerVialFull:
+    m_PersistentCalls:
+      m_Calls: []
+  PlayerHealed:
+    m_PersistentCalls:
+      m_Calls: []
   PlayerLearnedMove:
     m_PersistentCalls:
       m_Calls: []

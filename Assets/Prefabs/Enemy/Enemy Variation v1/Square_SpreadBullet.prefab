@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4167395311427432063
+--- !u!1 &3710981622623732843
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,40 +8,42 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3715951926254022787}
-  - component: {fileID: 7391957424344622346}
-  - component: {fileID: 2546855409414069346}
-  - component: {fileID: 1019981278353776746}
-  - component: {fileID: 8004561679102259363}
+  - component: {fileID: 8626233333307090280}
+  - component: {fileID: 7882259653826814721}
+  - component: {fileID: 7882259653826814720}
+  - component: {fileID: 2998178984542664515}
+  - component: {fileID: 4312971439390756945}
+  - component: {fileID: 5529700683570693018}
+  - component: {fileID: 4612390138192106229}
   m_Layer: 0
-  m_Name: SpreadBullet
-  m_TagString: Bullet
+  m_Name: Square_SpreadBullet
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3715951926254022787
+--- !u!4 &8626233333307090280
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4167395311427432063}
+  m_GameObject: {fileID: 3710981622623732843}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.6969, y: -13.0816, z: 0}
-  m_LocalScale: {x: 0.6137, y: 0.6137, z: 1}
+  m_LocalPosition: {x: -8.690417, y: -9.687368, z: 0}
+  m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &7391957424344622346
+--- !u!212 &7882259653826814721
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4167395311427432063}
+  m_GameObject: {fileID: 3710981622623732843}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -76,82 +78,130 @@ SpriteRenderer:
   m_SortingLayerID: 548196675
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.40448552, g: 0.8679245, b: 0.6024108, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 03459a0c274c8c4438a7ee2d7820e5e9, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.64, y: 0.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &2546855409414069346
+--- !u!95 &7882259653826814720
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3710981622623732843}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a410a18b54a39d448864753a633a1625, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!61 &2998178984542664515
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4167395311427432063}
+  m_GameObject: {fileID: 3710981622623732843}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.005, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 0.16, y: 0.16}
+    newSize: {x: 0.64, y: 0.64}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.1, y: 0.11}
   m_EdgeRadius: 0
---- !u!50 &1019981278353776746
+--- !u!50 &4312971439390756945
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4167395311427432063}
+  m_GameObject: {fileID: 3710981622623732843}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 7
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 2
   m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!114 &8004561679102259363
+  m_Constraints: 4
+--- !u!195 &5529700683570693018
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3710981622623732843}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.06
+  m_Speed: 3
+  m_Acceleration: 0.5
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.16
+  m_BaseOffset: 0.08
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &4612390138192106229
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4167395311427432063}
+  m_GameObject: {fileID: 3710981622623732843}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d857b4d1208172447af1f41ba1975ef9, type: 3}
+  m_Script: {fileID: 11500000, guid: 9752fd4ce1f6aef4d9d5368f9370632a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 5
-  bulletLifeTime: 3
-  bulletDamage: 0
-  rb: {fileID: 1019981278353776746}
-  status: 1
-  childBulletPrefeb: {fileID: 6598045860772613500, guid: 342f50240b795ba4cb2dad0350a6ffe8, type: 3}
-  numberOfBulletsOut: 3
-  spreadRange: 60
-  childBulletSpeed: 0
+  agent: {fileID: 5529700683570693018}
+  player: {fileID: 0}
+  isPlayer:
+    serializedVersion: 2
+    m_Bits: 8
+  bulletPrefab: {fileID: 5811033692806323098, guid: 0e6e90538758f504c898c30b159cc5d0, type: 3}
+  detectRange: 7
+  attackRange: 4
+  attackDelay: 5
+  maxHealth: 5
+  currentHealth: 5
+  playerInAttackRange: 0
+  playerInDetectRange: 0
+  full: {fileID: 0}
+  empty: {fileID: 0}

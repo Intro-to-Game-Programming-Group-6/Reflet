@@ -152,6 +152,6 @@ MonoBehaviour:
   rb: {fileID: 1019981278353776746}
   status: 1
   childBulletPrefeb: {fileID: 6598045860772613500, guid: 342f50240b795ba4cb2dad0350a6ffe8, type: 3}
-  numberOfBulletsOut: 6
-  spreadRange: 30
+  numberOfBulletsOut: 3
+  spreadRange: 60
   childBulletSpeed: 0

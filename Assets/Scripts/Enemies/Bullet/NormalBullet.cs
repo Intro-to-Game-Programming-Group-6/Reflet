@@ -17,5 +17,4 @@ public class NormalBullet : BaseBulletBehavior
             Destroy(this.gameObject);
         }
     }
-
 }

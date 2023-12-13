@@ -5,8 +5,6 @@ using UnityEngine.InputSystem;
 
 public class BaseBulletBehavior : MonoBehaviour
 {
-    [SerializeField] protected Rigidbody2D rb;
-
     public float bulletSpeed;
     public float bulletLifeTime;
     protected float lifetimeCount;
@@ -58,10 +56,22 @@ public class BaseBulletBehavior : MonoBehaviour
     }
 
     protected Vector2 lastvelocity;
+
     private void FixedUpdate()
     {
         //velocity of bullet before unity apply any physics operation on it
         lastvelocity = rb.velocity;
+    }
+
+    public virtual string GetBulletType()
+    {
+        // Return a unique identifier for the bullet type
+        return GetType().Name;
+    }
+
+    public void PlayerForceOwnership()
+    {
+        status = Status.OWNED_BY_PLAYER;
     }
 
     public virtual void ReflectBullet(Vector2 inNorm)
@@ -77,6 +87,7 @@ public class BaseBulletBehavior : MonoBehaviour
         //Basic for all bullet
         if (collision.gameObject.CompareTag("Player"))
         {
+            if (status == Status.OWNED_BY_PLAYER) return;
             if (status == Status.OWNED_BY_ENEMY)
             {
                 PlayerManager.GetInstance().AdjustHealth(-bulletDamage);

@@ -138,6 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpeed: 5
   bulletLifeTime: 5
-  bulletDamage: 0
+  bulletDamage: 1
+  knockbackForce: 2
   rb: {fileID: 6394908655060611122}
   status: 1

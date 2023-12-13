@@ -10,6 +10,7 @@ public class BouncingBullet : BaseBulletBehavior
     //Checked
     //Bouncing against wall and obstacle
     [SerializeField] protected Collider2D col;
+
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -18,16 +19,16 @@ public class BouncingBullet : BaseBulletBehavior
         //col.enabled = false; 
         col.isTrigger = true;//prevent it to crash with enemy collider
     }
+
     //special case of our only non-trigger type of bullet
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (status == Status.OWNED_BY_ENEMY)
-            {
-                PlayerManager.GetInstance().AdjustHealth(-bulletDamage);
-                Destroy(this.gameObject);
-            }
+            if (status == Status.OWNED_BY_PLAYER) return;
+
+            PlayerManager.GetInstance().AdjustHealth(-bulletDamage);
+            Destroy(this.gameObject);
                 
         }
         else if (collision.gameObject.CompareTag("Enemy"))
@@ -87,6 +88,10 @@ public class BouncingBullet : BaseBulletBehavior
             //uncommend this if choose bouncing to not collapse with other bouncing
             //col.isTrigger = false;
         }
+        else if (collider.CompareTag("Player") && status == Status.OWNED_BY_PLAYER)
+        {
+            col.isTrigger = false;
+        }
     }
-    
+
 }

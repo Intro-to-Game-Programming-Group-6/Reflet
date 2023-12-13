@@ -5,51 +5,49 @@ using UnityEngine.AI;
 
 public class BaseEnemyBehavior : MonoBehaviour
 {
-    private SpriteRenderer sprite;
-
     public NavMeshAgent agent;
-    public Transform player;
-    public LayerMask isPlayer;
-
-    [Header("Prefabs")]
-    [SerializeField] GameObject bulletPrefab;
-
-    public float detectRange;
-    public float attackRange;
-    public float attackDelay;
-
+    public GameObject bulletPrefab;
+    public bool sleep;
     
-    [Header("Health values")]
-    [SerializeField] private int maxHealth;
-    [SerializeField] private int currentHealth;
 
-    private bool sleep;
-    public bool playerInAttackRange;
-    public bool playerInDetectRange;
-    bool isAttacking = false;
+    [Header("Animation Properties")]
+    [HideInInspector][SerializeField] Animator animController;
+    [HideInInspector][SerializeField] private SpriteRenderer sprite;
+    [HideInInspector][SerializeField] static int AnimatorWalk = Animator.StringToHash("Walk");
+    [HideInInspector][SerializeField] static int AnimatorAttack = Animator.StringToHash("Attack");
 
-    static int AnimatorWalk = Animator.StringToHash("Walk");
-    static int AnimatorAttack = Animator.StringToHash("Attack");
-    Animator animController;
+    [Header("Player Variables")]
+    [SerializeField] private Transform player;
+    [SerializeField] private LayerMask isPlayer;
 
-    List<GameObject> hearts = new List<GameObject>();
-    Coroutine[] heartCoroutines;
+    [Header("Attack Variables")]
+    [SerializeField] private float attackRange;
+    [SerializeField] private float attackDelay;
+    [SerializeField] private float detectRange;
+    [HideInInspector][SerializeField] private bool playerInAttackRange;
+    [HideInInspector][SerializeField] private bool playerInDetectRange;
+    [HideInInspector][SerializeField] private bool isAttacking = false;    
 
-    [Header("Heart Sprites")]
+    [Header("Health Components")]
     [SerializeField] Sprite full;
     [SerializeField] Sprite empty;
+    [HideInInspector][SerializeField] List<GameObject> hearts = new List<GameObject>();
+    [HideInInspector][SerializeField] private int maxHealth;
+    [HideInInspector][SerializeField] private int currentHealth;
+    [HideInInspector][SerializeField] Coroutine[] heartCoroutines;
+
 
     protected virtual void Awake()
     {
-        sprite = GetComponent<SpriteRenderer>();
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.Find("Player").transform;
         animController = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
+
         //this 2 line make navmesh work in 2d (must have in everything use navmesh)
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         sleep = true;
-
     }
 
     protected virtual void OnEnable()
@@ -61,8 +59,7 @@ public class BaseEnemyBehavior : MonoBehaviour
             hearts.Add(heart.gameObject);
             heart.gameObject.GetComponent<SpriteRenderer>().enabled = false;
         }
-
-
+        
     }
 
     //Basic enemy only walk to player and attack
@@ -106,11 +103,31 @@ public class BaseEnemyBehavior : MonoBehaviour
 
     }
 
+    IEnumerator Dizzy()
+    {
+        yield return new WaitForSeconds(5f);
+        sleep = false;
+    }
+
+    public void Knockback(Transform collision, float knockbackForce)
+    {
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            Vector2 knockbackDirection = (transform.position - collision.position).normalized;
+
+            Rigidbody2D rb = GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.velocity = Vector2.zero; // Optional: Zero out the current velocity before applying knockback
+                rb.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
+            }
+        }
+    }
+
     protected virtual void AttackPlayer()
     {
-        //animController.SetBool(AnimatorWalk, false);
         agent.isStopped = true;
-        agent.SetDestination(transform.position);
+        //agent.SetDestination(transform.position);
         if (!isAttacking)
         {
             StartCoroutine(ShootRoutine());
@@ -118,34 +135,22 @@ public class BaseEnemyBehavior : MonoBehaviour
         }
     }
 
-    IEnumerator Dizzy()
-    {
-        yield return new WaitForSeconds(5f);
-        sleep = false;
-    }
-
     IEnumerator ShootRoutine()
     {
-            //animController.SetTrigger(AnimatorAttack);
+        while (true)
+        {
             GameObject bullet = Instantiate(bulletPrefab, agent.transform.position, Quaternion.identity);
             bullet.GetComponent<BaseBulletBehavior>().ShootAt(player);
             yield return new WaitForSeconds(attackDelay);
-            isAttacking = false;
+        }
     }
-
-
 
     public void AdjustHealth(int deltaHealth)
     {
-        // print(deltaHealth);
-
         currentHealth += deltaHealth;
 
-        if (hearts.Count == maxHealth)
-        {
-            UpdateHearts();
-        }
-
+        UpdateHearts();
+        
         if (currentHealth <= 0)
         {
             PlayerManager.GetInstance().AddVialPoint(1);
@@ -158,16 +163,13 @@ public class BaseEnemyBehavior : MonoBehaviour
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, attackRange);
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, detectRange);
         }
     }
 
-    //private void Die()
-    //{
-    //    EnemyManager.GetInstance().HandleEnemyDeath();
-    //    Destroy(this.gameObject);
-    //}
+    private void OnDestroy()
+    {
+        EnemyManager.GetInstance().HandleEnemyDeath();
+    }
 
     private void UpdateHearts()
     {

@@ -7,7 +7,6 @@ using UnityEngine.InputSystem;
 
 public class LevelSelect : MonoBehaviour
 {
-    // Start is called before the first frame update
     int m_upperLimit;
     int m_lowerLimit;
     [SerializeField] int m_size;
@@ -16,11 +15,10 @@ public class LevelSelect : MonoBehaviour
     [SerializeField] private Button m_startButton;
     [SerializeField] private TextMeshProUGUI m_levelIdText;
     
-
-    /*keybaord input listener*/
     private InputAction m_upArrowAction;
     private InputAction m_downArrowAction;
     private InputAction m_enterAction;
+
     void Awake()
     {
         m_upArrowAction = new InputAction(binding: "<Keyboard>/upArrow");

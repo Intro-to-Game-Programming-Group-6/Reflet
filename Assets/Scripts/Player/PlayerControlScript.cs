@@ -53,7 +53,9 @@ public class PlayerControlScript : MonoBehaviour
     private float max_shield_time = 3f;
     private float shield_cooldown;
     private float max_shield_cooldown = 2f;
-    //
+
+    private bool isSprinting;
+    public float sprintspeed = 4.25f;
 
     //all about bullet stealing
     GameObject bullet_holder;
@@ -109,14 +111,17 @@ public class PlayerControlScript : MonoBehaviour
             trail.emitting = true;
             return;
         }
-        if (isSprinting)
-        {
-            rb.velocity = (movementInput) * sprintspeed;
-        }
-        else
-        {
-            rb.velocity = (movementInput) * movementspeed;
-        }
+        // if (isSprinting)
+        // {
+        //     rb.velocity = (movementInput) * sprintspeed;
+        // }
+        // else
+        // {
+        //     rb.velocity = (movementInput) * movementspeed;
+        // }
+
+        rb.velocity = (movementInput) * movementspeed;
+
         trail.emitting = false;
     }
 
@@ -139,6 +144,24 @@ public class PlayerControlScript : MonoBehaviour
         {
             playerSprite.flipX = true;
         }
+
+        if (currentlyDashing)
+        {
+            trail.emitting = true;
+            return;
+        }
+
+        //if (DashAbility.Ability_Status == AbilityStatus.ACTIVE) return;
+        // if (isSprinting)
+        // {
+        //     rb.velocity = (movementInput) * sprintspeed;
+        // }
+        // else
+        // {
+        //     rb.velocity = (movementInput) * movementspeed;
+        // }
+
+        trail.emitting = false;
     }
 
     void ManageShieldAction()
@@ -185,7 +208,10 @@ public class PlayerControlScript : MonoBehaviour
     }
     void CreateOrbitingShields()
     {
+        if (tameng.Count == numShields) return;
+
         if (isReflecting) return;
+
         for (int i = 0; i < numShields; i++)
         {
             // Debug.Log($"Shield no: {i}");
@@ -271,9 +297,120 @@ public class PlayerControlScript : MonoBehaviour
 
     public void OnHeal(InputAction.CallbackContext context)
     {
-        if(context.performed && PlayerManager.GetInstance().canHeal)
+        if(context.performed && PlayerManager.GetInstance().m_canHeal)
         {
             PlayerManager.GetInstance().Heal();
+        }
+    }
+
+    public void FindBullet()
+    {
+        float steal_distance = 5f;
+        float thickness = 5f;
+        Vector2 boxSize = new Vector2(thickness, steal_distance);
+
+        Collider2D[] hitColliders = Physics2D.OverlapBoxAll(transform.position, boxSize, 0f);//, Vector2.SignedAngle(Vector2.right, clickdirection));
+        //Debug.DrawRay(rb.transform.position, clickdirection.normalized * steal_distance, Color.red, 1f);
+        foreach (Collider2D collider in hitColliders)
+        {
+            float distanceToPlayer = Vector2.Distance(collider.transform.position, rb.transform.position);
+            if (distanceToPlayer > steal_distance) continue;
+
+            // Check the tag of the object
+            if (collider.CompareTag("Bullet"))
+            {
+                // Call a method to steal the projectile
+                StealProjectile(collider.gameObject);
+                break; // Break the loop after stealing the first projectile (adjust if needed)
+            }
+        }
+    }
+
+    public void StealProjectile(GameObject bullet)
+    {
+        bullet_holder = Instantiate(bullet, transform.position, Quaternion.identity);
+        bullet_holder.SetActive(false);
+
+        BaseBulletBehavior bulletbehav = bullet_holder.GetComponent<BaseBulletBehavior>();
+        bulletbehav.PlayerForceOwnership();
+
+        Destroy(bullet);
+        Debug.Log("projectile stolen!");
+    }
+
+    public void ShootStolenProjectile()
+    {
+        Debug.Log(bullet_holder);
+        if (bullet_holder != null)
+        {
+            Debug.Log("peluru lagi dibuang");
+            float bulletSpeed = 15f;
+            BaseBulletBehavior bulletbehav = bullet_holder.GetComponent<BaseBulletBehavior>();
+            string get_bullet_type = bulletbehav.GetBulletType();
+            bullet_holder.SetActive(true);
+            bullet_holder.transform.position = transform.position;
+            // Make the projectile reappear in the game view
+            GameObject newProjectile = bullet_holder;// Instantiate(bullet_holder, transform.position, Quaternion.identity);
+            ActivateBullet(newProjectile, get_bullet_type);
+
+            Vector2 direction = (CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - rb.transform.position).normalized;
+            newProjectile.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
+            newProjectile.GetComponent<Transform>().right = direction; //work now but don't know why
+            bullet_holder = null;
+        }
+    }
+
+    public void ActivateBullet(GameObject newProjectile, string bullet_type)
+    {
+        switch (bullet_type)
+        {
+            case "ExplosiveBullet":
+                ExplosiveBullet explode = newProjectile.GetComponent<ExplosiveBullet>();
+                CircleCollider2D explode_collid = newProjectile.GetComponent<CircleCollider2D>();
+                explode.PlayerForceOwnership();
+                explode.enabled = true;
+                explode_collid.enabled = true;
+                break;
+
+            case "BouncingBullet":
+                BouncingBullet bounce = newProjectile.GetComponent<BouncingBullet>();
+                CircleCollider2D collid = newProjectile.GetComponent<CircleCollider2D>();
+                bounce.PlayerForceOwnership();
+                bounce.enabled = true;
+                collid.enabled = true;
+                break;
+
+            case "NormalBullet":
+                NormalBullet normal = newProjectile.GetComponent<NormalBullet>();
+                CircleCollider2D normal_collid = newProjectile.GetComponent<CircleCollider2D>();
+                normal.PlayerForceOwnership();
+                normal.enabled = true;
+                normal_collid.enabled = true;
+                break;
+
+            case "PiercingBullet":
+                PiercingBullet pierce = newProjectile.GetComponent<PiercingBullet>();
+                PolygonCollider2D pierce_collid = newProjectile.GetComponent<PolygonCollider2D>();
+                pierce.PlayerForceOwnership();
+                pierce.enabled = true;
+                pierce_collid.enabled = true;
+                break;
+        }
+        return;
+    }
+
+    public void OnSteal(InputAction.CallbackContext context)
+    {
+        if (context.performed && bullet_holder == null)
+        {
+            FindBullet();
+            return;
+        }
+        else if (context.performed && bullet_holder != null)
+        {
+            ShootStolenProjectile();
+            if (bullet_holder == null)
+                Debug.Log("bullet shot");
         }
     }
 }

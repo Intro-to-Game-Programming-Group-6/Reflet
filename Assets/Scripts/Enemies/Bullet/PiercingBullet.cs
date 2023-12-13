@@ -35,5 +35,5 @@ public class PiercingBullet : BaseBulletBehavior
             float cur_speed = rb.velocity.magnitude;
             rb.velocity = cur_dir * (cur_speed / 0.5f);
         }
-    }
+    }    
 }

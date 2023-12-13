@@ -78,7 +78,7 @@ public class BaseBulletBehavior : MonoBehaviour
             if (status == Status.OWNED_BY_PLAYER) return;
             if (status == Status.OWNED_BY_ENEMY)
             {
-                PlayerManager.GetInstance().AdjustHealth(-1);
+                PlayerManager.GetInstance().AddHealth(-1);
                 Destroy(gameObject);
             }
         }
@@ -86,7 +86,7 @@ public class BaseBulletBehavior : MonoBehaviour
         {
             if (status == Status.OWNED_BY_PLAYER)
             {
-                collision.gameObject.GetComponent<BaseEnemyBehavior>().AdjustHealth(-1);
+                collision.gameObject.GetComponent<BaseEnemyBehavior>().AddHealth(-1);
                 Destroy(gameObject);
             }
             

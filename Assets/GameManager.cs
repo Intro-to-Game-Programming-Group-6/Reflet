@@ -4,13 +4,30 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    // Points System
+    [SerializeField] int m_points;
+    public int Points { get { return m_points; } private set { m_points = value; } }
+    [SerializeField] int[] m_points_band = new int[3];
+    public int Stars {
+        get {
+            int i = 0;
+            for (i = 0; i < m_points_band.Length; i++)
+                if (m_points < m_points_band[i]) break;
+            return i;
+        }
+    }
+
+
+    [SerializeField] bool m_isWon;
+    public bool IsWon { get { return m_isWon; } set { m_isWon = value; } }
+
+
     private SoundManager SM;
     private LevelManager LM;
-    public static GameManager instance;
+    public static GameManager Instance;
     void Awake(){
-        if (instance == null){
-            instance = this;
+        if (Instance == null){
+            Instance = this;
             DontDestroyOnLoad(this);
         } else {
             Destroy(gameObject);
@@ -29,8 +46,12 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        
+        // TODO: Read ScriptedObject to get points band
+        // m_points_band[0] = ;
+        // m_points_band[1] = ;
+        // m_points_band[2] = ;
     }
+    
 
     // Update is called once per frame
     void Update()

@@ -33,7 +33,7 @@ public class BouncingBullet : BaseBulletBehavior
         {
             if (status == Status.OWNED_BY_PLAYER)
             {
-                collision.gameObject.GetComponent<BaseEnemyBehavior>().AdjustHealth(-1);
+                collision.gameObject.GetComponent<BaseEnemyBehavior>().AddHealth(-1);
                 Destroy(gameObject);
             }
             

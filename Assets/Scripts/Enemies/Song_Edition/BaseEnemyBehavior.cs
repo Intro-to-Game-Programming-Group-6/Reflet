@@ -90,7 +90,7 @@ public class BaseEnemyBehavior : MonoBehaviour
         }
     }
 
-    public void AdjustHealth(int deltaHealth)
+    public void AddHealth(int deltaHealth)
     {
         // print(deltaHealth);
         

@@ -2,14 +2,26 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour
 {
-    public static LevelManager instance;
+    [SerializeField] private int currentSceneIndex;
+    public static LevelManager Instance;
     private static float originTimeScale;
+    [SerializeField] private int selectedLevel;
+    [SerializeField] private int levelOffset;
+
+    public int GetLevelOffset(){
+        return levelOffset;
+    }
+    public int GetLevel(){
+        return selectedLevel;
+    }
+    public void SetLevel(int level){
+        Instance.selectedLevel = level;
+    }
 
     void Awake(){
-        if (instance == null){
-            instance = this;
+        if (Instance == null){
+            Instance = this;
             originTimeScale = Time.timeScale;
-            Debug.Log("awake"+Time.timeScale);
 
             DontDestroyOnLoad(this);
         } else {
@@ -17,18 +29,6 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    void Start(){
-        Debug.Log("start"+Time.timeScale);
-    }
-
-    void Update(){
-        // if (Input.GetKeyDown(KeyCode.Escape)){
-        //     if (!SceneManager.GetSceneByName("PausedMenu").isLoaded){
-        //         LoadPausedScene();
-        //     }
-        // }
-    }
-    // public GameManager GM;
     public void LoadOptionScene(){
         SceneManager.LoadScene("OptionMenu", LoadSceneMode.Additive);
     }
@@ -38,13 +38,19 @@ public class LevelManager : MonoBehaviour
 
     public void LoadPausedScene(){
         SceneManager.LoadScene("PausedMenu", LoadSceneMode.Additive);
+        originTimeScale = Time.timeScale;
         Time.timeScale = 0;
     }
     public void ExitPausedScene(){
         SceneManager.UnloadSceneAsync("PausedMenu");
-        Debug.Log(originTimeScale);
         Time.timeScale = originTimeScale;
     } 
+    public void LoadLevelMenuScene(){
+        SceneManager.LoadScene("LevelMenu");
+    } 
+    public void ExitLevelMenuScene(){
+        SceneManager.LoadScene("MainMenu");
+    }
 
 
     public void LoadScene(string string_name){
@@ -52,6 +58,9 @@ public class LevelManager : MonoBehaviour
     }
     public void LoadScene(int int_index){
         SceneManager.LoadScene(int_index);
+    }
+    public void LoadLevel(int int_index){
+        SceneManager.LoadScene(int_index + levelOffset);
     }
 
     public void LoadNextScene(){

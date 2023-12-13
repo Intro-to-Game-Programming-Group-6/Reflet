@@ -10,15 +10,15 @@ public class PlayerControlScript : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer playerSprite;
     private Animator animator;
-    // private bool isSprinting;
+    private bool isSprinting;
 
     private Vector2 movementInput;
     private Vector2 dashDirection;
-    
+
     public float movementspeed = 3f;
     public float attackRange = 0f;
     public float dashSpeed = 3f;
-    // public float sprintspeed = 4.25f;
+    public float sprintspeed = 4.25f;
     public bool currentlyDashing, canDash;
 
     public Transform spawnPoint;
@@ -47,7 +47,14 @@ public class PlayerControlScript : MonoBehaviour
     private int numShields = 4;
     private float rotationSpeed = 100f;
     private List<GameObject> tameng = new List<GameObject>();
+    private float shield_time;
+    private float max_shield_time = 3f;
+    private float shield_cooldown;
+    private float max_shield_cooldown = 2f;
     //
+
+    //all about bullet stealing
+    GameObject bullet_holder;
 
     void Awake()
     {
@@ -85,9 +92,36 @@ public class PlayerControlScript : MonoBehaviour
         DashID = 2;
         trail.emitting = true;
         isReflecting = false;
+        shield_time = max_shield_time;
+        shield_cooldown = 0f;
     }
 
     void Update()
+    {
+        ManageSprite();
+        ManageMovement();
+        ManageShieldAction();
+    }
+
+    void ManageMovement()
+    {
+        if (currentlyDashing)
+        {
+            trail.emitting = true;
+            return;
+        }
+        if (isSprinting)
+        {
+            rb.velocity = (movementInput) * sprintspeed;
+        }
+        else
+        {
+            rb.velocity = (movementInput) * movementspeed;
+        }
+        trail.emitting = false;
+    }
+
+    void ManageSprite()
     {
         if (rb.velocity == Vector2.zero)
         {
@@ -106,31 +140,26 @@ public class PlayerControlScript : MonoBehaviour
         {
             playerSprite.flipX = true;
         }
+    }
 
-        if (currentlyDashing)
-        {
-            trail.emitting = true;
-            return;
-        }
-
-        //if (DashAbility.Ability_Status == AbilityStatus.ACTIVE) return;
-        // if (isSprinting)
-        // {
-        //     rb.velocity = (movementInput) * sprintspeed;
-        // }
-        // else
-        // {
-        //     rb.velocity = (movementInput) * movementspeed;
-        // }
-
-        rb.velocity = (movementInput) * movementspeed;
-
-        trail.emitting = false;
+    void ManageShieldAction()
+    {
         if (isReflecting)
         {
             Reflect();
             RotateShields();
+            shield_time -= Time.deltaTime;
+            if (shield_time <= 0f)
+            {
+                isReflecting = false;
+                shield_time = max_shield_time;
+                Destroy(shield);
+                DestroyRotating();
+                shield_cooldown = max_shield_cooldown;
+                return;
+            }
         }
+        shield_cooldown -= Time.deltaTime;
     }
 
     void Reflect()
@@ -154,12 +183,10 @@ public class PlayerControlScript : MonoBehaviour
             shield.transform.position = spawnposition;
             shield.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
         }
-
     }
-
     void CreateOrbitingShields()
     {
-        if (tameng.Count == numShields) return;
+        if (isReflecting) return;
         for (int i = 0; i < numShields; i++)
         {
             Debug.Log($"Shield no: {i}");
@@ -170,7 +197,6 @@ public class PlayerControlScript : MonoBehaviour
         }
         Debug.Log($"Number of shields created: {tameng.Count}");
     }
-
     void RotateShields()
     {
         foreach (GameObject singular_shield in tameng)
@@ -188,7 +214,7 @@ public class PlayerControlScript : MonoBehaviour
                 kaca.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
             }
         }
-        
+
     }
 
     void DestroyRotating()
@@ -200,20 +226,6 @@ public class PlayerControlScript : MonoBehaviour
         }
         tameng.Clear();
     }
-
-    // IEnumerator Dash()
-    // {
-    //     canDash = false;
-    //     currentlyDashing = true;
-    //     // Debug.Log("dashing " + ++count);
-    //     dashDirection = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - rb.transform.position;
-    //     dashDirection = dashDirection.normalized;
-    //     rb.velocity = dashDirection * dashSpeed;
-    //     yield return new WaitForSeconds(0.5f); // Dash duration
-    //     currentlyDashing = false;
-    //     yield return new WaitForSeconds(1.5f); // Cool-down duration
-    //     canDash = true;
-    // }
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -232,7 +244,7 @@ public class PlayerControlScript : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.performed || Mouse.current.leftButton.isPressed)// && Sword.GetInstance() == null)
+        if (context.performed && shield_cooldown <= 0f)// && Sword.GetInstance() == null)
         {
             //Reflect();
             if(mirrorRotate)
@@ -281,4 +293,115 @@ public class PlayerControlScript : MonoBehaviour
     //         isSprinting = false;
     //     }
     // }
+
+    public void FindBullet()
+    {
+        float steal_distance = 5f;
+        float thickness = 5f;
+        Vector2 boxSize = new Vector2(thickness, steal_distance);
+        Collider2D[] hitColliders = Physics2D.OverlapBoxAll(transform.position, boxSize, 0f);//, Vector2.SignedAngle(Vector2.right, clickdirection));
+        //Debug.DrawRay(rb.transform.position, clickdirection.normalized * steal_distance, Color.red, 1f);
+        foreach (Collider2D collider in hitColliders)
+        {
+            float distanceToPlayer = Vector2.Distance(collider.transform.position, rb.transform.position);
+            if (distanceToPlayer > steal_distance) continue;
+            // Check the tag of the object
+            if (collider.CompareTag("Bullet"))
+            {
+                // Call a method to steal the projectile
+                StealProjectile(collider.gameObject);
+                break; // Break the loop after stealing the first projectile (adjust if needed)
+            }
+        }
+    }
+
+    public void StealProjectile(GameObject bullet)
+    {
+        bullet_holder = Instantiate(bullet, transform.position, Quaternion.identity);
+        bullet_holder.SetActive(false);
+        BaseBulletBehavior bulletbehav = bullet_holder.GetComponent<BaseBulletBehavior>();
+        bulletbehav.PlayerForceOwnership();
+        Destroy(bullet);
+        Debug.Log("projectile stolen!");
+    }
+
+    public void ShootStolenProjectile()
+    {
+        Debug.Log(bullet_holder);
+        if (bullet_holder != null)
+        {
+            Debug.Log("peluru lagi dibuang");
+            float bulletSpeed = 15f;
+            BaseBulletBehavior bulletbehav = bullet_holder.GetComponent<BaseBulletBehavior>();
+            string get_bullet_type = bulletbehav.GetBulletType();
+            bullet_holder.SetActive(true);
+            bullet_holder.transform.position = transform.position;
+            // Make the projectile reappear in the game view
+            GameObject newProjectile = bullet_holder;// Instantiate(bullet_holder, transform.position, Quaternion.identity);
+
+            ActivateBullet(newProjectile, get_bullet_type);
+
+            Vector2 direction = (CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - rb.transform.position).normalized;
+            newProjectile.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
+            newProjectile.GetComponent<Transform>().right = direction; //work now but don't know why
+            bullet_holder = null;
+        }
+    }
+
+    public void ActivateBullet(GameObject newProjectile, string bullet_type)
+    {
+        switch (bullet_type)
+        {
+            case "ExplosiveBullet":
+                ExplosiveBullet explode = newProjectile.GetComponent<ExplosiveBullet>();
+                CircleCollider2D explode_collid = newProjectile.GetComponent<CircleCollider2D>();
+                explode.PlayerForceOwnership();
+                explode.enabled = true;
+                explode_collid.enabled = true;
+                break;
+
+            case "BouncingBullet":
+                BouncingBullet bounce = newProjectile.GetComponent<BouncingBullet>();
+                CircleCollider2D collid = newProjectile.GetComponent<CircleCollider2D>();
+                bounce.PlayerForceOwnership();
+                bounce.enabled = true;
+                collid.enabled = true;
+                break;
+
+            case "NormalBullet":
+                NormalBullet normal = newProjectile.GetComponent<NormalBullet>();
+                CircleCollider2D normal_collid = newProjectile.GetComponent<CircleCollider2D>();
+                normal.PlayerForceOwnership();
+                normal.enabled = true;
+                normal_collid.enabled = true;
+                break;
+
+            case "PiercingBullet":
+                PiercingBullet pierce = newProjectile.GetComponent<PiercingBullet>();
+                PolygonCollider2D pierce_collid = newProjectile.GetComponent<PolygonCollider2D>();
+                pierce.PlayerForceOwnership();
+                pierce.enabled = true;
+                pierce_collid.enabled = true;
+                break;
+        }
+        return;
+    }
+
+    public void OnSteal(InputAction.CallbackContext context)
+    {
+        if (context.performed && bullet_holder == null)
+        {
+            Debug.Log("searching");
+            FindBullet();
+            return;
+        }
+        else if (context.performed && bullet_holder != null)
+        {
+            ShootStolenProjectile();
+            if (bullet_holder == null)
+                Debug.Log("bullet shot");
+        }
+
+    }
+
 }

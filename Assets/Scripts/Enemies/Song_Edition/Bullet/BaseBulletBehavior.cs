@@ -75,6 +75,7 @@ public class BaseBulletBehavior : MonoBehaviour
         //Basic for all bullet
         if (collision.gameObject.CompareTag("Player"))
         {
+            if (status == Status.OWNED_BY_PLAYER) return;
             if (status == Status.OWNED_BY_ENEMY)
             {
                 PlayerManager.GetInstance().AdjustHealth(-1);
@@ -99,5 +100,16 @@ public class BaseBulletBehavior : MonoBehaviour
 
             status = Status.OWNED_BY_PLAYER; //allow bullet to hit enemy maybe reverse back to owned by enemy when we add enemy that can also reflect bullet in the future
         }
+    }
+
+    public virtual string GetBulletType()
+    {
+        // Return a unique identifier for the bullet type
+        return GetType().Name;
+    }
+
+    public void PlayerForceOwnership()
+    {
+        status = Status.OWNED_BY_PLAYER;
     }
 }

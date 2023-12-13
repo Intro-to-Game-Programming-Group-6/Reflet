@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c1cd2510876186748b78c80b5eb7320d
+guid: 53539a45c7a962f479e13ae2ee771a18
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -69,7 +69,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -104,7 +104,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: empty_bar_0
+      name: VialBar_0
       rect:
         serializedVersion: 2
         x: 0
@@ -112,20 +112,20 @@ TextureImporter:
         width: 98
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 9, y: 8, z: 9, w: 8}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c781f379a886de74ea801837c22dba4c
-      internalID: -1182575348
+      spriteID: a19bc6715e8ae194388f0a24a91dba1e
+      internalID: 39350834
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: empty_bar_1
+      name: VialBar_1
       rect:
         serializedVersion: 2
         x: 0
@@ -133,35 +133,14 @@ TextureImporter:
         width: 98
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 65, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7f60223e9d0ccf34096aafeda27eb904
-      internalID: 1417307864
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: empty_bar_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 15
-        width: 98
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 39a9ee790b27b5d4194f373d160706d6
-      internalID: -65970333
+      spriteID: 3575e61186cabcd4da5101b8703c38bd
+      internalID: 1552380769
       vertices: []
       indices: 
       edges: []
@@ -177,9 +156,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      empty_bar_2: -65970333
-      empty_bar_0: -1182575348
-      empty_bar_1: 1417307864
+      VialBar_0: 39350834
+      VialBar_1: 1552380769
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -25,6 +25,7 @@ public class Bar: MonoBehaviour
 
     void Awake()
     {
+        print("yes");
         bars = new List<GameObject>();
 
         if (maxBar < 1)

@@ -11,16 +11,16 @@ public class PlayerManager : MonoBehaviour
     public int currentHealth { get { return m_healthPoint; } }
 
     [SerializeField] private int m_maxHealthPoint;
-    [SerializeField] private int m_healthPoint;
+    [HideInInspector][SerializeField] private int m_healthPoint;
 
     public int maxVial { get { return m_maxVialPoint; } }
     public int currentVial { get { return m_vialPoint; } }
 
     [SerializeField] private int m_maxVialPoint;
-    [SerializeField] private int m_vialPoint;
+    [HideInInspector][SerializeField] private int m_vialPoint;
 
 
-    [SerializeField] private BarController m_heartController;
+    [SerializeField] private HealthController m_heartController;
     [SerializeField] private BarController m_vialController;
 
     [SerializeField] public bool m_canHeal;
@@ -46,13 +46,14 @@ public class PlayerManager : MonoBehaviour
 
     void Start()
     {
+        m_healthPoint = m_maxHealthPoint;
         m_heartController.SetMax(m_maxHealthPoint);
         m_heartController.SetValue(m_healthPoint);
 
+        m_vialPoint = 0;
         m_vialController.SetMax(m_maxVialPoint);
         m_vialController.SetValue(m_vialPoint);
 
-        m_vialPoint = 0;
         m_canHeal = false;
     }
 

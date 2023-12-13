@@ -15,9 +15,9 @@ public class Dash : BaseAbillity
         dashDirection = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - control.GetRigidBody().transform.position;
         dashDirection = dashDirection.normalized;
         control.GetRigidBody().velocity = dashDirection * control.dashSpeed;
-        yield return new WaitForSeconds(control.DashDuration);
+        yield return new WaitForSeconds(control.dashDuration);
         control.currentlyDashing = false;
-        yield return new WaitForSeconds(control.DashCooldown);
+        yield return new WaitForSeconds(control.dashCooldown);
         control.canDash = true;
     }
 }

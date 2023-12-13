@@ -5,12 +5,13 @@ using UnityEngine.InputSystem;
 
 public class BaseBulletBehavior : MonoBehaviour
 {
-    //public GameObject selfPrefab;
+    [SerializeField] protected Rigidbody2D rb;
+
     public float bulletSpeed;
     public float bulletLifeTime;
     protected float lifetimeCount;
     public float bulletDamage;
-    [SerializeField] protected Rigidbody2D rb;
+    public float knockbackForce = 2f;
 
     public enum Status
     {
@@ -86,6 +87,7 @@ public class BaseBulletBehavior : MonoBehaviour
             if (status == Status.OWNED_BY_PLAYER)
             {
                 collision.gameObject.GetComponent<BaseEnemyBehavior>().AdjustHealth(-1);
+                collision.gameObject.GetComponent<BaseEnemyBehavior>().Knockback(gameObject.transform, knockbackForce);
                 Destroy(gameObject);
             }
             

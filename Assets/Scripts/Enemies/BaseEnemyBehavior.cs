@@ -6,29 +6,25 @@ using UnityEngine.AI;
 public class BaseEnemyBehavior : MonoBehaviour
 {
     public NavMeshAgent agent;
-    public Transform player;
-    public LayerMask isPlayer;
+    public GameObject bulletPrefab;
 
-    [Header("Prefabs")]
-    [SerializeField] GameObject bulletPrefab;
+    [Header("Player Variables")]
+    [SerializeField] private Transform player;
+    [SerializeField] private LayerMask isPlayer;
 
-    public float attackRange;
-    public float attackDelay;
+    [Header("Attack Variables")]
+    [SerializeField] private float attackRange;
+    [SerializeField] private float attackDelay;
+    [HideInInspector][SerializeField] private bool playerInAttackRange;
+    [HideInInspector][SerializeField] private bool isAttacking = false;    
 
-    
-    [Header("Health values")]
-    [SerializeField] private int maxHealth;
-    [SerializeField] private int currentHealth;
-
-    public bool playerInAttackRange;
-    bool isAttacking = false;
-
-    List<GameObject> hearts = new List<GameObject>();
-    Coroutine[] heartCoroutines;
-
-    [Header("Heart Sprites")]
+    [Header("Health Components")]
     [SerializeField] Sprite full;
     [SerializeField] Sprite empty;
+    [HideInInspector][SerializeField] List<GameObject> hearts = new List<GameObject>();
+    [HideInInspector][SerializeField] private int maxHealth;
+    [HideInInspector][SerializeField] private int currentHealth;
+    [HideInInspector][SerializeField] Coroutine[] heartCoroutines;
 
     protected virtual void Awake()
     {
@@ -58,6 +54,21 @@ public class BaseEnemyBehavior : MonoBehaviour
 
         if (playerInAttackRange) AttackPlayer();
         else Chasing();
+    }
+
+    public void Knockback(Transform collision, float knockbackForce)
+    {
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            Vector2 knockbackDirection = (transform.position - collision.position).normalized;
+
+            Rigidbody2D rb = GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.velocity = Vector2.zero; // Optional: Zero out the current velocity before applying knockback
+                rb.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
+            }
+        }
     }
 
     //just walk until reach attack range
@@ -92,14 +103,9 @@ public class BaseEnemyBehavior : MonoBehaviour
 
     public void AdjustHealth(int deltaHealth)
     {
-        // print(deltaHealth);
-        
         currentHealth += deltaHealth;
 
-        if(hearts.Count == maxHealth)
-        {
-            UpdateHearts();
-        }
+        UpdateHearts();
         
         if (currentHealth <= 0)
         {
@@ -115,12 +121,6 @@ public class BaseEnemyBehavior : MonoBehaviour
             Gizmos.DrawWireSphere(transform.position, attackRange);
         }
     }
-
-    // private void Die()
-    // {
-    //     EnemyManager.GetInstance().HandleEnemyDeath();
-    //     Destroy(this.gameObject);
-    // }
 
     private void OnDestroy()
     {

@@ -42,12 +42,13 @@ public class EnemyManager : MonoBehaviour
         return instance;
     }
 
-    public void SpawnEnemy(int index, Vector3 position)
+    public GameObject SpawnEnemy(int index, Vector3 position)
     {
         GameObject enemy = EnemyPrefabs[index];
         Instantiate(enemy, position, Quaternion.identity);
         enemyCount++;
         EnemySpawned?.Invoke();
+        return enemy;
     }
 
     /*

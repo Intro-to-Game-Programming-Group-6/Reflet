@@ -25,7 +25,6 @@ public class PlayerControlScript : MonoBehaviour
     public GameObject reflector;
     public Dash DashAbility;
 
-    int count = 0;
     GameObject shield;
 
     //all about dash.
@@ -264,7 +263,7 @@ public class PlayerControlScript : MonoBehaviour
 
     public void OnHeal(InputAction.CallbackContext context)
     {
-        if(context.performed && PlayerManager.GetInstance().canHeal)
+        if(context.performed && PlayerManager.GetInstance().CanHeal)
         {
             PlayerManager.GetInstance().Heal();
         }

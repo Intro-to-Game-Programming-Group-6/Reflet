@@ -81,14 +81,14 @@ public class PlayerManager : MonoBehaviour
 
         if(m_vialPoint >= m_maxVialPoint)
         {
-            canHeal = true;
+            m_canHeal = true;
             m_vialPoint = m_maxVialPoint;
         }
 
         m_vialController.SetValue(m_vialPoint);
     }
 
-    public bool VialFullState()
+    public void Heal()
     {
         if(m_vialPoint < m_maxVialPoint)
         {

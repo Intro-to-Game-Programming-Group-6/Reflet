@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour
 {
-    [SerializeField] private int currentSceneIndex;
+    [SerializeField] private int baseSceneIndex;
     public static LevelManager Instance;
     private static float originTimeScale;
     [SerializeField] private int selectedLevel;

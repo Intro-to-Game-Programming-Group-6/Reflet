@@ -46,13 +46,27 @@ public class PlayerControlScript : MonoBehaviour
     [HideInInspector][SerializeField] int numShields = 4;
     [HideInInspector][SerializeField] float rotationSpeed = 100f;
     [HideInInspector][SerializeField] public float attackRange = 0f;
-    [HideInInspector][SerializeField] List<GameObject> tameng = new List<GameObject>();
+    [HideInInspector] [SerializeField] private List<float> angle_pos = new List<float>();
+    [HideInInspector] [SerializeField] private List<GameObject> rotateshields = new List<GameObject>();
+
     #endregion
+
+    #region Heal/Vial Action Variables
+    [Header("Vial Variables")]
+    public HealActionManager healManager;
+    public int HealID =2;
+    public float aoeHealRadius = 3;
+    public float aoeHealTime = 100f;
+    public float aoeHealTotal = 3f;
+    #endregion
+
 
     private float shield_time;
     private float max_shield_time = 3f;
     private float shield_cooldown;
     private float max_shield_cooldown = 2f;
+    private float rotating_regen_timer;
+    private float current_rotating_regen_timer=0f;
 
     private bool isSprinting;
     public float sprintspeed = 4.25f;
@@ -95,6 +109,15 @@ public class PlayerControlScript : MonoBehaviour
         isReflecting = false;
         shield_time = max_shield_time;
         shield_cooldown = 0f;
+        mirrorRotate = true;
+        numShields = 4;
+        rotating_regen_timer = 3f;
+
+        aoeHealRadius = 3;
+        aoeHealTime = 5f;
+        aoeHealTotal = 3f;
+
+        CreateOrbitingShields();
     }
 
     void Update()
@@ -166,22 +189,37 @@ public class PlayerControlScript : MonoBehaviour
 
     void ManageShieldAction()
     {
+        //Debug.Log("current stamina is: " + PlayerManager.GetInstance().GetStamina());
+        RotateShields();
+
+        int emptyIndex = FindMissingShield();
+
+        if (emptyIndex!=-1)
+        {
+            Debug.Log("Regeneration begin: " + current_rotating_regen_timer);
+            current_rotating_regen_timer += Time.deltaTime;
+            if (current_rotating_regen_timer >= rotating_regen_timer)
+            {
+                current_rotating_regen_timer = 0f;
+                RegenerateRotating(emptyIndex);
+            }
+        }
+
         if (isReflecting)
         {
             Reflect();
-            RotateShields();
-            shield_time -= Time.deltaTime;
-            if (shield_time <= 0f)
+            //shield_time -= Time.deltaTime;
+            PlayerManager.GetInstance().ModifyStamina(-Time.deltaTime);
+            if (!PlayerManager.GetInstance().CanUseShield())
             {
                 isReflecting = false;
-                shield_time = max_shield_time;
                 Destroy(shield);
-                DestroyRotating();
-                shield_cooldown = max_shield_cooldown;
-                return;
+                //DestroyRotating();
             }
+            return;
         }
-        shield_cooldown -= Time.deltaTime;
+
+        PlayerManager.GetInstance().ModifyStamina(Time.deltaTime);
     }
 
     void Reflect()
@@ -208,7 +246,7 @@ public class PlayerControlScript : MonoBehaviour
     }
     void CreateOrbitingShields()
     {
-        if (tameng.Count == numShields) return;
+        //if (rotating_dict.Count == numShields) return;
 
         if (isReflecting) return;
 
@@ -218,13 +256,15 @@ public class PlayerControlScript : MonoBehaviour
             float angle = i * (360f / numShields);
             Vector2 orbitPosition = rb.transform.position + new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)) * orbitRadius;
             GameObject generated = Instantiate(reflector, orbitPosition, Quaternion.identity, gameObject.transform);
-            tameng.Add(generated);
+            generated.tag = "RotatingReflect";
+            angle_pos.Add(angle);
+            rotateshields.Add(generated);
         }
         // Debug.Log($"Number of shields created: {tameng.Count}");
     }
     void RotateShields()
     {
-        foreach (GameObject singular_shield in tameng)
+        foreach (GameObject singular_shield in rotateshields)
         {
             GameObject kaca = singular_shield;
             if (kaca != null)
@@ -237,9 +277,63 @@ public class PlayerControlScript : MonoBehaviour
                 kaca.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
             }
         }
-
     }
 
+    public int FindMissingShield()
+    {
+        for(int i=0; i<rotateshields.Count; i++)
+        {
+            if (rotateshields[i] == null)
+                return i;
+        }
+        return -1;
+    }
+
+    public int FindShieldClosestNeighbour(int index)
+    {
+        int closestNeighborIndex = -1;
+        int closestDistance = int.MaxValue;
+
+        for (int i = 0; i < rotateshields.Count; i++)
+        {
+            if (i != index && rotateshields[i] != null)
+            {
+                // Calculate the "circular" distance between the shields
+                int distance = Mathf.Min(Mathf.Abs(i - index), rotateshields.Count - Mathf.Abs(i - index));
+
+                // Update closest neighbor if the current shield is closer
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestNeighborIndex = i;
+                }
+            }
+        }
+
+        return closestNeighborIndex;
+    }
+
+    void RegenerateRotating(int index)
+    {
+        int closestNeighborIndex = FindShieldClosestNeighbour(index);
+
+        if (closestNeighborIndex != -1)
+        {
+            float angularDistance = 360f / numShields;
+            float angle = angle_pos[closestNeighborIndex] + angularDistance;
+
+            // Ensure the angle is within [0, 360)
+            angle %= 360;
+
+            Vector2 orbitPosition = (Vector2)rb.transform.position + new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)) * orbitRadius;
+
+            GameObject generated = Instantiate(reflector, orbitPosition, Quaternion.identity, gameObject.transform);
+            generated.tag = "RotatingReflect";
+            rotateshields[index] = generated;
+        }
+    }
+
+    /*
     void DestroyRotating()
     {
         foreach (GameObject singular_shield in tameng)
@@ -249,7 +343,7 @@ public class PlayerControlScript : MonoBehaviour
         }
         tameng.Clear();
     }
-
+    */
     public void OnMove(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -267,12 +361,9 @@ public class PlayerControlScript : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.performed && shield_cooldown <= 0f)// && Sword.GetInstance() == null)
+        if (context.performed)// && Sword.GetInstance() == null)
         {
-            if(mirrorRotate)
-            {
-                CreateOrbitingShields();
-            }
+            PlayerManager.GetInstance().ShieldActivationCost(-0.25f);
             isReflecting = true;
         }
         else if (context.canceled)
@@ -283,7 +374,6 @@ public class PlayerControlScript : MonoBehaviour
                 shield = null;
             }
             isReflecting = false;
-            DestroyRotating();
         }
     }
 
@@ -297,9 +387,9 @@ public class PlayerControlScript : MonoBehaviour
 
     public void OnHeal(InputAction.CallbackContext context)
     {
-        if(context.performed && PlayerManager.GetInstance().m_canHeal)
+        if(context.performed)// && PlayerManager.GetInstance().m_canHeal)
         {
-            PlayerManager.GetInstance().Heal();
+            healManager.StartHeal(this);
         }
     }
 

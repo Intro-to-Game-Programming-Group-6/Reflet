@@ -109,6 +109,8 @@ public class TutorialManager : MonoBehaviour
         if (context.performed && !MissionLog.GetInstance().isUpdating)
         {
             currentState = 5;
+            StartCoroutine(MissionLog.GetInstance().UpdateLog("Enter portal to exit tutorial"));
+            Exit.GetInstance().EnableExit();
         }
     }
 
@@ -120,7 +122,7 @@ public class TutorialManager : MonoBehaviour
         bool spawnPoint = true;
         int currentEnemyCount = 0;
 
-        while(currentEnemyCount != tutorialEnemyCount)
+        while(currentEnemyCount != tutorialEnemyCount || EnemyManager.GetInstance().enemyCount != 0)
         {
             if(EnemyManager.GetInstance().enemyCount == 0)
             {
@@ -142,14 +144,11 @@ public class TutorialManager : MonoBehaviour
             }
             yield return null;
         }
-        PlayerKilledEnemies();
+
+        if(EnemyManager.GetInstance().enemyCount == 0)
+        {
+            PlayerKilledEnemies();
+        }
         yield return null;
     }
 }
-
-// 0: WASD to move
-// 1: Click On Screen to Reflect
-// 2: Kill enemy
-// 3: Kill enemies
-// 4: Heal
-// 5: Exit

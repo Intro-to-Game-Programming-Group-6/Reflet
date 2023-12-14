@@ -7,50 +7,55 @@ public class PlayerControlScript : MonoBehaviour
 {
     private static PlayerControlScript instance;
 
-    private Rigidbody2D rb;
-    private SpriteRenderer playerSprite;
-    private Animator animator;
-    private bool isSprinting;
+    #region Player Components
+    [Header("Player Components")]
+    [HideInInspector][SerializeField] private Rigidbody2D rb;
+    [HideInInspector][SerializeField] private SpriteRenderer playerSprite;
+    [HideInInspector][SerializeField] private Animator animator;
+    #endregion
+    
+    #region Movement Variables
+    [Header("Movement Variables")]
+    [SerializeField] public bool canMove;
+    [SerializeField] public float movementspeed = 3f;
+    [HideInInspector][SerializeField] private Vector2 movementInput;
+    [HideInInspector][SerializeField] private Vector2 dashDirection;
+    #endregion
+    
+    #region Dash Variables
+    [Header("Dash Variables")]
+    [SerializeField] DashManager dashManager;
+    [SerializeField] public float dashSpeed = 3f;
+    [SerializeField] public int dashID = 2;
+    [SerializeField] public float dashDuration = 0.5f;
+    [SerializeField] public float dashCooldown = 1.5f;
+    [SerializeField] public int dashCounter;
+    [SerializeField] public TrailRenderer trail;
+    [HideInInspector][SerializeField] public bool canDash = true;
+    [HideInInspector][SerializeField] public bool currentlyDashing;
+    #endregion
 
-    private Vector2 movementInput;
-    private Vector2 dashDirection;
+    #region Reflect Variables
+    [Header("Reflect Variables")]
+    [SerializeField] public Transform spawnPoint;
+    [SerializeField] public GameObject reflector;
+    [SerializeField] bool mirrorRotate;
+    [HideInInspector][SerializeField] GameObject shield;
+    [HideInInspector][SerializeField] bool isReflecting = false;
+    [HideInInspector][SerializeField] float orbitRadius = 3f;
+    [HideInInspector][SerializeField] int numShields = 4;
+    [HideInInspector][SerializeField] float rotationSpeed = 100f;
+    [HideInInspector][SerializeField] public float attackRange = 0f;
+    [HideInInspector][SerializeField] List<GameObject> tameng = new List<GameObject>();
+    #endregion
 
-    public float movementspeed = 3f;
-    public float attackRange = 0f;
-    public float dashSpeed = 3f;
-    public float sprintspeed = 4.25f;
-    public bool currentlyDashing, canDash;
-
-    public Transform spawnPoint;
-    public GameObject reflector;
-    public Dash DashAbility;
-
-    GameObject shield;
-
-    //all about dash.
-    [HideInInspector]
-    public DashManager Dash_Manager;
-    public int DashID;
-    public float DashSpeed;
-    public float DashDuration;
-    public float DashCooldown;
-    public int DashCounter;
-    public TrailRenderer trail;
-    public bool mirrorRotate;
-    //
-
-    //all about reflecting
-    bool isReflecting;
-    //Rotating Shields.
-    private float orbitRadius = 3f;
-    private int numShields = 4;
-    private float rotationSpeed = 100f;
-    private List<GameObject> tameng = new List<GameObject>();
     private float shield_time;
     private float max_shield_time = 3f;
     private float shield_cooldown;
     private float max_shield_cooldown = 2f;
-    //
+
+    private bool isSprinting;
+    public float sprintspeed = 4.25f;
 
     //all about bullet stealing
     GameObject bullet_holder;
@@ -82,13 +87,10 @@ public class PlayerControlScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerSprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        Dash_Manager = GetComponent<DashManager>();
+        dashManager = GetComponent<DashManager>();
         trail = GetComponent<TrailRenderer>();
+
         rb.gravityScale = 0f;
-        canDash = true;
-        DashDuration = 0.5f;
-        DashCooldown = 1.5f;
-        DashID = 2;
         trail.emitting = true;
         isReflecting = false;
         shield_time = max_shield_time;
@@ -109,14 +111,17 @@ public class PlayerControlScript : MonoBehaviour
             trail.emitting = true;
             return;
         }
-        if (isSprinting)
-        {
-            rb.velocity = (movementInput) * sprintspeed;
-        }
-        else
-        {
-            rb.velocity = (movementInput) * movementspeed;
-        }
+        // if (isSprinting)
+        // {
+        //     rb.velocity = (movementInput) * sprintspeed;
+        // }
+        // else
+        // {
+        //     rb.velocity = (movementInput) * movementspeed;
+        // }
+
+        rb.velocity = (movementInput) * movementspeed;
+
         trail.emitting = false;
     }
 
@@ -139,6 +144,24 @@ public class PlayerControlScript : MonoBehaviour
         {
             playerSprite.flipX = true;
         }
+
+        if (currentlyDashing)
+        {
+            trail.emitting = true;
+            return;
+        }
+
+        //if (DashAbility.Ability_Status == AbilityStatus.ACTIVE) return;
+        // if (isSprinting)
+        // {
+        //     rb.velocity = (movementInput) * sprintspeed;
+        // }
+        // else
+        // {
+        //     rb.velocity = (movementInput) * movementspeed;
+        // }
+
+        trail.emitting = false;
     }
 
     void ManageShieldAction()
@@ -171,11 +194,11 @@ public class PlayerControlScript : MonoBehaviour
         angle = angle * Mathf.Rad2Deg;
 
         Vector2 spawnposition = (Vector2)spawnPoint.position + clickdirection * attackRange;
-        //Debug.Log(spawnposition);
-        //GameObject instantRef = Instantiate(reflector, spawnposition, Quaternion.Euler(0, 0, angle - 90), gameObject.transform);
+    
         if (shield == null)
         {
             shield = Instantiate(reflector, spawnposition, Quaternion.Euler(0, 0, angle - 90), gameObject.transform);
+            Physics2D.IgnoreCollision(GetComponent<Collider2D>(), shield.GetComponent<Collider2D>(), true);
         }
         else
         {
@@ -185,30 +208,31 @@ public class PlayerControlScript : MonoBehaviour
     }
     void CreateOrbitingShields()
     {
+        if (tameng.Count == numShields) return;
+
         if (isReflecting) return;
+
         for (int i = 0; i < numShields; i++)
         {
-            Debug.Log($"Shield no: {i}");
+            // Debug.Log($"Shield no: {i}");
             float angle = i * (360f / numShields);
             Vector2 orbitPosition = rb.transform.position + new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)) * orbitRadius;
             GameObject generated = Instantiate(reflector, orbitPosition, Quaternion.identity, gameObject.transform);
             tameng.Add(generated);
         }
-        Debug.Log($"Number of shields created: {tameng.Count}");
+        // Debug.Log($"Number of shields created: {tameng.Count}");
     }
     void RotateShields()
     {
         foreach (GameObject singular_shield in tameng)
         {
             GameObject kaca = singular_shield;
-            //float angle = singular_shield.angle;
             if (kaca != null)
             {
                 Vector2 shieldPosition = (Vector2)kaca.transform.position - (Vector2)rb.transform.position;
                 float angle = Mathf.Atan2(shieldPosition.y, shieldPosition.x) * Mathf.Rad2Deg;
 
                 angle += rotationSpeed * Time.deltaTime;
-                //Debug.Log(angle);
                 kaca.transform.position = (Vector2)rb.transform.position + new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)) * orbitRadius;
                 kaca.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
             }
@@ -245,7 +269,6 @@ public class PlayerControlScript : MonoBehaviour
     {
         if (context.performed && shield_cooldown <= 0f)// && Sword.GetInstance() == null)
         {
-            //Reflect();
             if(mirrorRotate)
             {
                 CreateOrbitingShields();
@@ -254,7 +277,6 @@ public class PlayerControlScript : MonoBehaviour
         }
         else if (context.canceled)
         {
-            // Check if the shield is active and destroy it
             if (shield != null)
             {
                 Destroy(shield);
@@ -269,41 +291,31 @@ public class PlayerControlScript : MonoBehaviour
     {
         if (context.performed && canDash)
         {
-            Dash_Manager.StartDash(this);
+            dashManager.StartDash(this);
         }
     }
 
     public void OnHeal(InputAction.CallbackContext context)
     {
-        if(context.performed && PlayerManager.GetInstance().CanHeal)
+        if(context.performed && PlayerManager.GetInstance().m_canHeal)
         {
             PlayerManager.GetInstance().Heal();
         }
     }
-
-    // public void OnSprint(InputAction.CallbackContext context)
-    // {
-    //     if (context.performed)
-    //     {
-    //         isSprinting = true;
-    //     }
-    //     if (context.canceled)
-    //     {
-    //         isSprinting = false;
-    //     }
-    // }
 
     public void FindBullet()
     {
         float steal_distance = 5f;
         float thickness = 5f;
         Vector2 boxSize = new Vector2(thickness, steal_distance);
+
         Collider2D[] hitColliders = Physics2D.OverlapBoxAll(transform.position, boxSize, 0f);//, Vector2.SignedAngle(Vector2.right, clickdirection));
         //Debug.DrawRay(rb.transform.position, clickdirection.normalized * steal_distance, Color.red, 1f);
         foreach (Collider2D collider in hitColliders)
         {
             float distanceToPlayer = Vector2.Distance(collider.transform.position, rb.transform.position);
             if (distanceToPlayer > steal_distance) continue;
+
             // Check the tag of the object
             if (collider.CompareTag("Bullet"))
             {
@@ -318,8 +330,10 @@ public class PlayerControlScript : MonoBehaviour
     {
         bullet_holder = Instantiate(bullet, transform.position, Quaternion.identity);
         bullet_holder.SetActive(false);
+
         BaseBulletBehavior bulletbehav = bullet_holder.GetComponent<BaseBulletBehavior>();
         bulletbehav.PlayerForceOwnership();
+
         Destroy(bullet);
         Debug.Log("projectile stolen!");
     }
@@ -337,7 +351,6 @@ public class PlayerControlScript : MonoBehaviour
             bullet_holder.transform.position = transform.position;
             // Make the projectile reappear in the game view
             GameObject newProjectile = bullet_holder;// Instantiate(bullet_holder, transform.position, Quaternion.identity);
-
             ActivateBullet(newProjectile, get_bullet_type);
 
             Vector2 direction = (CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - rb.transform.position).normalized;
@@ -390,7 +403,6 @@ public class PlayerControlScript : MonoBehaviour
     {
         if (context.performed && bullet_holder == null)
         {
-            Debug.Log("searching");
             FindBullet();
             return;
         }
@@ -400,7 +412,5 @@ public class PlayerControlScript : MonoBehaviour
             if (bullet_holder == null)
                 Debug.Log("bullet shot");
         }
-
     }
-
 }

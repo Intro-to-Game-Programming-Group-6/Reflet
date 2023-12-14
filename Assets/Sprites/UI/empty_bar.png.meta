@@ -112,7 +112,7 @@ TextureImporter:
         width: 98
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 9, y: 8, z: 9, w: 8}
       outline: []
       physicsShape: []
@@ -133,14 +133,35 @@ TextureImporter:
         width: 98
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 65, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 7f60223e9d0ccf34096aafeda27eb904
       internalID: 1417307864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: empty_bar_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 15
+        width: 98
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39a9ee790b27b5d4194f373d160706d6
+      internalID: -65970333
       vertices: []
       indices: 
       edges: []
@@ -156,6 +177,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      empty_bar_2: -65970333
       empty_bar_0: -1182575348
       empty_bar_1: 1417307864
   spritePackingTag: 

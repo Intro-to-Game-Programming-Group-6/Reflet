@@ -12,33 +12,18 @@ using UnityEngine.UI;
 [ExecuteAlways]
 public class BarController : MonoBehaviour
 {
-    // Start is called before the first frame update
     [Header("Size Delta")]
     [SerializeField] private float m_height;
 
     [Header("Bar Pixel Size")]
     [SerializeField] private float m_minBarSize;
     [SerializeField] private float m_perBarSize;
-
     [SerializeField] private int m_maxBar;
     [SerializeField] private int m_curBar;
 
     private Slider m_slider;
     private RectTransform m_rt;
 
-    /*
-    <example>
-        public class Example : MonoBehavior
-        {
-            [SerializeField] private BarController m_barController;
-            void Start()
-            {
-                m_barController.SetMax(10);
-                m_barController.SetValue(5);
-            }
-        }
-    </example>
-    */
     void Awake()
     {
         m_slider = GetComponent<Slider>();
@@ -46,8 +31,6 @@ public class BarController : MonoBehaviour
         
         m_slider.minValue = 0;
         m_slider.wholeNumbers = true;
-
-   
     }
 
     public void SetMax(int value)
@@ -64,7 +47,8 @@ public class BarController : MonoBehaviour
         if (m_curBar > m_maxBar)
         {
             m_curBar = m_maxBar;
-        }else if (m_curBar < 0)
+        }
+        else if (m_curBar < 0)
         {
             m_curBar = 0;
         }

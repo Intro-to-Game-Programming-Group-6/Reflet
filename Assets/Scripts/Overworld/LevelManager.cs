@@ -52,7 +52,6 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
-
     public void LoadScene(string string_name){
         SceneManager.LoadScene(string_name);
     }

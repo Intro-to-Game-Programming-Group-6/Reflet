@@ -25,10 +25,10 @@ public class Bar: MonoBehaviour
 
     void Awake()
     {
+        print("yes");
         bars = new List<GameObject>();
-    
+
         if (maxBar < 1)
-            //Raise error
             Debug.LogError("Max Bar must be greater than 0");
         else if (currentBar < 0 || currentBar > maxBar)
 
@@ -40,8 +40,6 @@ public class Bar: MonoBehaviour
         }
 
         AdjustBarUI();
-
-        // TODO: Setup with Player Inovke System...
     }
 
 

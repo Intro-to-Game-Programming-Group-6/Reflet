@@ -9,6 +9,7 @@ TagManager:
   - Reflector
   - Enemy
   - Wall
+  - RotatingReflect
   layers:
   - Default
   - TransparentFX

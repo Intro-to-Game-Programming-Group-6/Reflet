@@ -9,8 +9,8 @@ public class HeartManager : MonoBehaviour
 
     public GameObject heartContainer;
 
-    private int currentHealth;
-    private int maxHealth;
+    private float currentHealth;
+    private float maxHealth;
 
     List<GameObject> hearts = new List<GameObject>();
 

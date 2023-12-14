@@ -9,6 +9,7 @@ public class BouncingBullet : BaseBulletBehavior
     //not trigger
     //Checked
     //Bouncing against wall and obstacle
+
     [SerializeField] protected Collider2D col;
     protected override void OnEnable()
     {
@@ -23,7 +24,9 @@ public class BouncingBullet : BaseBulletBehavior
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerManager.GetInstance().AddHealth(-1);
+            if (status == Status.OWNED_BY_PLAYER) return;
+            
+            PlayerManager.GetInstance().AdjustHealth(-1);
             Destroy(this.gameObject);
         }
         else if (collision.gameObject.CompareTag("Enemy"))
@@ -83,6 +86,9 @@ public class BouncingBullet : BaseBulletBehavior
             //uncommend this if choose bouncing to not collapse with other bouncing
             //col.isTrigger = false;
         }
+        else if (collider.CompareTag("Player") && status == Status.OWNED_BY_PLAYER)
+        {
+            col.isTrigger = false;
+        }
     }
-    
 }

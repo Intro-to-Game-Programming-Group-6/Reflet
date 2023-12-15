@@ -8,25 +8,25 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager instance;
 
     [Header("Health")]
-    [SerializeField] private int m_maxHealthPoint;
-    [SerializeField] private int m_healthPoint;
-    public int maxHealth { get { return m_maxHealthPoint; } }
-    public int currentHealth { get { return m_healthPoint; } }
+    [SerializeField] private float m_maxHealthPoint;
+    [SerializeField] private float m_healthPoint;
+    public float maxHealth { get { return m_maxHealthPoint; } }
+    public float currentHealth { get { return m_healthPoint; } }
 
     [Header("Stamina")]
-    [SerializeField] private int m_maxStaminaPoint;
-    [SerializeField] private int m_StaminaPoint;
-    public int maxStamina { get { return m_maxStaminaPoint; } }
-    public int currentStamina { get { return m_StaminaPoint; } }
+    [SerializeField] private float m_maxStaminaPoint;
+    [SerializeField] private float m_currentStamina;
+    public float maxStamina { get { return m_maxStaminaPoint; } }
+    public float currentStamina { get { return m_currentStamina; } }
     
     [Header("Vial")]
-    [SerializeField] private int m_maxVialPoint;
-    [SerializeField] private int m_useVialPoint;
-    [SerializeField] private int m_vialPoint;
+    [SerializeField] private float m_maxVialPoint;
+    [SerializeField] private float m_useVialPoint;
+    [SerializeField] private float m_vialPoint;
     [SerializeField] public bool m_canHeal;
-    public int maxVial { get { return m_maxVialPoint; } }
-    public int useVial { get { return m_useVialPoint; } }
-    public int currentVial { get { return m_vialPoint; } }
+    public float maxVial { get { return m_maxVialPoint; } }
+    public float useVial { get { return m_useVialPoint; } }
+    public float currentVial { get { return m_vialPoint; } }
     public bool CanHeal { get { return m_canHeal; } set { m_canHeal = value; } }
 
     public bool multiply;
@@ -60,9 +60,9 @@ public class PlayerManager : MonoBehaviour
         HealthController.GetInstance().SetMax(m_maxHealthPoint);
         HealthController.GetInstance().SetValue(m_healthPoint);
 
-        m_StaminaPoint = m_maxStaminaPoint;
+        m_currentStamina = m_maxStaminaPoint;
         StaminaController.GetInstance().SetMax(m_maxStaminaPoint);
-        StaminaController.GetInstance().SetValue(m_StaminaPoint);
+        StaminaController.GetInstance().SetValue(m_currentStamina);
 
         m_vialPoint = 0;
         VialController.GetInstance().SetMax(m_maxVialPoint);
@@ -71,14 +71,14 @@ public class PlayerManager : MonoBehaviour
 
         m_canHeal = false;
 
-        m_currentStamina = m_maxStamina;
+        m_currentStamina = m_maxStaminaPoint;
         //m_staminaController.SetMax(m_maxStamina);
         //m_staminaController.SetValue(m_currentStamina);
     }
 
     public void ModifyStamina(float val)
     {
-        if (m_currentStamina >= m_maxStamina  && val > 0f) return;
+        if (m_currentStamina >= m_maxStaminaPoint  && val > 0f) return;
         
         m_currentStamina += val;
         if (m_currentStamina < 0f)
@@ -145,17 +145,25 @@ public class PlayerManager : MonoBehaviour
         return true;
     }
 
+    public bool EmptyVial()
+    {
+        m_canHeal = false;
+        m_vialPoint = 0;
+        VialController.GetInstance().SetValue(m_vialPoint);
+        return true;
+    }
+
     public void AdjustStaminaPoint(int deltaPoint)
     {
-        m_StaminaPoint += deltaPoint;
+        m_currentStamina += deltaPoint;
 
-        if(m_StaminaPoint >= m_maxStaminaPoint)
+        if(m_currentStamina >= m_maxStaminaPoint)
         {
-            m_StaminaPoint = m_maxStaminaPoint;
+            m_currentStamina = m_maxStaminaPoint;
         }
-        else if(m_StaminaPoint <= 0)
+        else if(m_currentStamina <= 0)
         {
-            m_StaminaPoint = 0;
+            m_currentStamina = 0;
         }        
 
         StaminaController.GetInstance().AddValue(deltaPoint);

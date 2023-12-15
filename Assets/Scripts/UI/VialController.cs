@@ -10,9 +10,9 @@ public class VialController : MonoBehaviour
     private static VialController instance;
 
     [Header("Variables")]
-    [SerializeField] private int m_maxBar;
-    [SerializeField] private int m_useBar;
-    [SerializeField] private int m_curBar;
+    [SerializeField] private float m_maxBar;
+    [SerializeField] private float m_useBar;
+    [SerializeField] private float m_curBar;
 
     private Slider m_slider;
     private RectTransform m_rt;
@@ -46,18 +46,18 @@ public class VialController : MonoBehaviour
         indicator.SetActive(false);
     }
 
-    public void SetMax(int value)
+    public void SetMax(float value)
     {
         m_maxBar = value;
         m_slider.maxValue = m_maxBar;
     }
 
-    public void SetUse(int value)
+    public void SetUse(float value)
     {
         m_useBar = value;
     }
 
-    public void SetValue(int value)
+    public void SetValue(float value)
     {
         m_curBar = value;
         if (m_curBar > m_maxBar)

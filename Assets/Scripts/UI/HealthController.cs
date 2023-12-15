@@ -14,8 +14,8 @@ public class HealthController : MonoBehaviour
     [Header("Size Delta")]
 
     [Header("Bar Pixel Size")]
-    [SerializeField] private int m_maxBar;
-    [SerializeField] private int m_curBar;
+    [SerializeField] private float m_maxBar;
+    [SerializeField] private float m_curBar;
 
     private Slider m_slider;
     private RectTransform m_rt;

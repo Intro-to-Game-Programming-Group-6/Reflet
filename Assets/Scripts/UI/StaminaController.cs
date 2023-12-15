@@ -14,8 +14,8 @@ public class StaminaController : MonoBehaviour
     [Header("Bar Pixel Size")]
     [SerializeField] private float m_minBarSize = 20;
     [SerializeField] private float m_perBarSize = 20;
-    [SerializeField] private int m_maxBar;
-    [SerializeField] private int m_curBar;
+    [SerializeField] private float m_maxBar;
+    [SerializeField] private float m_curBar;
 
     private Slider m_slider;
     private RectTransform m_rt;
@@ -49,7 +49,7 @@ public class StaminaController : MonoBehaviour
         value.text = m_curBar.ToString() + "/" + m_maxBar.ToString();
     }
 
-    public void SetMax(int value)
+    public void SetMax(float value)
     {
         m_maxBar = value;
         float _width = m_minBarSize + m_perBarSize * (m_maxBar/10 - 1);
@@ -57,7 +57,7 @@ public class StaminaController : MonoBehaviour
         m_slider.maxValue = m_maxBar;
     }
     
-    public void AddValue(int value)
+    public void AddValue(float value)
     {
         m_curBar += value;
         if (m_curBar > m_maxBar)
@@ -70,13 +70,8 @@ public class StaminaController : MonoBehaviour
         }
         m_slider.value = m_curBar;
     }
-
-    public void SubValue(int value)
-    {
-        AddValue(-value);
-    }
     
-    public void SetValue(int value)
+    public void SetValue(float value)
     {
         m_curBar = value;
         if (m_curBar > m_maxBar)

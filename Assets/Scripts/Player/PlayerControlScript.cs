@@ -49,8 +49,8 @@ public class PlayerControlScript : MonoBehaviour
     [HideInInspector][SerializeField] List<GameObject> tameng = new List<GameObject>();
     #endregion
 
-    private float shield_time;
-    private float max_shield_time = 3f;
+    // private float shield_time;
+    // private float max_shield_time = 3f;
     // private float shield_cooldown;
     // private float max_shield_cooldown = 2f;
 
@@ -95,7 +95,7 @@ public class PlayerControlScript : MonoBehaviour
         rb.gravityScale = 0f;
         trail.emitting = true;
         isReflecting = false;
-        shield_time = max_shield_time;
+        // shield_time = max_shield_time;
         // shield_cooldown = 0f;
     }
 

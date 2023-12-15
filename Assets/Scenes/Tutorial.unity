@@ -402,6 +402,9 @@ MonoBehaviour:
   m_useVialPoint: 8
   m_vialPoint: 0
   m_canHeal: 0
+  multiply: 1
+  bulletMultiplier: 1
+  spreadRange: 15
 --- !u!4 &831127246
 Transform:
   m_ObjectHideFlags: 0
@@ -6788,6 +6791,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1764953640}
     m_Modifications:
+    - target: {fileID: 3689678728684380201, guid: add6601aee0ce7845912deb4f2b7054a, type: 3}
+      propertyPath: m_Value
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689678728684380201, guid: add6601aee0ce7845912deb4f2b7054a, type: 3}
+      propertyPath: m_MaxValue
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 3689678728684380206, guid: add6601aee0ce7845912deb4f2b7054a, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -6977,12 +6988,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6123964007636854345, guid: da67f5d94f9bb234bbf9a67e402ac89e, type: 3}
+      propertyPath: m_Value
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6123964007636854351, guid: da67f5d94f9bb234bbf9a67e402ac89e, type: 3}
       propertyPath: m_Name
       value: Vial Icon
       objectReference: {fileID: 0}
     - target: {fileID: 6123964008172773973, guid: da67f5d94f9bb234bbf9a67e402ac89e, type: 3}
       propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6123964008172773973, guid: da67f5d94f9bb234bbf9a67e402ac89e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8293446236447170574, guid: da67f5d94f9bb234bbf9a67e402ac89e, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -7202,6 +7225,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143754, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
+      propertyPath: multiply
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6507202684667143754, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: dashSpeed
       value: 6
       objectReference: {fileID: 0}
@@ -7228,6 +7255,10 @@ PrefabInstance:
     - target: {fileID: 6507202684667143754, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: movementspeed
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6507202684667143754, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
+      propertyPath: bulletMultiplier
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143793, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_Name

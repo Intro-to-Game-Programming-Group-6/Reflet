@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 [RequireComponent(typeof(Slider), typeof(RectTransform))]
 [ExecuteAlways]
@@ -18,6 +19,8 @@ public class StaminaController : MonoBehaviour
 
     private Slider m_slider;
     private RectTransform m_rt;
+
+    public TMP_Text value;
 
     public static StaminaController GetInstance()
     {
@@ -39,6 +42,11 @@ public class StaminaController : MonoBehaviour
         {
             Destroy(gameObject);
         }      
+    }
+
+    void Update()
+    {
+        value.text = m_curBar.ToString() + "/" + m_maxBar.ToString();
     }
 
     public void SetMax(int value)

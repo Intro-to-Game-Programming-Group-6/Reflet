@@ -10,6 +10,7 @@ public class BaseBulletBehavior : MonoBehaviour
     protected float lifetimeCount;
     public int bulletDamage;
     public float knockbackForce = 2f;
+    public bool isMultiplied = false;
     [SerializeField] protected Rigidbody2D rb;
 
     public enum Status

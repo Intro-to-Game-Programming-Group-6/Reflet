@@ -23,13 +23,14 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private int m_maxVialPoint;
     [SerializeField] private int m_useVialPoint;
     [SerializeField] private int m_vialPoint;
+    [SerializeField] public bool m_canHeal;
     public int maxVial { get { return m_maxVialPoint; } }
     public int useVial { get { return m_useVialPoint; } }
     public int currentVial { get { return m_vialPoint; } }
-    
-
-    public bool m_canHeal;
     public bool CanHeal { get { return m_canHeal; } set { m_canHeal = value; } }
+
+    public bool multiply;
+    public int bulletMultiplier;
     
     public static PlayerManager GetInstance()
     {
@@ -65,6 +66,7 @@ public class PlayerManager : MonoBehaviour
 
         m_vialPoint = 0;
         VialController.GetInstance().SetMax(m_maxVialPoint);
+        VialController.GetInstance().SetUse(m_useVialPoint);
         VialController.GetInstance().SetValue(m_vialPoint);
 
         m_canHeal = false;

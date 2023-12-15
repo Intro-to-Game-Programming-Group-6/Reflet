@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-
-/// <summary>
-/// This script is used to control the bar UI with a pixel of 10 pixel per unit.
-/// </summary>
+using TMPro;
 
 [RequireComponent(typeof(Slider), typeof(RectTransform))]
 [ExecuteAlways]
@@ -22,6 +19,8 @@ public class HealthController : MonoBehaviour
 
     private Slider m_slider;
     private RectTransform m_rt;
+
+    public TMP_Text value;
 
     public static HealthController GetInstance()
     {
@@ -43,6 +42,11 @@ public class HealthController : MonoBehaviour
         {
             Destroy(gameObject);
         }        
+    }
+
+    void Update()
+    {
+        value.text = m_curBar.ToString() + "/" + m_maxBar.ToString();
     }
 
     public void SetMax(int value)

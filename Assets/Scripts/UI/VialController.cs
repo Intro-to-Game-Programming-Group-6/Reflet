@@ -11,10 +11,13 @@ public class VialController : MonoBehaviour
 
     [Header("Variables")]
     [SerializeField] private int m_maxBar;
+    [SerializeField] private int m_useBar;
     [SerializeField] private int m_curBar;
 
     private Slider m_slider;
     private RectTransform m_rt;
+
+    public GameObject indicator;
 
     public static VialController GetInstance()
     {
@@ -38,31 +41,20 @@ public class VialController : MonoBehaviour
         }      
     }
 
+    void Start()
+    {
+        indicator.SetActive(false);
+    }
+
     public void SetMax(int value)
     {
         m_maxBar = value;
-        // float height = m_minBarSize + m_perBarSize * (m_maxBar - 1); // Change to height for vertical slider
-        // m_rt.sizeDelta = new Vector2(m_width, height); // Adjust width and height
         m_slider.maxValue = m_maxBar;
     }
 
-    public void AddValue(int value)
+    public void SetUse(int value)
     {
-        m_curBar += value;
-        if (m_curBar > m_maxBar)
-        {
-            m_curBar = m_maxBar;
-        }
-        else if (m_curBar < 0)
-        {
-            m_curBar = 0;
-        }
-        m_slider.value = m_curBar;
-    }
-
-    public void SubValue(int value)
-    {
-        AddValue(-value);
+        m_useBar = value;
     }
 
     public void SetValue(int value)
@@ -76,6 +68,16 @@ public class VialController : MonoBehaviour
         {
             m_curBar = 0;
         }
+
+        if(m_curBar >= m_useBar)
+        {
+            indicator.SetActive(true);
+        }
+        else
+        {
+            indicator.SetActive(false);
+        }
+
         m_slider.value = m_curBar;
     }
 }

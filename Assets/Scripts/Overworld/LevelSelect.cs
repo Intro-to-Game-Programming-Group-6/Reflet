@@ -27,9 +27,9 @@ public class LevelSelect : MonoBehaviour
 
         m_upArrowAction.performed += _ => SelectLevel(Mathf.Min(m_levelId + 1, m_upperLimit));
         m_downArrowAction.performed += _ => SelectLevel(Mathf.Max(m_levelId - 1, m_lowerLimit));
-        m_enterAction.performed += _ => { if (m_startButton.interactable) LevelManager.Instance.LoadLevel(m_levelId); };
+        m_enterAction.performed += _ => { if (m_startButton.interactable) LevelManager.GetInstance().LoadLevel(m_levelId); };
 
-        m_startButton.onClick.AddListener(() => LevelManager.Instance.LoadLevel(m_levelId));
+        m_startButton.onClick.AddListener(() => LevelManager.GetInstance().LoadLevel(m_levelId));
         m_startButton.interactable = false;
         
         int i = 0;
@@ -76,7 +76,7 @@ public class LevelSelect : MonoBehaviour
         if (m_levelId >= 0) m_buttons[m_levelId].OnPointerExit(null);            
         m_levelId = level;
         m_buttons[m_levelId].Select();
-        LevelManager.Instance.SetLevel(m_levelId);
+        LevelManager.GetInstance().SetLevel(m_levelId);
         m_levelIdText.text = "" + (m_levelId + 1);
         m_startButton.interactable = true;
     }

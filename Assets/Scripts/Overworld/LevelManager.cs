@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour
 {
-    private static LevelManager Instance;
+    private static LevelManager instance;
     private static float originTimeScale;
     
     [SerializeField] private int currentSceneIndex;
@@ -10,9 +10,9 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private int levelOffset;
 
     void Awake(){
-        if (Instance == null)
+        if (instance == null)
         {
-            Instance = this;
+            instance = this;
             originTimeScale = Time.timeScale;
 
             DontDestroyOnLoad(this);

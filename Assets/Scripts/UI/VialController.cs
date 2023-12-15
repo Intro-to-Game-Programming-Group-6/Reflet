@@ -1,29 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// This script is used to control the bar UI with a pixel of 10 pixel per unit.
-/// </summary>
-
 [RequireComponent(typeof(Slider), typeof(RectTransform))]
 [ExecuteAlways]
-public class HealthController : MonoBehaviour
+public class VialController : MonoBehaviour
 {
-    private static HealthController instance;
+    private static VialController instance;
 
-    [Header("Size Delta")]
-
-    [Header("Bar Pixel Size")]
+    [Header("Variables")]
     [SerializeField] private int m_maxBar;
     [SerializeField] private int m_curBar;
 
     private Slider m_slider;
     private RectTransform m_rt;
 
-    public static HealthController GetInstance()
+    public static VialController GetInstance()
     {
         return instance;
     }
@@ -42,15 +35,17 @@ public class HealthController : MonoBehaviour
         else if (instance != this)
         {
             Destroy(gameObject);
-        }        
+        }      
     }
 
     public void SetMax(int value)
     {
         m_maxBar = value;
+        // float height = m_minBarSize + m_perBarSize * (m_maxBar - 1); // Change to height for vertical slider
+        // m_rt.sizeDelta = new Vector2(m_width, height); // Adjust width and height
         m_slider.maxValue = m_maxBar;
     }
-    
+
     public void AddValue(int value)
     {
         m_curBar += value;
@@ -69,7 +64,7 @@ public class HealthController : MonoBehaviour
     {
         AddValue(-value);
     }
-    
+
     public void SetValue(int value)
     {
         m_curBar = value;

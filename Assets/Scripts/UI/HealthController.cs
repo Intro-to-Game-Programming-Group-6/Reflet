@@ -49,13 +49,13 @@ public class HealthController : MonoBehaviour
         value.text = m_curBar.ToString() + "/" + m_maxBar.ToString();
     }
 
-    public void SetMax(int value)
+    public void SetMax(float value)
     {
         m_maxBar = value;
         m_slider.maxValue = m_maxBar;
     }
     
-    public void AddValue(int value)
+    public void AddValue(float value)
     {
         m_curBar += value;
         if (m_curBar > m_maxBar)
@@ -69,12 +69,12 @@ public class HealthController : MonoBehaviour
         m_slider.value = m_curBar;
     }
 
-    public void SubValue(int value)
+    public void SubValue(float value)
     {
         AddValue(-value);
     }
     
-    public void SetValue(int value)
+    public void SetValue(float value)
     {
         m_curBar = value;
         if (m_curBar > m_maxBar)

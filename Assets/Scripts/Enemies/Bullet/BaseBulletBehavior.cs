@@ -114,5 +114,16 @@ public class BaseBulletBehavior : MonoBehaviour
 
             status = Status.OWNED_BY_PLAYER; //allow bullet to hit enemy maybe reverse back to owned by enemy when we add enemy that can also reflect bullet in the future
         }
+
+        else if (collision.gameObject.CompareTag("RotatingReflect"))
+        {
+            Vector2 inNorm = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - GameObject.Find("Player").transform.position;
+
+            ReflectBullet(inNorm);
+
+            status = Status.OWNED_BY_PLAYER; //allow bullet to hit enemy maybe reverse back to owned by enemy when we add enemy that can also reflect bullet in the future
+
+            Destroy(collision.gameObject);
+        }
     }
 }

@@ -70,9 +70,37 @@ public class PlayerManager : MonoBehaviour
         VialController.GetInstance().SetValue(m_vialPoint);
 
         m_canHeal = false;
+
+        m_currentStamina = m_maxStamina;
+        //m_staminaController.SetMax(m_maxStamina);
+        //m_staminaController.SetValue(m_currentStamina);
     }
 
-    public void AdjustHealth(int deltaHealth) {
+    public void ModifyStamina(float val)
+    {
+        if (m_currentStamina >= m_maxStamina  && val > 0f) return;
+        
+        m_currentStamina += val;
+        if (m_currentStamina < 0f)
+            m_currentStamina = 0f;
+    }
+
+    public void ShieldActivationCost(float percentage)
+    {
+        ModifyStamina(maxStamina * percentage);
+    }
+
+    public bool CanUseShield()
+    {
+        return (m_currentStamina > 0f);
+    }
+
+    public float GetStamina()
+    {
+        return m_currentStamina;
+    }
+
+    public void AdjustHealth(float deltaHealth) {
         m_healthPoint += deltaHealth;
 
         if (m_healthPoint > m_maxHealthPoint)
@@ -104,7 +132,7 @@ public class PlayerManager : MonoBehaviour
         VialController.GetInstance().SetValue(m_vialPoint);
     }
 
-    public bool Heal()
+    public bool Heal(float HealValue)
     {
         if(m_vialPoint < m_useVialPoint)
         {

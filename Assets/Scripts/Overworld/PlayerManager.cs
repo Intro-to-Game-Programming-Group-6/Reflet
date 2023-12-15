@@ -44,6 +44,11 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
     void Start()
     {
         m_healthPoint = m_maxHealthPoint;

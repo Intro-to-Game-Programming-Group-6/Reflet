@@ -18,8 +18,8 @@ public class HealthController : MonoBehaviour
     [Header("Bar Pixel Size")]
     [SerializeField] private float m_minBarSize;
     [SerializeField] private float m_perBarSize;
-    [SerializeField] private int m_maxBar;
-    [SerializeField] private int m_curBar;
+    [SerializeField] private float m_maxBar;
+    [SerializeField] private float m_curBar;
 
     private Slider m_slider;
     private RectTransform m_rt;
@@ -33,7 +33,7 @@ public class HealthController : MonoBehaviour
         m_slider.wholeNumbers = true;
     }
 
-    public void SetMax(int value)
+    public void SetMax(float value)
     {
         m_maxBar = value;
         // float _width = m_minBarSize + m_perBarSize * (m_maxBar - 1);
@@ -41,7 +41,7 @@ public class HealthController : MonoBehaviour
         m_slider.maxValue = m_maxBar;
     }
     
-    public void AddValue(int value)
+    public void AddValue(float value)
     {
         m_curBar += value;
         if (m_curBar > m_maxBar)
@@ -55,12 +55,12 @@ public class HealthController : MonoBehaviour
         m_slider.value = m_curBar;
     }
 
-    public void SubValue(int value)
+    public void SubValue(float value)
     {
         AddValue(-value);
     }
     
-    public void SetValue(int value)
+    public void SetValue(float value)
     {
         m_curBar = value;
         if (m_curBar > m_maxBar)

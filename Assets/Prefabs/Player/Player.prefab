@@ -194,6 +194,7 @@ GameObject:
   - component: {fileID: 3740100131174927121}
   - component: {fileID: 6247839640659730905}
   - component: {fileID: 2350048284375422701}
+  - component: {fileID: 6663060587384046383}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -393,23 +394,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 517a2ba61aed47f48952fd4e7de2c183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  playerSprite: {fileID: 0}
+  animator: {fileID: 0}
+  canMove: 0
   movementspeed: 3
-  attackRange: 0.4
+  movementInput: {x: 0, y: 0}
+  dashDirection: {x: 0, y: 0}
+  dashManager: {fileID: 0}
   dashSpeed: 3
-  sprintspeed: 4.25
-  currentlyDashing: 0
+  dashID: 2
+  dashDuration: 0.5
+  dashCooldown: 1.5
+  dashCounter: 0
+  trail: {fileID: 0}
   canDash: 0
+  currentlyDashing: 0
   spawnPoint: {fileID: 0}
   reflector: {fileID: 4352102582084687623, guid: 272b3f2b6adaf8c4491b72b9583e4fe9, type: 3}
-  DashAbility: {fileID: 0}
-  Dash_Manager: {fileID: 0}
-  DashID: 0
-  DashSpeed: 0
-  DashDuration: 0
-  DashCooldown: 0
-  DashCounter: 0
-  trail: {fileID: 0}
   mirrorRotate: 0
+  shield: {fileID: 0}
+  isReflecting: 0
+  orbitRadius: 3
+  numShields: 4
+  rotationSpeed: 100
+  attackRange: 0.4
+  tameng: []
+  healManager: {fileID: 6663060587384046383}
+  HealID: 2
+  aoeHealRadius: 1.5
+  aoeHealTime: 3
+  aoeHealTotal: 5
+  sprintspeed: 4.25
 --- !u!50 &6507202684667143797
 Rigidbody2D:
   serializedVersion: 4
@@ -603,6 +619,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myTrail: {fileID: 0}
+--- !u!114 &6663060587384046383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6507202684667143793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e718f6d73cc5d6b488ee133c75307be3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AoeHeal: {fileID: 11400000, guid: 36f17c8122420824289e1684b43e985c, type: 2}
+  AoEPrefab: {fileID: 9106934695498728657, guid: 3138c384b20c3fb49b1871100ac09032, type: 3}
 --- !u!1 &8980132805802768350
 GameObject:
   m_ObjectHideFlags: 0

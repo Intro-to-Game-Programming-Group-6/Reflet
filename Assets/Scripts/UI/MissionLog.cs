@@ -11,8 +11,8 @@ public class MissionLog : MonoBehaviour
     public float duration;
     public bool isUpdating;
 
-    private Vector3 basePosition = new Vector3(550, 375, 0);
-    private Vector3 secondaryPosition = new Vector3(900, 375, 0);
+    private Vector3 basePosition = new Vector3(415, 400, 0);
+    private Vector3 secondaryPosition = new Vector3(415, 525, 0);
 
     void Awake()
     {
@@ -34,8 +34,6 @@ public class MissionLog : MonoBehaviour
     void Start()
     {
         isUpdating = false;
-
-        StartCoroutine(UpdateLog("Press WASD to move"));
     }
 
     public IEnumerator UpdateLog(string value)

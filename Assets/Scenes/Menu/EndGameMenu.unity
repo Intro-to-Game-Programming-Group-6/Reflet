@@ -186,6 +186,18 @@ PrefabInstance:
       propertyPath: m_points_band.Array.size
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2064315676391122041, guid: 17bc4a674fd0b0b4591f3f3737030c91, type: 3}
+      propertyPath: m_points_band.Array.data[0]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2064315676391122041, guid: 17bc4a674fd0b0b4591f3f3737030c91, type: 3}
+      propertyPath: m_points_band.Array.data[1]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2064315676391122041, guid: 17bc4a674fd0b0b4591f3f3737030c91, type: 3}
+      propertyPath: m_points_band.Array.data[2]
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17bc4a674fd0b0b4591f3f3737030c91, type: 3}
 --- !u!1 &172670310
@@ -897,8 +909,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: YOU WON!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c7a61237fb098274bb42c33adc86765c, type: 2}
-  m_sharedMaterial: {fileID: -1614530843140505573, guid: c7a61237fb098274bb42c33adc86765c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3e0b77399150f6443b050275c689730a, type: 2}
+  m_sharedMaterial: {fileID: -1614530843140505573, guid: 3e0b77399150f6443b050275c689730a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

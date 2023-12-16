@@ -10,6 +10,7 @@ public class BaseBulletBehavior : MonoBehaviour
     protected float lifetimeCount;
     public int bulletDamage;
     public float knockbackForce = 2f;
+    public bool isMultiplied = false;
     [SerializeField] protected Rigidbody2D rb;
 
     public enum Status
@@ -112,6 +113,7 @@ public class BaseBulletBehavior : MonoBehaviour
             ReflectBullet(inNorm);
 
             status = Status.OWNED_BY_PLAYER; //allow bullet to hit enemy maybe reverse back to owned by enemy when we add enemy that can also reflect bullet in the future
+            PlayerManager.GetInstance().AdjustStaminaPoint(-5);
         }
 
         else if (collision.gameObject.CompareTag("RotatingReflect"))
@@ -121,8 +123,6 @@ public class BaseBulletBehavior : MonoBehaviour
             ReflectBullet(inNorm);
 
             status = Status.OWNED_BY_PLAYER; //allow bullet to hit enemy maybe reverse back to owned by enemy when we add enemy that can also reflect bullet in the future
-
-            Destroy(collision.gameObject);
         }
     }
 }

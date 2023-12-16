@@ -22,7 +22,7 @@ public class HealingCircleLogic : MonoBehaviour
         
     }
 
-    private void Start()
+    private void OnEnable()
     {
         current_time = 0f;
         PlayerManager.GetInstance().EmptyVial();
@@ -31,9 +31,10 @@ public class HealingCircleLogic : MonoBehaviour
     void Update()
     {
         current_time += Time.deltaTime;
-        if (current_time >= healing_duration)
+        if (current_time > healing_duration)
         {
             Debug.Log("Healing done: " + heal_done);
+            PlayerManager.GetInstance().RoundHP();// AdjustHealth(healthIncrement);
             Destroy(gameObject);
             return;
         }
@@ -45,6 +46,20 @@ public class HealingCircleLogic : MonoBehaviour
             heal_done += healthIncrement;
         }
     }
+
+    /*
+    private IEnumerator HealSmoothly(float total_heal)
+    {
+        float healpertick = total_heal / healing_duration;
+        float elasped_time = 0f;
+
+        while(elapsedTime < healing_duration)
+        {
+            float current_heal = healpertick * Time.deltaTime;
+            PlayerManager.GetInstance().AdjustHealth(current_heal);
+        }
+    }
+    */
 
     void OnTriggerEnter2D(Collider2D other)
     {

@@ -24,9 +24,9 @@ public class BaseEnemyBehavior : MonoBehaviour
     [SerializeField] private float attackRange;
     [SerializeField] private float attackDelay;
     [SerializeField] private float detectRange;
-    [HideInInspector][SerializeField] private bool playerInAttackRange;
-    [HideInInspector][SerializeField] private bool playerInDetectRange;
-    [HideInInspector][SerializeField] private bool isAttacking = false;    
+    [HideInInspector] [SerializeField] private bool playerInAttackRange;
+    [HideInInspector] [SerializeField] private bool playerInDetectRange;
+    [HideInInspector] [SerializeField] private bool isAttacking = false;
 
     [Header("Health Components")]
     [SerializeField] Sprite full;
@@ -36,6 +36,10 @@ public class BaseEnemyBehavior : MonoBehaviour
     [HideInInspector][SerializeField] private int currentHealth;
     [HideInInspector][SerializeField] Coroutine[] heartCoroutines;
 
+    [Header("Effects")]
+    [SerializeField] GameObject hurtEffect;
+    [SerializeField] GameObject dieEffect;
+    [SerializeField] GameObject shootEffect;
 
     protected virtual void Awake()
     {
@@ -48,6 +52,8 @@ public class BaseEnemyBehavior : MonoBehaviour
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         sleep = true;
+        currentHealth = maxHealth;
+
     }
 
     protected virtual void OnEnable()
@@ -139,6 +145,7 @@ public class BaseEnemyBehavior : MonoBehaviour
     {
         while (true)
         {
+            Instantiate(shootEffect, transform.position, Quaternion.identity);
             GameObject bullet = Instantiate(bulletPrefab, agent.transform.position, Quaternion.identity);
             bullet.GetComponent<BaseBulletBehavior>().ShootAt(player);
             yield return new WaitForSeconds(attackDelay);
@@ -150,6 +157,7 @@ public class BaseEnemyBehavior : MonoBehaviour
         currentHealth += deltaHealth;
 
         UpdateHearts();
+        Instantiate(currentHealth <= 0 ? dieEffect: hurtEffect, transform.position, Quaternion.identity);
         
         if (currentHealth <= 0)
         {
@@ -163,6 +171,8 @@ public class BaseEnemyBehavior : MonoBehaviour
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, attackRange);
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, detectRange);
         }
     }
 

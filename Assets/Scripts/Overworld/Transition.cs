@@ -14,20 +14,15 @@ public class Transition : MonoBehaviour
     private static Transition instance;
     [SerializeField] private float transitionDuration;
     [SerializeField] private Image image;
-    [SerializeField] private Text title1, title2;
-    [SerializeField] private string titleText;
+
     private Color[] currentColor {
         get {
             return new Color[] {
                 image.color,
-                title1.color,
-                title2.color
             };
         }
         set {
             image.color = value[0];
-            title1.color = value[1];
-            title2.color = value[2];
         } 
     }
     private Color[] originalColor;
@@ -89,7 +84,7 @@ public class Transition : MonoBehaviour
         while (t < duration)
         {
             
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 1; i++) {
 
                 temp[i] = Color.Lerp(froms[i], tos[i], t);
             }
@@ -167,6 +162,7 @@ public class Transition : MonoBehaviour
             break;
         }
     }
+
     private void Reset()
     {
         ResetColor();
@@ -175,13 +171,8 @@ public class Transition : MonoBehaviour
 
     private void Initialize(){
         image = GetComponent<Image>();
-        title1 = transform.GetChild(0).GetComponent<Text>();
-        title2 = transform.GetChild(0).transform.GetChild(0).GetComponent<Text>();
 
         originalColor = new Color[3];
         originalColor = currentColor;
-
-        title1.text = titleText;
-        title2.text = titleText;
     }
 }

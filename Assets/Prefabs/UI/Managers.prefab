@@ -87,6 +87,9 @@ MonoBehaviour:
   m_canHeal: 0
   multiply: 0
   bulletMultiplier: 1
+  bulletCaptureProgress: 0
+  bulletCaptureLimit: 0
+  stolen_bullet_holder: {fileID: 0}
 --- !u!1 &1494668445715089277
 GameObject:
   m_ObjectHideFlags: 0

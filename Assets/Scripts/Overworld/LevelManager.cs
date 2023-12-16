@@ -84,15 +84,7 @@ public class LevelManager : MonoBehaviour
     [Header("Level Play Controller")]
     [SerializeField] private int selectedLevel;
     [SerializeField] private int levelOffset; 
-    public int GetLevelOffset(){
-        return levelOffset;
-    }
-    public int GetLevel(){
-        return selectedLevel;
-    }
-    public void SetLevel(int level){
-        Instance.selectedLevel = level;
-    }
+
     public void LoadScene(int int_index){
         int i = int_index;
         StartCoroutine(TransitionLoadScene(i));

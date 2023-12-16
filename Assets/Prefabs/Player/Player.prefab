@@ -211,8 +211,8 @@ Transform:
   m_GameObject: {fileID: 6507202684667143793}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -3.25, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2938103797664573493}
   - {fileID: 8980132805802768349}
@@ -398,17 +398,17 @@ MonoBehaviour:
   playerSprite: {fileID: 0}
   animator: {fileID: 0}
   canMove: 0
-  movementspeed: 3
+  movementspeed: 1.5
   movementInput: {x: 0, y: 0}
   dashDirection: {x: 0, y: 0}
-  dashManager: {fileID: 0}
-  dashSpeed: 3
+  dashManager: {fileID: 6247839640659730905}
+  dashSpeed: 6
   dashID: 2
   dashDuration: 0.5
   dashCooldown: 1.5
   dashCounter: 0
   trail: {fileID: 0}
-  canDash: 0
+  canDash: 1
   currentlyDashing: 0
   spawnPoint: {fileID: 2938103797664573493}
   reflector: {fileID: 3048977075214065715, guid: 202e2a44220ba86418e432347c2034cd, type: 3}
@@ -416,9 +416,9 @@ MonoBehaviour:
   shield: {fileID: 0}
   isReflecting: 0
   orbitRadius: 3
-  numShields: 4
+  numShields: 32
   rotationSpeed: 100
-  attackRange: 0.4
+  attackRange: 0.7
   angle_pos: []
   rotateshields: []
   healManager: {fileID: 6663060587384046383}
@@ -679,7 +679,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.275}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}

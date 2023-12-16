@@ -24,13 +24,15 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private float m_useVialPoint;
     [SerializeField] private float m_vialPoint;
     [SerializeField] public bool m_canHeal;
-    public float maxVial { get { return m_maxVialPoint; } }
-    public float useVial { get { return m_useVialPoint; } }
+    public float maxVial { get { return m_maxVialPoint; } set { m_maxVialPoint = value; } }
+    public float useVial { get { return m_useVialPoint; } set { m_maxVialPoint = value; } }
     public float currentVial { get { return m_vialPoint; } }
     public bool CanHeal { get { return m_canHeal; } set { m_canHeal = value; } }
 
     public bool multiply;
     public int bulletMultiplier;
+    public int bulletCaptureProgress, bulletCaptureLimit;
+    public GameObject stolen_bullet_holder;
     
     public static PlayerManager GetInstance()
     {
@@ -72,22 +74,21 @@ public class PlayerManager : MonoBehaviour
         m_canHeal = false;
 
         m_currentStamina = m_maxStaminaPoint;
+
+        bulletCaptureProgress = 0;
+        bulletCaptureLimit = 3;
         //m_staminaController.SetMax(m_maxStamina);
         //m_staminaController.SetValue(m_currentStamina);
     }
-
-    public void ModifyStamina(float val)
+    public void ModifyStaminaCapacity(float val)
     {
-        if (m_currentStamina >= m_maxStaminaPoint  && val > 0f) return;
-        
-        m_currentStamina += val;
-        if (m_currentStamina < 0f)
-            m_currentStamina = 0f;
+        m_maxStaminaPoint = val;
+        StaminaController.GetInstance().SetMax(val);
     }
-
-    public void ShieldActivationCost(float percentage)
+    public void RoundHP()
     {
-        ModifyStamina(maxStamina * percentage);
+        m_healthPoint = Mathf.Round(m_healthPoint);
+        HealthController.GetInstance().SetValue(m_healthPoint);
     }
 
     public bool CanUseShield()
@@ -98,6 +99,11 @@ public class PlayerManager : MonoBehaviour
     public float GetStamina()
     {
         return m_currentStamina;
+    }
+
+    public bool WillSteal()
+    {
+        return (bulletCaptureProgress >= bulletCaptureLimit)  && (stolen_bullet_holder == null);
     }
 
     public void AdjustHealth(float deltaHealth) {
@@ -154,7 +160,7 @@ public class PlayerManager : MonoBehaviour
         return true;
     }
 
-    public void AdjustStaminaPoint(int deltaPoint)
+    public void AdjustStaminaPoint(float deltaPoint)
     {
         m_currentStamina += deltaPoint;
 
@@ -168,5 +174,16 @@ public class PlayerManager : MonoBehaviour
         }        
 
         StaminaController.GetInstance().AddValue(deltaPoint);
+    }
+
+    public void StealProjectile(GameObject bullet)
+    {
+        stolen_bullet_holder = Instantiate(bullet, transform.position, Quaternion.identity);
+        stolen_bullet_holder.SetActive(false);
+
+        BaseBulletBehavior bulletbehav = stolen_bullet_holder.GetComponent<BaseBulletBehavior>();
+        bulletbehav.PlayerForceOwnership();
+
+        Destroy(bullet);
     }
 }

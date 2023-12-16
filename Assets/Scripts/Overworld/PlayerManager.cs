@@ -24,8 +24,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private float m_useVialPoint;
     [SerializeField] private float m_vialPoint;
     [SerializeField] public bool m_canHeal;
-    public float maxVial { get { return m_maxVialPoint; } }
-    public float useVial { get { return m_useVialPoint; } }
+    public float maxVial { get { return m_maxVialPoint; } set { m_maxVialPoint = value; } }
+    public float useVial { get { return m_useVialPoint; } set { m_maxVialPoint = value; } }
     public float currentVial { get { return m_vialPoint; } }
     public bool CanHeal { get { return m_canHeal; } set { m_canHeal = value; } }
 
@@ -80,7 +80,11 @@ public class PlayerManager : MonoBehaviour
         //m_staminaController.SetMax(m_maxStamina);
         //m_staminaController.SetValue(m_currentStamina);
     }
-
+    public void ModifyStaminaCapacity(float val)
+    {
+        m_maxStaminaPoint = val;
+        StaminaController.GetInstance().SetMax(val);
+    }
     public void RoundHP()
     {
         m_healthPoint = Mathf.Round(m_healthPoint);
@@ -156,7 +160,7 @@ public class PlayerManager : MonoBehaviour
         return true;
     }
 
-    public void AdjustStaminaPoint(int deltaPoint)
+    public void AdjustStaminaPoint(float deltaPoint)
     {
         m_currentStamina += deltaPoint;
 

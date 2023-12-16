@@ -280,9 +280,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: In_Game_UI, Assembly-CSharp
-        m_MethodName: PauseGame
+      - m_Target: {fileID: 1184931709361013795, guid: 17bc4a674fd0b0b4591f3f3737030c91, type: 3}
+        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
+        m_MethodName: LoadPausedScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -505,6 +505,14 @@ PrefabInstance:
     - target: {fileID: 4613113456929466515, guid: 1d37e9f15d3adfb4fbf0baa0acbced53, type: 3}
       propertyPath: m_Name
       value: FadeBlanket
+      objectReference: {fileID: 0}
+    - target: {fileID: 4613113456929466527, guid: 1d37e9f15d3adfb4fbf0baa0acbced53, type: 3}
+      propertyPath: titleText
+      value: TUTORIAL
+      objectReference: {fileID: 0}
+    - target: {fileID: 4613113456929466527, guid: 1d37e9f15d3adfb4fbf0baa0acbced53, type: 3}
+      propertyPath: transitionDuration
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d37e9f15d3adfb4fbf0baa0acbced53, type: 3}

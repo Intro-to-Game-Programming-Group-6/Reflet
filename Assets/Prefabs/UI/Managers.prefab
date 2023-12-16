@@ -98,8 +98,8 @@ GameObject:
   - component: {fileID: 1494668445715089265}
   - component: {fileID: 1494668445715089264}
   - component: {fileID: 1494668445715089267}
-  - component: {fileID: 1494668445715089266}
   - component: {fileID: 1494668445715089270}
+  - component: {fileID: 4641731505578110209}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -165,20 +165,6 @@ MonoBehaviour:
   m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
---- !u!114 &1494668445715089266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1494668445715089277}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe1a150c78050484f8426aa2956109d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InGameUI: {fileID: 0}
-  PauseMenu: {fileID: 0}
 --- !u!114 &1494668445715089270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,3 +189,18 @@ MonoBehaviour:
   EnemyDie:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4641731505578110209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494668445715089277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b13fbf89b7f61b43a86182759010a94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentSceneIndex: -1
+  selectedLevel: 0
+  levelOffset: 5

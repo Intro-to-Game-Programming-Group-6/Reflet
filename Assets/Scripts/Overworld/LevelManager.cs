@@ -1,118 +1,34 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine.InputSystem;
+
 
 
 public class LevelManager : MonoBehaviour
 {
-    [SerializeField] private int baseSceneIndex;
+    [SerializeField] private int currentSceneIndex;
     public static LevelManager Instance;
     private static float originTimeScale;
 
-    
-
-    // [Header("Transition Settings")]
-    // [SerializeField] private GameObject[] fadeObjects;
-
-    // enum TransitionType {
-    //     FadeIn,
-    //     FadeOut,
-    //     SlideIn,
-    //     SlideOut,
-    //     ZoomIn,
-    //     ZoomOut,
-    //     RotateIn,
-    //     RotateOut,
-    //     ScaleIn,
-    //     ScaleOut,
-    //     None,
-    // }
-    // private void DoTransition(TransitionType type) {
-    //     switch (type) {
-    //     case TransitionType.FadeIn:
-    //         foreach (GameObject gObj in fadeObjects) {
-    //             StartCoroutine(Fade(gObj, 1f, true));
-    //         }
-    //         break;
-    //     case TransitionType.FadeOut: 
-    //         foreach (GameObject gObj in fadeObjects) {
-    //             StartCoroutine(Fade(gObj, 1f, false));
-    //         }
-    //         break;
-    //     case TransitionType.SlideIn:
-    //         break;
-    //     case TransitionType.SlideOut:
-    //         break;
-    //     case TransitionType.ZoomIn:
-    //         break;
-    //     case TransitionType.ZoomOut:
-    //         break;
-    //     case TransitionType.RotateIn:
-    //         break;
-    //     case TransitionType.RotateOut:
-    //         break;
-    //     case TransitionType.ScaleIn:
-    //         break;
-    //     case TransitionType.ScaleOut:
-    //         break;
-    //     case TransitionType.None:
-    //         break;
-    //     }
-    // }
-
-    // private IEnumerator Fade(GameObject gObj, float fadeDuration, bool fadeIn)
-    // {
-    //     Renderer rend = gObj.transform.GetComponent<Renderer>();
-        
-    //     Color initialColor = rend.material.color;
-    //     Color targetColor = new Color(initialColor.r, initialColor.g, initialColor.b, fadeIn ? 1f : 0f);
-
-    //     float elapsedTime = 0f;
-
-    //     while (elapsedTime < fadeDuration)
-    //     {
-    //         elapsedTime += Time.deltaTime;
-    //         rend.material.color = Color.Lerp(initialColor, targetColor, elapsedTime / fadeDuration);
-    //         yield return null;
-    //     }
-    // }
-
     void Awake(){
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
             originTimeScale = Time.timeScale;
-
-            DontDestroyOnLoad(this);
-        }
-        else 
-        {
+        } else {
             Destroy(gameObject);
         }
     }
 
     public static LevelManager GetInstance()
     {
-        return instance;
+        return Instance;
     }
 
     private void OnEnable()
     {
         DontDestroyOnLoad(gameObject);
-    }
-
-    public int GetLevelOffset()
-    {
-        return levelOffset;
-    }
-    public int GetLevel()
-    {
-        return selectedLevel;
-    }
-
-    public void SetLevel(int level)
-    {
-        selectedLevel = level;
     }
 
     public void LoadOptionScene()
@@ -124,34 +40,33 @@ public class LevelManager : MonoBehaviour
     {
         SceneManager.UnloadSceneAsync("OptionMenu");
     } 
-
+    
     public void LoadPausedScene()
     {
-        SceneManager.LoadScene("PausedMenu", LoadSceneMode.Additive);
         originTimeScale = Time.timeScale;
-        Time.timeScale = 0;
+        Time.timeScale = 0.05f;
+        SceneManager.LoadScene("PausedMenu", LoadSceneMode.Additive);
+        GameObject.FindWithTag("Player").GetComponent<PlayerInput>().enabled = false;
     }
 
     public void ExitPausedScene()
     {
         SceneManager.UnloadSceneAsync("PausedMenu");
         Time.timeScale = originTimeScale;
+        GameObject.FindWithTag("Player").GetComponent<PlayerInput>().enabled = true;
     } 
 
-    /// <summary>
-    /// Loads the LevelMenu scene
-    /// </summary>
     public void LoadLevelMenuScene(){
         string s = "LevelMenu";
-        StartCoroutine(LoadSceneStr(s));
+        StartCoroutine(TransitionLoadScene(s));
     } 
     public void LoadTutorialLevelScene(){
         string s = "Tutorial";
-        StartCoroutine(LoadSceneStr(s));
+        StartCoroutine(TransitionLoadScene(s));
     } 
     public void ExitLevelMenuScene(){
         string s = "MainMenu";
-        StartCoroutine(LoadSceneStr(s));
+        StartCoroutine(TransitionLoadScene(s));
     }
 
     public void LoadScene(string string_name)
@@ -180,48 +95,45 @@ public class LevelManager : MonoBehaviour
     }
     public void LoadScene(int int_index){
         int i = int_index;
-        StartCoroutine(LoadSceneInt(i));
+        StartCoroutine(TransitionLoadScene(i));
 
     }
     public void LoadLevel(int int_index){
         int i = int_index + levelOffset;
-        StartCoroutine(LoadSceneInt(i));
+        StartCoroutine(TransitionLoadScene(i));
     }
     public void LoadNextScene(){
         int i = SceneManager.GetActiveScene().buildIndex + 1;
-        StartCoroutine(LoadSceneInt(i));
+        StartCoroutine(TransitionLoadScene(i));
 
     }
     public void ReloadScene(){
         int i = SceneManager.GetActiveScene().buildIndex;
-        StartCoroutine(LoadSceneInt(i));
+        StartCoroutine(TransitionLoadScene(i));
     }
 
-    public void ExitGame()
+    public void LoadMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+        Time.timeScale = 1.0f;
     }
     public void QuitGame()
     {
-        Application.Quit();
+        if (SceneManager.GetActiveScene().buildIndex == 0) { Application.Quit(); return; }
+        else { LoadMainMenu(); return; }
     }
 
-    public void UnloadScene(string string_name)
+    IEnumerator TransitionLoadScene(int i , float transitironDuration = 1.5f, float delay = 1.0f)
     {
-        SceneManager.UnloadSceneAsync(string_name);
-    }
-
-    IEnumerator LoadSceneInt(int i)
-    {
-        Transition.GetInstance().StartTransition(true, Color.black, 2f, 1f);
-        yield return new WaitForSeconds(2f);
+        Transition.GetInstance().StartTransition(Color.black, transitironDuration, delay);
+        yield return new WaitForSeconds(transitironDuration + delay);
         SceneManager.LoadScene(i);
     }
 
-    IEnumerator LoadSceneStr(string s)
+    IEnumerator TransitionLoadScene(string s, float transitironDuration = 1.5f, float delay = 1.0f)
     {
-        Transition.GetInstance().StartTransition(true, Color.black, 2f, 1f);
-        yield return new WaitForSeconds(2f);
+        Transition.GetInstance().StartTransition(Color.black, transitironDuration, delay);
+        yield return new WaitForSeconds(transitironDuration + delay);
         SceneManager.LoadScene(s);
     }
 }

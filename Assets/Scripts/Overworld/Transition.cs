@@ -12,8 +12,7 @@ public enum TransitionType{
 public class Transition : MonoBehaviour
 {
     private static Transition instance;
-    [SerializeField] private float fadeDuration;
-    [SerializeField] private GameObject fadeObject;
+    [SerializeField] private float transitionDuration;
     [SerializeField] private Image image;
     [SerializeField] private Text title1, title2;
     [SerializeField] private string titleText;
@@ -39,7 +38,6 @@ public class Transition : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-
             Initialize();
         }
         else if (instance != this)
@@ -63,27 +61,28 @@ public class Transition : MonoBehaviour
     ///<summary>
     /// Fades the screen to black or clear
     /// </summary>
-    /// <param name="toClearNotBlack">True if fading to clear, false if fading to black</param>
     /// <param name="duration">Duration of the fade</param>
     /// <param name="delay">Delay before the fade starts</param>
     /// <param name="callback">Callback function to be called after the fade</param>
     /// <returns></returns>
     ///     
 
-    private bool isTransitionOut;
-
-    IEnumerator Fade(Color to, float duration, float delay, System.Action callback = null)
+    IEnumerator Fade(Color? to, float duration, float delay, System.Action callback = null)
     {
-
-        gameObject.SetActive(true);
 
         image.fillAmount = 1f;
         yield return new WaitForSeconds(delay);
 
         float startTime = Time.time;
         Color[] froms = new Color[3];
-        froms = originalColor;
-        Color[] tos = new[] { to, to, to };
+        froms = currentColor;
+        Color[] tos;
+        if (to == null){
+            tos = originalColor;
+        }else{
+            Color colorTemp = to ?? Color.clear;
+            tos = new[] {colorTemp, colorTemp, colorTemp};
+        }
 
         Color[] temp = new Color[3];
         float t = 0;
@@ -98,25 +97,29 @@ public class Transition : MonoBehaviour
             yield return null;
             t = (Time.time - startTime) / duration;
         }
+        title1.text = "";
+        title2.text = "";
 
-        gameObject.SetActive(isTransitionOut);
-
+        if (callback != null) callback.Invoke();
         yield return null;
     }
 
-    IEnumerator Circular(Color to, float duration, float delay,System.Action callback = null)
+    IEnumerator Circular(Color? to, float duration, float delay, System.Action callback = null)
     {
-        gameObject.SetActive(true);
-
         image.fillAmount = 1f;
         yield return new WaitForSeconds(delay);
 
         Color[] froms = new Color[3];
-        froms = originalColor;
+        froms = currentColor;
         Color[] temp = new Color[3];
         temp = originalColor;
-
-        Color[] tos = new[] { to, to, to };
+        Color[] tos;
+        if (to == null){
+            tos = originalColor;
+        }else{
+            Color colorTemp = to ?? Color.clear;
+            tos = new[] {colorTemp, colorTemp, colorTemp};
+        }
 
         float t = 0;
         while (t < duration)
@@ -136,8 +139,10 @@ public class Transition : MonoBehaviour
             Debug.Log(t);
 
         }
-        gameObject.SetActive(isTransitionOut);
+        title1.text = "";
+        title2.text = "";
 
+        if (callback != null) callback.Invoke();
         yield return null;
     }
 
@@ -146,30 +151,26 @@ public class Transition : MonoBehaviour
         currentColor = originalColor;
     }
 
-    public void StartTransition(bool isTransitionOut, Color to, float duration, float delay = 0f, TransitionType type = TransitionType.Fade, System.Action callback = null)
+    public void StartTransition(Color? to, float duration, float delay = 0f, TransitionType type = TransitionType.Fade, System.Action callback = null)
     {
-        this.isTransitionOut = isTransitionOut;
         switch(type){
         case TransitionType.Fade:
-            StartCoroutine(Fade(to, duration, delay));
+            StartCoroutine(Fade(to, duration, delay, callback));
             break;
 
         case TransitionType.Circular:
-            StartCoroutine(Circular(to, duration, delay));
+            StartCoroutine(Circular(to, duration, delay, callback));
             break;
 
         default:
-            StartCoroutine(Fade(to, duration, delay));
-
+            StartCoroutine(Fade(to, duration, delay, callback));
             break;
         }
-
-
     }
     private void Reset()
     {
         ResetColor();
-        StartTransition(false, Color.clear, 2f, 1.5f, TransitionType.Fade);
+        StartTransition(Color.clear, 2f, 1.5f, TransitionType.Fade);
     }
 
     private void Initialize(){

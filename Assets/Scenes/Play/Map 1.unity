@@ -7239,6 +7239,7 @@ GameObject:
   - component: {fileID: 1633326610}
   - component: {fileID: 1633326609}
   - component: {fileID: 1633326612}
+  - component: {fileID: 1633326613}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -7305,7 +7306,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1633326608}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.28357, y: -5, z: -10}
+  m_LocalPosition: {x: -8.285993, y: -5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7346,6 +7347,18 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1633326613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633326608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 836cdf397e6bf6f46b102755e66e3080, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1737452555 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2985336988069673416, guid: b3ce60af971443e4290353278fc9b8dd, type: 3}
@@ -7363,6 +7376,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3740100131174927121, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143754, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: dashCounter
       value: 1

@@ -105,6 +105,7 @@ public class PlayerControlScript : MonoBehaviour
         // shield_cooldown = 0f;
         mirrorRotate = true;
         numShields = 4;
+        canDash = true;
 
         aoeHealRadius = 3;
         aoeHealTime = 10f;
@@ -310,6 +311,7 @@ public class PlayerControlScript : MonoBehaviour
     {
         if (context.performed && canDash)
         {
+            Debug.Log("am going to dash");
             dashManager.StartDash(this);
         }
     }

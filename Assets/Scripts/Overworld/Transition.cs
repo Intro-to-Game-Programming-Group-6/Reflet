@@ -15,20 +15,15 @@ public class Transition : MonoBehaviour
     [SerializeField] private float fadeDuration;
     [SerializeField] private GameObject fadeObject;
     [SerializeField] private Image image;
-    [SerializeField] private Text title1, title2;
-    [SerializeField] private string titleText;
+
     private Color[] currentColor {
         get {
             return new Color[] {
                 image.color,
-                title1.color,
-                title2.color
             };
         }
         set {
             image.color = value[0];
-            title1.color = value[1];
-            title2.color = value[2];
         } 
     }
     private Color[] originalColor;
@@ -90,7 +85,7 @@ public class Transition : MonoBehaviour
         while (t < duration)
         {
             
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 1; i++) {
 
                 temp[i] = Color.Lerp(froms[i], tos[i], t);
             }

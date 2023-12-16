@@ -213,6 +213,9 @@ MonoBehaviour:
   hearts: []
   maxHealth: 0
   currentHealth: 0
+  hurtEffect: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}
+  dieEffect: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}
+  shootEffect: {fileID: 2515445351180927889, guid: 97cac7cef0c93364685d7aa055e6e944, type: 3}
 --- !u!1001 &640965077375705267
 PrefabInstance:
   m_ObjectHideFlags: 0

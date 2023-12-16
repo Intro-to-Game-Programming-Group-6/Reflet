@@ -36,9 +36,9 @@ TextureImporter:
     filterMode: 0
     aniso: 1
     mipBias: 0
-    wrapU: 1
-    wrapV: 1
-    wrapW: 1
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -113,34 +113,13 @@ TextureImporter:
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 9, y: 8, z: 9, w: 8}
+      border: {x: 33, y: 8, z: 49, w: 8}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: c781f379a886de74ea801837c22dba4c
       internalID: -1182575348
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: empty_bar_1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 35
-        width: 98
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 65, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7f60223e9d0ccf34096aafeda27eb904
-      internalID: 1417307864
       vertices: []
       indices: 
       edges: []
@@ -178,7 +157,9 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       empty_bar_2: -65970333
+      empty_bar_3: 1779153736
       empty_bar_0: -1182575348
+      empty_bar_4: 609108145
       empty_bar_1: 1417307864
   spritePackingTag: 
   pSDRemoveMatte: 0

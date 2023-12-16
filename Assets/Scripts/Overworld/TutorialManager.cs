@@ -34,6 +34,7 @@ public class TutorialManager : MonoBehaviour
     void Start()
     {
         currentState = 0;
+        StartCoroutine(MissionLog.GetInstance().UpdateLog("Press WASD to move"));
     }
 
     public void UpdateLog(string message)

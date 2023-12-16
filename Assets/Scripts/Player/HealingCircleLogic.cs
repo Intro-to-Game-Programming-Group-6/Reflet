@@ -22,7 +22,7 @@ public class HealingCircleLogic : MonoBehaviour
         
     }
 
-    private void Start()
+    private void OnEnable()
     {
         current_time = 0f;
         PlayerManager.GetInstance().EmptyVial();

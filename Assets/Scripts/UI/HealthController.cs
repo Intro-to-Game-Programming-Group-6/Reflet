@@ -3,41 +3,55 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-
-/// <summary>
-/// This script is used to control the bar UI with a pixel of 10 pixel per unit.
-/// </summary>
+using TMPro;
 
 [RequireComponent(typeof(Slider), typeof(RectTransform))]
 [ExecuteAlways]
 public class HealthController : MonoBehaviour
 {
+    private static HealthController instance;
+
     [Header("Size Delta")]
-    [SerializeField] private float m_height;
 
     [Header("Bar Pixel Size")]
-    [SerializeField] private float m_minBarSize;
-    [SerializeField] private float m_perBarSize;
     [SerializeField] private float m_maxBar;
     [SerializeField] private float m_curBar;
 
     private Slider m_slider;
     private RectTransform m_rt;
 
+    public TMP_Text value;
+
+    public static HealthController GetInstance()
+    {
+        return instance;
+    }
+
     void Awake()
     {
-        m_slider = GetComponent<Slider>();
-        m_rt = GetComponent<RectTransform>();
-        
-        m_slider.minValue = 0;
-        m_slider.wholeNumbers = true;
+        if (instance == null)
+        {
+            instance = this;
+            m_slider = GetComponent<Slider>();
+            m_rt = GetComponent<RectTransform>();
+            
+            m_slider.minValue = 0;
+            m_slider.wholeNumbers = true;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }        
+    }
+
+    void Update()
+    {
+        value.text = m_curBar.ToString() + "/" + m_maxBar.ToString();
     }
 
     public void SetMax(float value)
     {
         m_maxBar = value;
-        // float _width = m_minBarSize + m_perBarSize * (m_maxBar - 1);
-        // m_rt.sizeDelta = new Vector2(_width, m_height);
         m_slider.maxValue = m_maxBar;
     }
     

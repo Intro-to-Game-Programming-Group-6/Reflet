@@ -11,11 +11,13 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance;
     private static float originTimeScale;
 
+
     void Awake(){
         if (Instance == null)
         {
             Instance = this;
             originTimeScale = Time.timeScale;
+            DontDestroyOnLoad(this);
         } else {
             Destroy(gameObject);
         }
@@ -85,6 +87,9 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private int selectedLevel;
     [SerializeField] private int levelOffset; 
 
+    public void SetLevel(int lvl){
+        selectedLevel = lvl;
+    }
     public void LoadScene(int int_index){
         int i = int_index;
         StartCoroutine(TransitionLoadScene(i));

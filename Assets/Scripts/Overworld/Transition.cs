@@ -14,15 +14,21 @@ public class Transition : MonoBehaviour
     private static Transition instance;
     [SerializeField] private float transitionDuration;
     [SerializeField] private Image image;
+    [SerializeField] private Text title1;
+    [SerializeField] private Text title2;
 
     private Color[] currentColor {
         get {
             return new Color[] {
                 image.color,
+                title1.color,
+                title2.color
             };
         }
         set {
             image.color = value[0];
+            title1.color = value[1];
+            title2.color = value[2];
         } 
     }
     private Color[] originalColor;
@@ -84,7 +90,7 @@ public class Transition : MonoBehaviour
         while (t < duration)
         {
             
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < 3; i++) {
 
                 temp[i] = Color.Lerp(froms[i], tos[i], t);
             }

@@ -111,6 +111,7 @@ public class PlayerManager : MonoBehaviour
         {
             m_healthPoint = 0;
         }
+        
         HealthController.GetInstance().SetValue(m_healthPoint);
     }
 

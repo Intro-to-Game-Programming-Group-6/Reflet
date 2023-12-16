@@ -134,7 +134,7 @@ public class PlayerControlScript : MonoBehaviour
 
             if (reflectionTimer <= 0f)
             {
-                PlayerManager.GetInstance().AdjustStaminaPoint(-1);
+                PlayerManager.GetInstance().AdjustStaminaPoint(-15);
                 reflectionTimer = reflectionInterval;
             }
         }
@@ -144,7 +144,7 @@ public class PlayerControlScript : MonoBehaviour
 
             if (reflectionTimer <= 0f)
             {
-                PlayerManager.GetInstance().AdjustStaminaPoint(1);
+                PlayerManager.GetInstance().AdjustStaminaPoint(5);
                 reflectionTimer = reflectionInterval;
             }
         }
@@ -391,7 +391,7 @@ public class PlayerControlScript : MonoBehaviour
     {
         if (context.performed && PlayerManager.GetInstance().currentStamina > 0)// && Sword.GetInstance() == null)
         {
-            PlayerManager.GetInstance().ShieldActivationCost(-0.25f);
+            // PlayerManager.GetInstance().ShieldActivationCost(-0.25f);
             isReflecting = true;
         }
         else if (context.canceled)

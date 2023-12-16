@@ -8,6 +8,7 @@ public class Exit : MonoBehaviour
     private static Exit instance;
 
     private Collider2D col;
+    private SpriteRenderer sprite;
     private string nextScene = "MainMenu";
 
     void Awake()
@@ -31,11 +32,15 @@ public class Exit : MonoBehaviour
     {
         col = GetComponent<Collider2D>();
         col.enabled = false;
+
+        sprite = GetComponent<SpriteRenderer>();
+        sprite.enabled = false;
     }
 
     public void EnableExit()
     {
         col.enabled = true;
+        sprite.enabled = true;
     }
 
     void OnTriggerEnter2D(Collider2D collider)

@@ -36,6 +36,10 @@ public class BaseEnemyBehavior : MonoBehaviour
     [HideInInspector][SerializeField] private int currentHealth;
     [HideInInspector][SerializeField] Coroutine[] heartCoroutines;
 
+    [Header("Effects")]
+    [SerializeField] GameObject hurtEffect;
+    [SerializeField] GameObject dieEffect;
+    [SerializeField] GameObject shootEffect;
 
     protected virtual void Awake()
     {
@@ -139,6 +143,7 @@ public class BaseEnemyBehavior : MonoBehaviour
     {
         while (true)
         {
+            Instantiate(shootEffect, transform.position, Quaternion.identity);
             GameObject bullet = Instantiate(bulletPrefab, agent.transform.position, Quaternion.identity);
             bullet.GetComponent<BaseBulletBehavior>().ShootAt(player);
             yield return new WaitForSeconds(attackDelay);
@@ -150,6 +155,7 @@ public class BaseEnemyBehavior : MonoBehaviour
         currentHealth += deltaHealth;
 
         UpdateHearts();
+        Instantiate(currentHealth <= 0 ? dieEffect: hurtEffect, transform.position, Quaternion.identity);
         
         if (currentHealth <= 0)
         {

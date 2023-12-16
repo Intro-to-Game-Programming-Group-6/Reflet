@@ -8,7 +8,7 @@ public class Reflect : MonoBehaviour
     {
         bullet.GetComponent<BaseBulletBehavior>().isMultiplied = true;
         int bulletMultiplier = PlayerManager.GetInstance().bulletMultiplier;
-        Rigidbody2D baseRb= bullet.GetComponent<Rigidbody2D>();
+        Rigidbody2D baseRb = bullet.GetComponent<Rigidbody2D>();
         float baseRotation = baseRb.transform.rotation.eulerAngles.z;
 
         float offset = 0f;
@@ -26,7 +26,7 @@ public class Reflect : MonoBehaviour
             {
                 newRotation = baseRotation - offset;
             }
-            
+
             Vector3 eulerRotation = new Vector3(0f, 0f, newRotation);
             Quaternion rotationQuaternion = Quaternion.Euler(eulerRotation);
 
@@ -42,13 +42,40 @@ public class Reflect : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Bullet"))
+        if (collision.CompareTag("Bullet") && this.gameObject.CompareTag("RotatingReflect"))
         {
-            if(PlayerManager.GetInstance().multiply && !collision.GetComponent<BaseBulletBehavior>().isMultiplied)
+            DeactivateShields();
+            StartCoroutine(Reactivate(10f));
+        }
+        else if (collision.CompareTag("Bullet"))
+        {
+            if (PlayerManager.GetInstance().multiply && !collision.GetComponent<BaseBulletBehavior>().isMultiplied)
             {
                 Vector2 collisionVelocity = collision.GetComponent<Rigidbody2D>().velocity;
                 multiplyBullets(collisionVelocity.normalized, collision.gameObject);
             }
+            PlayerManager.GetInstance().bulletCaptureProgress += 1;
+            if (PlayerManager.GetInstance().WillSteal())
+            {
+                PlayerManager.GetInstance().bulletCaptureProgress = 0;
+                PlayerManager.GetInstance().StealProjectile(collision.gameObject);
+            }
         }
+    }
+
+    void DeactivateShields()
+    {
+        this.GetComponent<SpriteRenderer>().enabled = false;
+        this.GetComponent<BoxCollider2D>().enabled = false;
+        this.GetComponent<Rigidbody2D>().simulated = false;
+
+    }
+
+    IEnumerator Reactivate(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        this.GetComponent<SpriteRenderer>().enabled = true;
+        this.GetComponent<BoxCollider2D>().enabled = true;
+        this.GetComponent<Rigidbody2D>().simulated = true;
     }
 }

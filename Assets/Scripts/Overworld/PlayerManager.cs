@@ -31,6 +31,8 @@ public class PlayerManager : MonoBehaviour
 
     public bool multiply;
     public int bulletMultiplier;
+    public int bulletCaptureProgress, bulletCaptureLimit;
+    public GameObject stolen_bullet_holder;
     
     public static PlayerManager GetInstance()
     {
@@ -56,7 +58,7 @@ public class PlayerManager : MonoBehaviour
 
     void Start()
     {
-        m_healthPoint = m_maxHealthPoint;
+        m_healthPoint = 4;// m_maxHealthPoint;
         HealthController.GetInstance().SetMax(m_maxHealthPoint);
         HealthController.GetInstance().SetValue(m_healthPoint);
 
@@ -72,22 +74,17 @@ public class PlayerManager : MonoBehaviour
         m_canHeal = false;
 
         m_currentStamina = m_maxStaminaPoint;
+
+        bulletCaptureProgress = 0;
+        bulletCaptureLimit = 3;
         //m_staminaController.SetMax(m_maxStamina);
         //m_staminaController.SetValue(m_currentStamina);
     }
 
-    public void ModifyStamina(float val)
+    public void RoundHP()
     {
-        if (m_currentStamina >= m_maxStaminaPoint  && val > 0f) return;
-        
-        m_currentStamina += val;
-        if (m_currentStamina < 0f)
-            m_currentStamina = 0f;
-    }
-
-    public void ShieldActivationCost(float percentage)
-    {
-        ModifyStamina(maxStamina * percentage);
+        m_healthPoint = Mathf.Round(m_healthPoint);
+        HealthController.GetInstance().SetValue(m_healthPoint);
     }
 
     public bool CanUseShield()
@@ -98,6 +95,11 @@ public class PlayerManager : MonoBehaviour
     public float GetStamina()
     {
         return m_currentStamina;
+    }
+
+    public bool WillSteal()
+    {
+        return (bulletCaptureProgress >= bulletCaptureLimit)  && (stolen_bullet_holder == null);
     }
 
     public void AdjustHealth(float deltaHealth) {
@@ -167,5 +169,16 @@ public class PlayerManager : MonoBehaviour
         }        
 
         StaminaController.GetInstance().AddValue(deltaPoint);
+    }
+
+    public void StealProjectile(GameObject bullet)
+    {
+        stolen_bullet_holder = Instantiate(bullet, transform.position, Quaternion.identity);
+        stolen_bullet_holder.SetActive(false);
+
+        BaseBulletBehavior bulletbehav = stolen_bullet_holder.GetComponent<BaseBulletBehavior>();
+        bulletbehav.PlayerForceOwnership();
+
+        Destroy(bullet);
     }
 }

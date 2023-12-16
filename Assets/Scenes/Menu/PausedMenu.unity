@@ -551,20 +551,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9100000, guid: ddc643c3919980f45a4dec0a89b52447, type: 2}
     - target: {fileID: 2641346834629176998, guid: 6d4db7b64ce75424781550c0ca231ce1, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2641346834629176998, guid: 6d4db7b64ce75424781550c0ca231ce1, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2641346834629176998, guid: 6d4db7b64ce75424781550c0ca231ce1, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2641346834629176998, guid: 6d4db7b64ce75424781550c0ca231ce1, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ExitPausedScene
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d4db7b64ce75424781550c0ca231ce1, type: 3}
@@ -661,7 +649,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2641346834147426716, guid: 6d4db7b64ce75424781550c0ca231ce1, type: 3}
       propertyPath: m_fontSize
-      value: 6.05
+      value: 6.65
       objectReference: {fileID: 0}
     - target: {fileID: 2641346834629176987, guid: 6d4db7b64ce75424781550c0ca231ce1, type: 3}
       propertyPath: m_Name
@@ -771,6 +759,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: ee091d47062644d47ae3c36920b3465f, type: 2}
+    - target: {fileID: 2641346834629176998, guid: 6d4db7b64ce75424781550c0ca231ce1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadOptionScene
+      objectReference: {fileID: 0}
     - target: {fileID: 2641346834629176999, guid: 6d4db7b64ce75424781550c0ca231ce1, type: 3}
       propertyPath: m_PixelsPerUnitMultiplier
       value: 10
@@ -871,7 +863,7 @@ GameObject:
   - component: {fileID: 1678281982}
   - component: {fileID: 1678281983}
   m_Layer: 5
-  m_Name: Title Panel
+  m_Name: TitlePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1137,6 +1129,14 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: f6e8eb8edd365ce45b2d009cdbc956f7, type: 2}
+    - target: {fileID: 2641346834629176998, guid: 6d4db7b64ce75424781550c0ca231ce1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2641346834629176998, guid: 6d4db7b64ce75424781550c0ca231ce1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: QuitGame
+      objectReference: {fileID: 0}
     - target: {fileID: 2641346834629176999, guid: 6d4db7b64ce75424781550c0ca231ce1, type: 3}
       propertyPath: m_PixelsPerUnitMultiplier
       value: 10

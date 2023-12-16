@@ -6,7 +6,7 @@ using System.Collections;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private int baseSceneIndex;
-    public static LevelManager Instance;
+    public static LevelManager instance;
     private static float originTimeScale;
 
     
@@ -169,15 +169,6 @@ public class LevelManager : MonoBehaviour
     [Header("Level Play Controller")]
     [SerializeField] private int selectedLevel;
     [SerializeField] private int levelOffset; 
-    public int GetLevelOffset(){
-        return levelOffset;
-    }
-    public int GetLevel(){
-        return selectedLevel;
-    }
-    public void SetLevel(int level){
-        Instance.selectedLevel = level;
-    }
     public void LoadScene(int int_index){
         int i = int_index;
         StartCoroutine(LoadSceneInt(i));

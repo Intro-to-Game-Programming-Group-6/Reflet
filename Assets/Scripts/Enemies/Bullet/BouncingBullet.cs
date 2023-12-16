@@ -38,7 +38,12 @@ public class BouncingBullet : BaseBulletBehavior
                 collision.gameObject.GetComponent<BaseEnemyBehavior>().AdjustHealth(-bulletDamage);
                 Destroy(gameObject);
             }
-            
+            else
+            {
+                Vector2 inNorm = collision.contacts[0].normal;
+                //ReflectBullet
+                ReflectBullet(inNorm);
+            }
         }
         //All Reflectable should have this
         else if (collision.gameObject.CompareTag("Reflector"))

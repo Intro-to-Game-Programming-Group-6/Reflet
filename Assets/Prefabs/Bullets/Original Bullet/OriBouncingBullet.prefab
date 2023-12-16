@@ -108,7 +108,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &6657371118126081571
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -139,7 +139,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpeed: 7
   bulletLifeTime: 7
-  bulletDamage: 0
+  bulletDamage: 1
+  knockbackForce: 2
+  isMultiplied: 0
   rb: {fileID: 4407258413508283572}
   status: 1
   col: {fileID: 6657371118126081571}

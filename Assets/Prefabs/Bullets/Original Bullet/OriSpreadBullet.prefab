@@ -108,7 +108,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &160701773113574872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,7 +123,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpeed: 5
   bulletLifeTime: 3
-  bulletDamage: 0
+  bulletDamage: 1
+  knockbackForce: 2
+  isMultiplied: 0
   rb: {fileID: 7136152170763556113}
   status: 1
   childBulletPrefeb: {fileID: 2155963583699463123, guid: bfcaeb51af99eb94cbbb0210e1a6f967, type: 3}

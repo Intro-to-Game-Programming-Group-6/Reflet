@@ -32,7 +32,7 @@ public class BaseBulletBehavior : MonoBehaviour
         lifetimeCount = 0;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         lifetimeCount += 0.001f; // make lifetime close to second
         if (lifetimeCount >= bulletLifeTime) EndLifetime();

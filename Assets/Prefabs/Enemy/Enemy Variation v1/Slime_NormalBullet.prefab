@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5516721021177214387}
   - component: {fileID: 8508419618440697653}
   - component: {fileID: 8326409820543350076}
-  - component: {fileID: 7267223507438137266}
+  - component: {fileID: 2956669132948829195}
   m_Layer: 0
   m_Name: Slime_NormalBullet
   m_TagString: Enemy
@@ -121,7 +121,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 6192775651426223815}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.08
+  m_Radius: 0.05
   m_Speed: 2
   m_Acceleration: 0.5
   avoidancePriority: 50
@@ -130,7 +130,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 0.15
+  m_Height: 0.06
   m_BaseOffset: 0.08
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
@@ -181,7 +181,7 @@ Rigidbody2D:
   m_SleepingMode: 2
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &7267223507438137266
+--- !u!114 &2956669132948829195
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -190,24 +190,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 6192775651426223815}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9752fd4ce1f6aef4d9d5368f9370632a, type: 3}
+  m_Script: {fileID: 11500000, guid: e36f26769633331459b09027d213c764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 5516721021177214387}
+  bulletPrefab: {fileID: 8939198609150684676, guid: 40022e38bc764ef4fafa12276db687f0, type: 3}
+  sleep: 0
+  animController: {fileID: 0}
+  sprite: {fileID: 0}
   player: {fileID: 0}
   isPlayer:
     serializedVersion: 2
     m_Bits: 8
-  bulletPrefab: {fileID: 8939198609150684676, guid: 40022e38bc764ef4fafa12276db687f0, type: 3}
-  detectRange: 4
-  attackRange: 2
-  attackDelay: 2
-  maxHealth: 3
-  currentHealth: 3
+  attackRange: 4
+  attackDelay: 3
+  detectRange: 5
   playerInAttackRange: 0
   playerInDetectRange: 0
-  full: {fileID: 21300000, guid: fed24bd82cefc0c4a8ef64dab6231b53, type: 3}
-  empty: {fileID: 21300002, guid: fed24bd82cefc0c4a8ef64dab6231b53, type: 3}
+  isAttacking: 0
+  full: {fileID: 0}
+  empty: {fileID: 0}
+  hearts: []
+  maxHealth: 0
+  currentHealth: 0
+  hurtEffect: {fileID: 0}
+  dieEffect: {fileID: 0}
+  shootEffect: {fileID: 0}
 --- !u!1001 &124092455592872816
 PrefabInstance:
   m_ObjectHideFlags: 0

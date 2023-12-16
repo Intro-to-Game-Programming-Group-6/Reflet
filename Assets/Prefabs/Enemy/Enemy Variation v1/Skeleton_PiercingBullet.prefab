@@ -14,10 +14,10 @@ GameObject:
   - component: {fileID: 5872602009914623622}
   - component: {fileID: 8779110592293385192}
   - component: {fileID: 3483271707430182168}
-  - component: {fileID: 629708889724614945}
+  - component: {fileID: 3889676543551436833}
   m_Layer: 0
   m_Name: Skeleton_PiercingBullet
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -165,7 +165,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1297743061378408835}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.09
+  m_Radius: 0.05
   m_Speed: 4
   m_Acceleration: 1
   avoidancePriority: 50
@@ -174,11 +174,11 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 0.17
+  m_Height: 0.06
   m_BaseOffset: 0.09
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &629708889724614945
+--- !u!114 &3889676543551436833
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -187,21 +187,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 1297743061378408835}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9752fd4ce1f6aef4d9d5368f9370632a, type: 3}
+  m_Script: {fileID: 11500000, guid: e36f26769633331459b09027d213c764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 3483271707430182168}
+  bulletPrefab: {fileID: 5712115813734137524, guid: 662336a7dc5193146b1bc7f3af4dbc15, type: 3}
+  sleep: 0
+  animController: {fileID: 0}
+  sprite: {fileID: 0}
   player: {fileID: 0}
   isPlayer:
     serializedVersion: 2
     m_Bits: 8
-  bulletPrefab: {fileID: 5712115813734137524, guid: 662336a7dc5193146b1bc7f3af4dbc15, type: 3}
-  detectRange: 10
-  attackRange: 6
-  attackDelay: 4.5
-  maxHealth: 2
-  currentHealth: 2
+  attackRange: 8
+  attackDelay: 5
+  detectRange: 12
   playerInAttackRange: 0
   playerInDetectRange: 0
+  isAttacking: 0
   full: {fileID: 0}
   empty: {fileID: 0}
+  hearts: []
+  maxHealth: 0
+  currentHealth: 0
+  hurtEffect: {fileID: 0}
+  dieEffect: {fileID: 0}
+  shootEffect: {fileID: 0}

@@ -6,12 +6,24 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Play/Tutorial.unity
-    guid: 4e4c895015a73794da706b687c6ec3a5
-  - enabled: 1
     path: Assets/Scenes/Menu/MainMenu.unity
     guid: 0adecb067d21acd40beb65e76ba8b140
   - enabled: 1
     path: Assets/Scenes/Menu/OptionMenu.unity
     guid: 654034961b67f8447a37a28e2571464b
+  - enabled: 1
+    path: Assets/Scenes/Menu/LevelMenu.unity
+    guid: 8012f7eb9aea2e745b845583cd4cacbe
+  - enabled: 1
+    path: Assets/Scenes/Menu/PausedMenu.unity
+    guid: 1e0f5aabfae31b34eb1d84e866f7e482
+  - enabled: 1
+    path: Assets/Scenes/Menu/EndGameMenu.unity
+    guid: a59b736db3b4f0a49a02af5dce62a7e6
+  - enabled: 1
+    path: Assets/Scenes/Tutorial.unity
+    guid: 4e4c895015a73794da706b687c6ec3a5
+  - enabled: 1
+    path: Assets/Scenes/Testing/TestingKevin.unity
+    guid: 54e5a912c4332294a977518f59e2ba1d
   m_configObjects: {}

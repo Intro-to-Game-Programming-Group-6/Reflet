@@ -91,6 +91,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78a86e8fc4e381643bb197f2d5dd79d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_points: 0
+  m_points_band: 000000000000000000000000
+  m_isWon: 0
 --- !u!114 &1184931709361013795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,8 +106,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b13fbf89b7f61b43a86182759010a94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseSceneIndex: 5
   selectedLevel: 0
-  levelOffset: 4
+  levelOffset: 5
 --- !u!114 &4000924208701056000
 MonoBehaviour:
   m_ObjectHideFlags: 0

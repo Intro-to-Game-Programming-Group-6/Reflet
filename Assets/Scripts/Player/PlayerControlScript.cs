@@ -39,11 +39,11 @@ public class PlayerControlScript : MonoBehaviour
     [Header("Reflect Variables")]
     [SerializeField] public Transform spawnPoint;
     [SerializeField] public GameObject reflector;
-    [SerializeField] bool mirrorRotate;
+    [SerializeField] public bool mirrorRotate;
     [HideInInspector][SerializeField] GameObject shield;
     [HideInInspector][SerializeField] bool isReflecting = false;
     [HideInInspector][SerializeField] float orbitRadius = 3f;
-    [HideInInspector][SerializeField] int numShields = 4;
+    [HideInInspector][SerializeField] public int numShields = 4;
     [HideInInspector][SerializeField] float rotationSpeed = 100f;
     [HideInInspector][SerializeField] public float attackRange = 0f;
     [HideInInspector] [SerializeField] private List<float> angle_pos = new List<float>();
@@ -57,7 +57,8 @@ public class PlayerControlScript : MonoBehaviour
     public int HealID =2;
     public float aoeHealRadius = 3;
     public float aoeHealTime = 100f;
-    public float aoeHealTotal = 3f;
+    public float aoeHealTotal = 10f;
+    public float normalHeal = 5f;
     #endregion
 
     private bool isSprinting;
@@ -67,6 +68,13 @@ public class PlayerControlScript : MonoBehaviour
 
     private float reflectionTimer = 0f;
     private float reflectionInterval = 0.1f; // 1 second interval
+    public float stamina_regen;
+    public float stamina_decay;
+
+    private void OnEnable()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
 
     void Awake()
     {
@@ -103,13 +111,16 @@ public class PlayerControlScript : MonoBehaviour
         isReflecting = false;
         // shield_time = max_shield_time;
         // shield_cooldown = 0f;
-        mirrorRotate = true;
+        mirrorRotate = false;
         numShields = 4;
         canDash = true;
 
         aoeHealRadius = 3;
         aoeHealTime = 10f;
         aoeHealTotal = 10f;
+
+        stamina_decay = -1f;
+        stamina_regen = 1f;
 
         //CreateOrbitingShields();
     }
@@ -192,9 +203,9 @@ public class PlayerControlScript : MonoBehaviour
         {
             reflectionTimer = reflectionInterval;
             if (isReflecting)
-                PlayerManager.GetInstance().AdjustStaminaPoint(-1);
+                PlayerManager.GetInstance().AdjustStaminaPoint(stamina_decay);
             else
-                PlayerManager.GetInstance().AdjustStaminaPoint(1);
+                PlayerManager.GetInstance().AdjustStaminaPoint(stamina_regen);
         }
 
         if (isReflecting)
@@ -230,11 +241,14 @@ public class PlayerControlScript : MonoBehaviour
             shield.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
         }
     }
-    void CreateOrbitingShields()
+    public void CreateOrbitingShields()
     {
         if (rotateshields.Count == numShields) return;
 
         if (isReflecting) return;
+
+        angle_pos.Clear();
+        DestroyRotating();
 
         for (int i = 0; i < numShields; i++)
         {
@@ -263,17 +277,17 @@ public class PlayerControlScript : MonoBehaviour
         }
     }
 
-    /*
+    
     void DestroyRotating()
     {
-        foreach (GameObject singular_shield in tameng)
+        foreach (GameObject singular_shield in rotateshields)
         {
             if (singular_shield != null)
                 Destroy(singular_shield);
         }
-        tameng.Clear();
+        rotateshields.Clear();
     }
-    */
+    
     public void OnMove(InputAction.CallbackContext context)
     {
         if (context.performed)

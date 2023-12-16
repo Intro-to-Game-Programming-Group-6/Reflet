@@ -5,11 +5,9 @@ using System.Collections;
 
 public class LevelManager : MonoBehaviour
 {
+    private static LevelManager instance;
     [SerializeField] private int baseSceneIndex;
-    public static LevelManager Instance;
-    private static float originTimeScale;
-
-    
+    private static float originTimeScale;    
 
     // [Header("Transition Settings")]
     // [SerializeField] private GameObject[] fadeObjects;
@@ -96,11 +94,6 @@ public class LevelManager : MonoBehaviour
         return instance;
     }
 
-    private void OnEnable()
-    {
-        DontDestroyOnLoad(gameObject);
-    }
-
     public int GetLevelOffset()
     {
         return levelOffset;
@@ -169,15 +162,7 @@ public class LevelManager : MonoBehaviour
     [Header("Level Play Controller")]
     [SerializeField] private int selectedLevel;
     [SerializeField] private int levelOffset; 
-    public int GetLevelOffset(){
-        return levelOffset;
-    }
-    public int GetLevel(){
-        return selectedLevel;
-    }
-    public void SetLevel(int level){
-        Instance.selectedLevel = level;
-    }
+
     public void LoadScene(int int_index){
         int i = int_index;
         StartCoroutine(LoadSceneInt(i));

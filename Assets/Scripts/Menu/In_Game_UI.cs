@@ -7,12 +7,12 @@ public class In_Game_UI : MonoBehaviour
 {
     // Start is called before the first frame update
     public Canvas InGameUI;
-    public Canvas PauseMenu;
+    // public Canvas PauseMenu;
     private float origin_timescale;
 
     void Start()
     {
-        PauseMenu.enabled = false;
+        // PauseMenu.enabled = false;
     }
 
     // Update is called once per frame

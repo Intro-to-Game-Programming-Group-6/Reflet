@@ -58,7 +58,7 @@ public class PlayerManager : MonoBehaviour
 
     void Start()
     {
-        m_healthPoint = 4;// m_maxHealthPoint;
+        m_healthPoint = m_maxHealthPoint;
         HealthController.GetInstance().SetMax(m_maxHealthPoint);
         HealthController.GetInstance().SetValue(m_healthPoint);
 

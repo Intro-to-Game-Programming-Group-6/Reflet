@@ -60,14 +60,6 @@ public class PlayerControlScript : MonoBehaviour
     public float aoeHealTotal = 3f;
     #endregion
 
-
-    private float shield_time;
-    private float max_shield_time = 3f;
-    private float shield_cooldown;
-    private float max_shield_cooldown = 2f;
-    private float rotating_regen_timer;
-    private float current_rotating_regen_timer=0f;
-
     private bool isSprinting;
     public float sprintspeed = 4.25f;
 
@@ -113,13 +105,13 @@ public class PlayerControlScript : MonoBehaviour
         // shield_cooldown = 0f;
         mirrorRotate = true;
         numShields = 4;
-        rotating_regen_timer = 3f;
+        canDash = true;
 
         aoeHealRadius = 3;
-        aoeHealTime = 5f;
-        aoeHealTotal = 3f;
+        aoeHealTime = 10f;
+        aoeHealTotal = 10f;
 
-        CreateOrbitingShields();
+        //CreateOrbitingShields();
     }
 
     void Update()
@@ -127,27 +119,6 @@ public class PlayerControlScript : MonoBehaviour
         ManageSprite();
         ManageMovement();
         ManageShieldAction();
-        
-        if(isReflecting)
-        {
-            reflectionTimer -= Time.deltaTime;
-
-            if (reflectionTimer <= 0f)
-            {
-                PlayerManager.GetInstance().AdjustStaminaPoint(-15);
-                reflectionTimer = reflectionInterval;
-            }
-        }
-        else
-        {
-            reflectionTimer -= Time.deltaTime;
-
-            if (reflectionTimer <= 0f)
-            {
-                PlayerManager.GetInstance().AdjustStaminaPoint(5);
-                reflectionTimer = reflectionInterval;
-            }
-        }
     }
 
     void ManageMovement()
@@ -215,41 +186,26 @@ public class PlayerControlScript : MonoBehaviour
         //Debug.Log("current stamina is: " + PlayerManager.GetInstance().GetStamina());
         RotateShields();
 
-        int emptyIndex = FindMissingShield();
+        reflectionTimer -= Time.deltaTime;
 
-        if (emptyIndex!=-1)
+        if (reflectionTimer <= 0f)
         {
-            Debug.Log("Regeneration begin: " + current_rotating_regen_timer);
-            current_rotating_regen_timer += Time.deltaTime;
-            if (current_rotating_regen_timer >= rotating_regen_timer)
-            {
-                current_rotating_regen_timer = 0f;
-                RegenerateRotating(emptyIndex);
-            }
+            reflectionTimer = reflectionInterval;
+            if (isReflecting)
+                PlayerManager.GetInstance().AdjustStaminaPoint(-1);
+            else
+                PlayerManager.GetInstance().AdjustStaminaPoint(1);
         }
 
         if (isReflecting)
         {
             Reflect();
-            RotateShields();
-
-            //shield_time -= Time.deltaTime;
-            // PlayerManager.GetInstance().ModifyStamina(-Time.deltaTime);
-            // if (!PlayerManager.GetInstance().CanUseShield())
             if (PlayerManager.GetInstance().currentStamina <= 0f)
             {
                 isReflecting = false;
-                // shield_time = max_shield_time;
                 Destroy(shield);
-                // DestroyRotating();
-                // shield_cooldown = max_shield_cooldown;
-                return;
             }
-            return;
         }
-        // shield_cooldown -= Time.deltaTime;
-
-        // PlayerManager.GetInstance().ModifyStamina(Time.deltaTime);
     }
 
     void Reflect()
@@ -276,7 +232,7 @@ public class PlayerControlScript : MonoBehaviour
     }
     void CreateOrbitingShields()
     {
-        //if (rotating_dict.Count == numShields) return;
+        if (rotateshields.Count == numShields) return;
 
         if (isReflecting) return;
 
@@ -304,60 +260,6 @@ public class PlayerControlScript : MonoBehaviour
                 kaca.transform.position = (Vector2)rb.transform.position + new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)) * orbitRadius;
                 kaca.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
             }
-        }
-    }
-
-    public int FindMissingShield()
-    {
-        for(int i=0; i<rotateshields.Count; i++)
-        {
-            if (rotateshields[i] == null)
-                return i;
-        }
-        return -1;
-    }
-
-    public int FindShieldClosestNeighbour(int index)
-    {
-        int closestNeighborIndex = -1;
-        int closestDistance = int.MaxValue;
-
-        for (int i = 0; i < rotateshields.Count; i++)
-        {
-            if (i != index && rotateshields[i] != null)
-            {
-                // Calculate the "circular" distance between the shields
-                int distance = Mathf.Min(Mathf.Abs(i - index), rotateshields.Count - Mathf.Abs(i - index));
-
-                // Update closest neighbor if the current shield is closer
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
-                    closestNeighborIndex = i;
-                }
-            }
-        }
-
-        return closestNeighborIndex;
-    }
-
-    void RegenerateRotating(int index)
-    {
-        int closestNeighborIndex = FindShieldClosestNeighbour(index);
-
-        if (closestNeighborIndex != -1)
-        {
-            float angularDistance = 360f / numShields;
-            float angle = angle_pos[closestNeighborIndex] + angularDistance;
-
-            // Ensure the angle is within [0, 360)
-            angle %= 360;
-
-            Vector2 orbitPosition = (Vector2)rb.transform.position + new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)) * orbitRadius;
-
-            GameObject generated = Instantiate(reflector, orbitPosition, Quaternion.identity, gameObject.transform);
-            generated.tag = "RotatingReflect";
-            rotateshields[index] = generated;
         }
     }
 
@@ -391,7 +293,7 @@ public class PlayerControlScript : MonoBehaviour
     {
         if (context.performed && PlayerManager.GetInstance().currentStamina > 0)// && Sword.GetInstance() == null)
         {
-            // PlayerManager.GetInstance().ShieldActivationCost(-0.25f);
+            PlayerManager.GetInstance().AdjustStaminaPoint(-5);
             isReflecting = true;
         }
         else if (context.canceled)
@@ -409,6 +311,7 @@ public class PlayerControlScript : MonoBehaviour
     {
         if (context.performed && canDash)
         {
+            Debug.Log("am going to dash");
             dashManager.StartDash(this);
         }
     }
@@ -421,6 +324,7 @@ public class PlayerControlScript : MonoBehaviour
         }
     }
 
+    /*
     public void FindBullet()
     {
         float steal_distance = 5f;
@@ -453,28 +357,26 @@ public class PlayerControlScript : MonoBehaviour
         bulletbehav.PlayerForceOwnership();
 
         Destroy(bullet);
-        Debug.Log("projectile stolen!");
     }
-
+    */
     public void ShootStolenProjectile()
     {
-        Debug.Log(bullet_holder);
-        if (bullet_holder != null)
+        if (PlayerManager.GetInstance().stolen_bullet_holder != null)
         {
             Debug.Log("peluru lagi dibuang");
             float bulletSpeed = 15f;
-            BaseBulletBehavior bulletbehav = bullet_holder.GetComponent<BaseBulletBehavior>();
+            BaseBulletBehavior bulletbehav = PlayerManager.GetInstance().stolen_bullet_holder.GetComponent<BaseBulletBehavior>();
             string get_bullet_type = bulletbehav.GetBulletType();
-            bullet_holder.SetActive(true);
-            bullet_holder.transform.position = transform.position;
+            PlayerManager.GetInstance().stolen_bullet_holder.SetActive(true);
+            PlayerManager.GetInstance().stolen_bullet_holder.transform.position = transform.position;
             // Make the projectile reappear in the game view
-            GameObject newProjectile = bullet_holder;// Instantiate(bullet_holder, transform.position, Quaternion.identity);
+            GameObject newProjectile = PlayerManager.GetInstance().stolen_bullet_holder;            
             ActivateBullet(newProjectile, get_bullet_type);
 
             Vector2 direction = (CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - rb.transform.position).normalized;
             newProjectile.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
             newProjectile.GetComponent<Transform>().right = direction; //work now but don't know why
-            bullet_holder = null;
+            PlayerManager.GetInstance().stolen_bullet_holder = null;
         }
     }
 
@@ -519,12 +421,7 @@ public class PlayerControlScript : MonoBehaviour
 
     public void OnSteal(InputAction.CallbackContext context)
     {
-        if (context.performed && bullet_holder == null)
-        {
-            FindBullet();
-            return;
-        }
-        else if (context.performed && bullet_holder != null)
+        if (context.performed && PlayerManager.GetInstance().stolen_bullet_holder != null)
         {
             ShootStolenProjectile();
             if (bullet_holder == null)

@@ -46,7 +46,8 @@ public class HealthController : MonoBehaviour
 
     void Update()
     {
-        value.text = m_curBar.ToString() + "/" + m_maxBar.ToString();
+        string current_hp = m_curBar % 1 == 0 ? m_curBar.ToString("F0") : m_curBar.ToString("F1");
+        value.text = current_hp + "/" + m_maxBar.ToString();
     }
 
     public void SetMax(float value)

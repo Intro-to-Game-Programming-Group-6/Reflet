@@ -163,9 +163,8 @@ public class Transition : MonoBehaviour
 
             break;
         }
-
-
     }
+
     private void Reset()
     {
         ResetColor();
@@ -174,13 +173,8 @@ public class Transition : MonoBehaviour
 
     private void Initialize(){
         image = GetComponent<Image>();
-        title1 = transform.GetChild(0).GetComponent<Text>();
-        title2 = transform.GetChild(0).transform.GetChild(0).GetComponent<Text>();
 
         originalColor = new Color[3];
         originalColor = currentColor;
-
-        title1.text = titleText;
-        title2.text = titleText;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+ using UnityEngine.UI;
 
 public class MissionLog : MonoBehaviour
 {
@@ -11,8 +12,8 @@ public class MissionLog : MonoBehaviour
     public float duration;
     public bool isUpdating;
 
-    private Vector3 basePosition = new Vector3(280, 275, 0);
-    private Vector3 secondaryPosition = new Vector3(280, 350, 0);
+    private Vector3 basePosition = new Vector3(290, 280, 0);
+    private Vector3 secondaryPosition = new Vector3(290, 400, 0);
 
     void Awake()
     {

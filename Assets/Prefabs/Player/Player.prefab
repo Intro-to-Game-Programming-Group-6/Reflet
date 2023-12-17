@@ -48,7 +48,6 @@ GameObject:
   - component: {fileID: 6507202684667143752}
   - component: {fileID: 3740100131174927121}
   - component: {fileID: 6247839640659730905}
-  - component: {fileID: 2350048284375422701}
   - component: {fileID: 6663060587384046383}
   m_Layer: 3
   m_Name: Player
@@ -464,19 +463,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NormalDash: {fileID: 11400000, guid: 1906fa32c59aa5346afa62713bb6e2dd, type: 2}
   BlinkDash: {fileID: 11400000, guid: e28d939370ea3054cadac72a04f64a67, type: 2}
---- !u!114 &2350048284375422701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6507202684667143793}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e328adfb7892a85468dcd0ab916134c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myTrail: {fileID: 0}
 --- !u!114 &6663060587384046383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -490,7 +476,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AoeHeal: {fileID: 11400000, guid: 36f17c8122420824289e1684b43e985c, type: 2}
+  Disintegration: {fileID: 11400000, guid: 1da8f427d75853a408fd9b6aac05f3fd, type: 2}
+  ShieldReflect: {fileID: 11400000, guid: 09c2de5f3a63c764e9486845d09b73a7, type: 2}
   AoEPrefab: {fileID: 9106934695498728657, guid: 3138c384b20c3fb49b1871100ac09032, type: 3}
+  ReflectShieldPrefab: {fileID: 4840706446708857816, guid: d3d0e6900470d53478a476b36272f42c, type: 3}
+  DisintegratePrefab: {fileID: 1266431681978860369, guid: 569fe9c5863a5c348aae302835b8b9e4, type: 3}
 --- !u!1 &8980132805802768350
 GameObject:
   m_ObjectHideFlags: 0

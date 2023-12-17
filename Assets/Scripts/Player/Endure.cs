@@ -5,6 +5,11 @@ using UnityEngine;
 public class Endure : MonoBehaviour
 {
     [SerializeField] private float duration;
+
+    public void SetProperties(float newdur)
+    {
+        duration = newdur;
+    }
     private void OnEnable()
     {
         PlayerManager.GetInstance().AdjustHealth(1);

@@ -58,7 +58,7 @@ public class PlayerManager : MonoBehaviour
 
     void Start()
     {
-        m_healthPoint = m_maxHealthPoint;
+        m_healthPoint = 4f;// m_maxHealthPoint;
         HealthController.GetInstance().SetMax(m_maxHealthPoint);
         HealthController.GetInstance().SetValue(m_healthPoint);
 
@@ -146,7 +146,7 @@ public class PlayerManager : MonoBehaviour
             return false;
         }
         m_canHeal = false;
-        AdjustHealth(1);
+        AdjustHealth(10);
         m_vialPoint -= m_useVialPoint;
         VialController.GetInstance().SetValue(m_vialPoint);
         return true;

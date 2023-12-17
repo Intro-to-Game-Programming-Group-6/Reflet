@@ -1,13 +1,7 @@
- using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-
-public enum TransitionType{
-    Fade,
-    Circular,
-}
 
 public class Transition : MonoBehaviour
 {
@@ -17,6 +11,7 @@ public class Transition : MonoBehaviour
     [SerializeField] private Text title1;
     [SerializeField] private Text title2;
 
+<<<<<<< HEAD
     private Color[] currentColor {
         get {
             return new Color[] {
@@ -33,13 +28,17 @@ public class Transition : MonoBehaviour
     }
     private Color[] originalColor;
 
+=======
+>>>>>>> 0df300983e3fadecfd5729cf06bbbc1651af8248
     private void Awake()
     {
-        Debug.Log("Transition Awake");
         if (instance == null)
         {
             instance = this;
+<<<<<<< HEAD
             Initialize();
+=======
+>>>>>>> 0df300983e3fadecfd5729cf06bbbc1651af8248
         }
         else if (instance != this)
         {
@@ -49,9 +48,7 @@ public class Transition : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("Transition Start");
         Reset();
-        Debug.Log("Transition Start<end>");
     }
 
     public static Transition GetInstance()
@@ -59,6 +56,7 @@ public class Transition : MonoBehaviour
         return instance;
     }
 
+<<<<<<< HEAD
     ///<summary>
     /// Fades the screen to black or clear
     /// </summary>
@@ -91,16 +89,27 @@ public class Transition : MonoBehaviour
         {
             
             for (int i = 0; i < 3; i++) {
+=======
+    IEnumerator Fade(Color to, float duration, float delay, System.Action callback = null)
+    {
+        yield return new WaitForSeconds(delay);
 
-                temp[i] = Color.Lerp(froms[i], tos[i], t);
-            }
-            currentColor = temp;
+        float startTime = Time.time;
+        Color from = image.color;
+        
+        float t = 0;
+>>>>>>> 0df300983e3fadecfd5729cf06bbbc1651af8248
+
+        while (t < 1)
+        {
+            image.color = Color.Lerp(from, to, t);
             yield return null;
             t = (Time.time - startTime) / duration;
         }
         title1.text = "";
         title2.text = "";
 
+<<<<<<< HEAD
         if (callback != null) callback.Invoke();
         yield return null;
     }
@@ -145,10 +154,19 @@ public class Transition : MonoBehaviour
 
         if (callback != null) callback.Invoke();
         yield return null;
+=======
+        yield return null;
     }
 
-    public void ResetColor()
+    public void SetColor(Color to)
     {
+        image.color = to;
+>>>>>>> 0df300983e3fadecfd5729cf06bbbc1651af8248
+    }
+
+    public void StartFade(Color to, float duration, float delay = 0f, System.Action callback = null)
+    {
+<<<<<<< HEAD
         currentColor = originalColor;
     }
 
@@ -167,10 +185,14 @@ public class Transition : MonoBehaviour
             StartCoroutine(Fade(to, duration, delay, callback));
             break;
         }
+=======
+        StartCoroutine(Fade(to, duration, delay));
+>>>>>>> 0df300983e3fadecfd5729cf06bbbc1651af8248
     }
 
     private void Reset()
     {
+<<<<<<< HEAD
         ResetColor();
         StartTransition(Color.clear, 2f, 1.5f, TransitionType.Fade);
     }
@@ -180,5 +202,9 @@ public class Transition : MonoBehaviour
 
         originalColor = new Color[3];
         originalColor = currentColor;
+=======
+        SetColor(Color.black);
+        StartFade(Color.clear, 1f, 1f);
+>>>>>>> 0df300983e3fadecfd5729cf06bbbc1651af8248
     }
 }

@@ -59,6 +59,9 @@ public class PlayerControlScript : MonoBehaviour
     public float aoeHealTime = 100f;
     public float aoeHealTotal = 10f;
     public float normalHeal = 5f;
+
+    public int ReflectShieldHP = 0;
+    public float DisintegrationDuration = 10f;
     #endregion
 
     private bool isSprinting;
@@ -112,7 +115,7 @@ public class PlayerControlScript : MonoBehaviour
         // shield_time = max_shield_time;
         // shield_cooldown = 0f;
         mirrorRotate = false;
-        numShields = 4;
+        numShields = 0;
         canDash = true;
 
         aoeHealRadius = 3;

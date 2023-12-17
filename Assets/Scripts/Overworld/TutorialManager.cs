@@ -97,6 +97,7 @@ public class TutorialManager : MonoBehaviour
 
         currentState = 4;
         PlayerManager.GetInstance().AddVialPoint(10);
+        PlayerManager.GetInstance().AdjustHealth(-10);
         StartCoroutine(MissionLog.GetInstance().UpdateLog("Click R to heal"));
     }
 
@@ -117,8 +118,8 @@ public class TutorialManager : MonoBehaviour
 
     IEnumerator SpawnEnemies()
     {
-        Vector3 enemySpawnPoint1 = new Vector3(3, -10, 0);
-        Vector3 enemySpawnPoint2 = new Vector3(-8, -10, 0);
+        Vector3 enemySpawnPoint1 = new Vector3(-3, 3, 0);
+        Vector3 enemySpawnPoint2 = new Vector3(3, 3, 0);
 
         bool spawnPoint = true;
         int currentEnemyCount = 0;

@@ -6,6 +6,10 @@ public class TempShield : MonoBehaviour
 {
     protected int hitPoint = 1;
     //tag as reflector
+    public void SetProperties(int newHP)
+    {
+        hitPoint = newHP;
+    }
 
 
     private void OnTriggerEnter2D(Collider2D collision)

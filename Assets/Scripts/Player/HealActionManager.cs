@@ -6,7 +6,9 @@ public class HealActionManager : MonoBehaviour
 {
     // Start is called before the first frame update
     public AoEHealing AoeHeal;
-    public GameObject AoEPrefab;
+    public DisintegrationShield Disintegration;
+    public ReflectShield ShieldReflect;
+    public GameObject AoEPrefab, ReflectShieldPrefab, DisintegratePrefab;
     public void StartHeal(PlayerControlScript mainController)
     {
         switch (mainController.HealID)
@@ -18,6 +20,10 @@ public class HealActionManager : MonoBehaviour
                 AoeHeal.CreateField(AoEPrefab, mainController);
                 break;
             case 3:
+                Disintegration.CreateField(DisintegratePrefab, mainController);
+                break;
+            case 4:
+                ShieldReflect.CreateField(ReflectShieldPrefab, mainController);
                 break;
         }
     }

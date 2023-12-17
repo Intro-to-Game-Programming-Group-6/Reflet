@@ -31,6 +31,7 @@ public class PlayerControlScript : MonoBehaviour
     [SerializeField] public float dashCooldown = 1.5f;
     [SerializeField] public int dashCounter;
     [SerializeField] public TrailRenderer trail;
+    [SerializeField] AudioClip dashingSFX;
     [HideInInspector][SerializeField] public bool canDash = true;
     [HideInInspector][SerializeField] public bool currentlyDashing;
     #endregion
@@ -62,6 +63,7 @@ public class PlayerControlScript : MonoBehaviour
 
     public int ReflectShieldHP = 0;
     public float DisintegrationDuration = 10f;
+    [SerializeField] AudioClip healingSFX;
     #endregion
 
     private bool isSprinting;
@@ -329,6 +331,7 @@ public class PlayerControlScript : MonoBehaviour
         if (context.performed && canDash)
         {
             Debug.Log("am going to dash");
+            GetComponent<AudioSource>().PlayOneShot(dashingSFX);
             dashManager.StartDash(this);
         }
     }
@@ -337,6 +340,7 @@ public class PlayerControlScript : MonoBehaviour
     {
         if(context.performed)// && PlayerManager.GetInstance().m_canHeal)
         {
+            GetComponent<AudioSource>().PlayOneShot(healingSFX);
             healManager.StartHeal(this);
         }
     }

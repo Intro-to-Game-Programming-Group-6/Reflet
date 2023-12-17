@@ -167,22 +167,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 4135663763089416701}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9752fd4ce1f6aef4d9d5368f9370632a, type: 3}
+  m_Script: {fileID: 11500000, guid: e36f26769633331459b09027d213c764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 1819625447511183839}
+  agent: {fileID: 0}
+  bulletPrefab: {fileID: 4135663763089416701}
+  sleep: 0
+  animController: {fileID: 0}
+  sprite: {fileID: 0}
   player: {fileID: 0}
   isPlayer:
     serializedVersion: 2
-    m_Bits: 8
-  bulletPrefab: {fileID: 6543337625494122003, guid: 60bcf72bb9d8a6041b407fec28e3ac1f, type: 3}
-  attackRange: 3
-  attackDelay: 5
-  maxHealth: 0
-  currentHealth: 0
+    m_Bits: 0
+  attackRange: 0
+  attackDelay: 0
+  detectRange: 0
   playerInAttackRange: 0
+  playerInDetectRange: 0
+  isAttacking: 0
   full: {fileID: 0}
   empty: {fileID: 0}
+  hearts: []
+  maxHealth: 0
+  currentHealth: 0
+  hurtEffect: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}
+  dieEffect: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}
+  shootEffect: {fileID: 2515445351180927889, guid: 97cac7cef0c93364685d7aa055e6e944, type: 3}
 --- !u!195 &1819625447511183839
 NavMeshAgent:
   m_ObjectHideFlags: 0

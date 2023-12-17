@@ -1617,6 +1617,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3330282294166376890, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3330282294166376890, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 900
+      objectReference: {fileID: 0}
+    - target: {fileID: 3330282294166376890, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -450
+      objectReference: {fileID: 0}
     - target: {fileID: 3330282294596991331, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
       propertyPath: m_Name
       value: InGameUI

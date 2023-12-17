@@ -146,7 +146,7 @@ public class PlayerManager : MonoBehaviour
             return false;
         }
         m_canHeal = false;
-        AdjustHealth(1);
+        AdjustHealth(10);
         m_vialPoint -= m_useVialPoint;
         VialController.GetInstance().SetValue(m_vialPoint);
         return true;

@@ -131,19 +131,12 @@ public class LevelManager : MonoBehaviour
         Time.timeScale = originTimeScale;
     } 
 
-    /// <summary>
-    /// Loads the LevelMenu scene
-    /// </summary>
-    public void LoadLevelMenuScene(){
-        string s = "LevelMenu";
-        StartCoroutine(LoadSceneStr(s));
-    } 
     public void LoadTutorialLevelScene(){
-        string s = "Tutorial";
+        string s = "Scenes/Play/Tutorial";
         StartCoroutine(LoadSceneStr(s));
     } 
     public void ExitLevelMenuScene(){
-        string s = "MainMenu";
+        string s = "Scenes/Menu/MainMenu";
         StartCoroutine(LoadSceneStr(s));
     }
 
@@ -198,14 +191,14 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator LoadSceneInt(int i)
     {
-        Transition.GetInstance().StartTransition(true, Color.black, 2f, 1f);
+        Transition.GetInstance().StartFade(Color.black, 1.5f, 1f);
         yield return new WaitForSeconds(2f);
         SceneManager.LoadScene(i);
     }
 
     IEnumerator LoadSceneStr(string s)
     {
-        Transition.GetInstance().StartTransition(true, Color.black, 2f, 1f);
+        Transition.GetInstance().StartFade(Color.black, 1.5f, 1f);
         yield return new WaitForSeconds(2f);
         SceneManager.LoadScene(s);
     }

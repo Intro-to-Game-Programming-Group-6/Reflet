@@ -203,7 +203,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   attackRange: 4
-  attackDelay: 2.5
+  attackDelay: 1
   detectRange: 3
   playerInAttackRange: 0
   playerInDetectRange: 0

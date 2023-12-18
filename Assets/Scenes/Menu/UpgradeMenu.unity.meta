@@ -1,4 +1,5 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 <<<<<<<< HEAD:Assets/Scenes/Menu/UpgradeMenu.unity.meta
 guid: 2afbf22ba5ed27e469721f5b81924df4
 DefaultImporter:
@@ -8,6 +9,11 @@ NativeFormatImporter:
 >>>>>>>> 0df300983e3fadecfd5729cf06bbbc1651af8248:Assets/ScriptableObjects/PlayerScriptableObjects/Disintegration Shield.asset.meta
   externalObjects: {}
   mainObjectFileID: 11400000
+=======
+guid: 2afbf22ba5ed27e469721f5b81924df4
+DefaultImporter:
+  externalObjects: {}
+>>>>>>> tmp
   userData: 
   assetBundleName: 
   assetBundleVariant: 

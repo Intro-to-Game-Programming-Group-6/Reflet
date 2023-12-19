@@ -13,8 +13,8 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private List<GameObject> EnemyPrefabs = new List<GameObject>();
     [SerializeField] private List<GameObject> SpawnLocations = new List<GameObject>();
 
-    public UnityEvent EnemySpawned;
-    public UnityEvent EnemyDie;
+    // public UnityEvent EnemySpawned;
+    // public UnityEvent EnemyDie;
     public UnityEvent AllEnemyDefeated;
 
     private int enemyAlive;
@@ -95,7 +95,7 @@ public class EnemyManager : MonoBehaviour
         Instantiate(enemy, position, Quaternion.identity);
         enemyAlive++;
         enemyCount++;
-        EnemySpawned?.Invoke();
+        // EnemySpawned?.Invoke();
         return enemy;
     }
 
@@ -127,6 +127,11 @@ public class EnemyManager : MonoBehaviour
     public void HandleEnemyDeath()
     {
         enemyAlive--;
-        EnemyDie?.Invoke();
+        // EnemyDie?.Invoke();
+    }
+
+    public void OpenExit()
+    {
+        Exit.GetInstance().EnableExit(LevelManager.GetInstance().SelectRandomScene());
     }
 }

@@ -11,8 +11,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private int baseSceneIndex;
     private static float originTimeScale;
 
-    public UnityEvent myFunctionEvent;
-
     [Header("Level Play Controller")]
     [SerializeField] private int selectedLevel;
     [SerializeField] private int levelOffset; 
@@ -21,6 +19,10 @@ public class LevelManager : MonoBehaviour
     EnemyManager enemyManager;
     List<GameObject> selectedEnemies = new List<GameObject>();
     [SerializeField] private List<GameObject> EnemyPrefabs = new List<GameObject>();
+    [SerializeField] private List<string> PlayMaps = new List<string>();
+    private Queue<string> sceneQueue = new Queue<string>();
+    private int maxQueueLen = 1;
+    // private int finalBossThresh = 10;
 
     void Awake()
     {
@@ -52,13 +54,13 @@ public class LevelManager : MonoBehaviour
             selectedEnemies.Add(EnemyPrefabs[0]);
 
             int enemyLimit = 1;
-            int enemyTotal = 3;
+            int enemyTotal = 1;
 
             if(SceneManager.GetActiveScene().name != "Tutorial")
             {
                 SelectRandomEnemies();
-                enemyLimit = 3;
-                enemyTotal = 7;
+                enemyLimit = 5;
+                enemyTotal = 10;
             }
 
             enemyManager.SetEnemySelections(selectedEnemies, enemyLimit, enemyTotal);
@@ -69,11 +71,36 @@ public class LevelManager : MonoBehaviour
     {
         for (int i = 0; i < 2; i++)
         {
-            int randomIndex = Random.Range(1, EnemyPrefabs.Count);
+            int randomIndex = Random.Range(0, EnemyPrefabs.Count);
 
             selectedEnemies.Add(EnemyPrefabs[randomIndex]);
         }
     }
+
+    public string SelectRandomScene()
+    {
+        string selectedScene = null;
+
+        if (PlayMaps.Count > 0)
+        {
+            while (selectedScene == null || sceneQueue.Contains(selectedScene))
+            {
+                selectedScene = PlayMaps[Random.Range(0, PlayMaps.Count)];
+            }
+        }
+
+        return selectedScene;
+    }
+
+    public void Enqueue(string value)
+    {
+        if (sceneQueue.Count >= maxQueueLen)
+        {
+            sceneQueue.Dequeue();
+        }
+        sceneQueue.Enqueue(value);
+    }
+
     #endregion
 
     #region Level Transition
@@ -147,7 +174,7 @@ public class LevelManager : MonoBehaviour
         int i = int_index + levelOffset;
         StartCoroutine(LoadSceneInt(i));
     }
-    
+
     public void LoadNextScene(){
         int i = SceneManager.GetActiveScene().buildIndex + 1;
         StartCoroutine(LoadSceneInt(i));

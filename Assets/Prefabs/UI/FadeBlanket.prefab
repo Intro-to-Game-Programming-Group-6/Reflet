@@ -92,6 +92,3 @@ MonoBehaviour:
   fadeDuration: 1
   fadeObject: {fileID: 0}
   image: {fileID: 4613113456929466513}
-  title1: {fileID: 0}
-  title2: {fileID: 0}
-  titleText: 

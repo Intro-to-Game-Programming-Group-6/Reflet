@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3531099756983959376}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.15, z: 0}
+  m_LocalPosition: {x: 0, y: 0.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -280,6 +280,8 @@ MonoBehaviour:
   aoeHealTime: 3
   aoeHealTotal: 5
   normalHeal: 5
+  ReflectShieldHP: 0
+  DisintegrationDuration: 10
   sprintspeed: 4.25
   stamina_regen: 0
   stamina_decay: 0

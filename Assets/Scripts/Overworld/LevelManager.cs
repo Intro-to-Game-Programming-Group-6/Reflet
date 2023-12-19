@@ -1,86 +1,33 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.Events;
 
 
 public class LevelManager : MonoBehaviour
 {
     private static LevelManager instance;
     [SerializeField] private int baseSceneIndex;
-    private static float originTimeScale;    
+    private static float originTimeScale;
 
-    // [Header("Transition Settings")]
-    // [SerializeField] private GameObject[] fadeObjects;
+    public UnityEvent myFunctionEvent;
 
-    // enum TransitionType {
-    //     FadeIn,
-    //     FadeOut,
-    //     SlideIn,
-    //     SlideOut,
-    //     ZoomIn,
-    //     ZoomOut,
-    //     RotateIn,
-    //     RotateOut,
-    //     ScaleIn,
-    //     ScaleOut,
-    //     None,
-    // }
-    // private void DoTransition(TransitionType type) {
-    //     switch (type) {
-    //     case TransitionType.FadeIn:
-    //         foreach (GameObject gObj in fadeObjects) {
-    //             StartCoroutine(Fade(gObj, 1f, true));
-    //         }
-    //         break;
-    //     case TransitionType.FadeOut: 
-    //         foreach (GameObject gObj in fadeObjects) {
-    //             StartCoroutine(Fade(gObj, 1f, false));
-    //         }
-    //         break;
-    //     case TransitionType.SlideIn:
-    //         break;
-    //     case TransitionType.SlideOut:
-    //         break;
-    //     case TransitionType.ZoomIn:
-    //         break;
-    //     case TransitionType.ZoomOut:
-    //         break;
-    //     case TransitionType.RotateIn:
-    //         break;
-    //     case TransitionType.RotateOut:
-    //         break;
-    //     case TransitionType.ScaleIn:
-    //         break;
-    //     case TransitionType.ScaleOut:
-    //         break;
-    //     case TransitionType.None:
-    //         break;
-    //     }
-    // }
+    [Header("Level Play Controller")]
+    [SerializeField] private int selectedLevel;
+    [SerializeField] private int levelOffset; 
 
-    // private IEnumerator Fade(GameObject gObj, float fadeDuration, bool fadeIn)
-    // {
-    //     Renderer rend = gObj.transform.GetComponent<Renderer>();
-        
-    //     Color initialColor = rend.material.color;
-    //     Color targetColor = new Color(initialColor.r, initialColor.g, initialColor.b, fadeIn ? 1f : 0f);
+    [Header("Randomizer Components")]
+    EnemyManager enemyManager;
+    List<GameObject> selectedEnemies = new List<GameObject>();
+    [SerializeField] private List<GameObject> EnemyPrefabs = new List<GameObject>();
 
-    //     float elapsedTime = 0f;
-
-    //     while (elapsedTime < fadeDuration)
-    //     {
-    //         elapsedTime += Time.deltaTime;
-    //         rend.material.color = Color.Lerp(initialColor, targetColor, elapsedTime / fadeDuration);
-    //         yield return null;
-    //     }
-    // }
-
-    void Awake(){
+    void Awake()
+    {
         if (instance == null)
         {
             instance = this;
             originTimeScale = Time.timeScale;
-
             DontDestroyOnLoad(this);
         }
         else 
@@ -94,6 +41,42 @@ public class LevelManager : MonoBehaviour
         return instance;
     }
 
+    #region  Randomizer
+    public void Reset()
+    {
+        if(EnemyManager.GetInstance() != null)
+        {
+            enemyManager = EnemyManager.GetInstance();
+            
+            selectedEnemies.Clear();
+            selectedEnemies.Add(EnemyPrefabs[0]);
+
+            int enemyLimit = 1;
+            int enemyTotal = 3;
+
+            if(SceneManager.GetActiveScene().name != "Tutorial")
+            {
+                SelectRandomEnemies();
+                enemyLimit = 3;
+                enemyTotal = 7;
+            }
+
+            enemyManager.SetEnemySelections(selectedEnemies, enemyLimit, enemyTotal);
+        }
+    }
+
+    void SelectRandomEnemies()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            int randomIndex = Random.Range(1, EnemyPrefabs.Count);
+
+            selectedEnemies.Add(EnemyPrefabs[randomIndex]);
+        }
+    }
+    #endregion
+
+    #region Level Transition
     public int GetLevelOffset()
     {
         return levelOffset;
@@ -111,8 +94,8 @@ public class LevelManager : MonoBehaviour
     public void LoadOptionScene()
     {
         SceneManager.LoadScene("OptionMenu", LoadSceneMode.Additive);
-
     }
+
     public void ExitOptionScene()
     {
         SceneManager.UnloadSceneAsync("OptionMenu");
@@ -131,11 +114,13 @@ public class LevelManager : MonoBehaviour
         Time.timeScale = originTimeScale;
     } 
 
-    public void LoadTutorialLevelScene(){
+    public void LoadTutorialLevelScene()
+    {
         string s = "Scenes/Play/Tutorial";
         StartCoroutine(LoadSceneStr(s));
     } 
-    public void ExitLevelMenuScene(){
+    public void ExitLevelMenuScene()
+    {
         string s = "Scenes/Menu/MainMenu";
         StartCoroutine(LoadSceneStr(s));
     }
@@ -152,9 +137,6 @@ public class LevelManager : MonoBehaviour
     /// For example, if the first-idx[0] in the build settings is the main menu, and the third-idx[2] is the first level of the game, then `levelOffset` should be 2.
     /// 
     /// </summary>
-    [Header("Level Play Controller")]
-    [SerializeField] private int selectedLevel;
-    [SerializeField] private int levelOffset; 
 
     public void LoadScene(int int_index){
         int i = int_index;
@@ -165,6 +147,7 @@ public class LevelManager : MonoBehaviour
         int i = int_index + levelOffset;
         StartCoroutine(LoadSceneInt(i));
     }
+    
     public void LoadNextScene(){
         int i = SceneManager.GetActiveScene().buildIndex + 1;
         StartCoroutine(LoadSceneInt(i));
@@ -202,5 +185,6 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         SceneManager.LoadScene(s);
     }
+    #endregion
 }
 

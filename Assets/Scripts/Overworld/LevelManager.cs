@@ -2,14 +2,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.InputSystem;
-
 using System.Collections.Generic;
 using UnityEngine.Events;
 
 
 public class LevelManager : MonoBehaviour
 {
-    private static LevelManager instance;
+    private static LevelManager Instance;
     [SerializeField] private int baseSceneIndex;
     private static float originTimeScale;
 
@@ -28,7 +27,7 @@ public class LevelManager : MonoBehaviour
 
     void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
             Instance = this;
             originTimeScale = Time.timeScale;
@@ -107,10 +106,6 @@ public class LevelManager : MonoBehaviour
     public int GetLevelOffset()
     {
         return levelOffset;
-    }
-    public int GetLevel()
-    {
-        DontDestroyOnLoad(gameObject);
     }
 
     public void LoadOptionScene()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class Exit : MonoBehaviour
@@ -9,7 +10,10 @@ public class Exit : MonoBehaviour
 
     private Collider2D col;
     private SpriteRenderer sprite;
-    private string nextScene = "MainMenu";
+    private string nextScene;
+    public bool playerContact = false;
+
+    public UnityEvent ExitTriggered;
 
     void Awake()
     {
@@ -37,18 +41,37 @@ public class Exit : MonoBehaviour
         sprite.enabled = false;
     }
 
-    public void EnableExit()
+    public void EnableExit(string selectedScene)
     {
         col.enabled = true;
         sprite.enabled = true;
+        nextScene = selectedScene;
     }
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        StartCoroutine(ChangeScene());
+        if(collider.CompareTag("Player"))
+        {
+            playerContact = true;
+        }
     }
 
-    IEnumerator ChangeScene()
+    void OnTriggerExit2D(Collider2D collider)
+    {
+        if(collider.CompareTag("Player"))
+        {
+            playerContact = false;
+        }
+    }
+
+    public void ChangeScene()
+    {
+        if(!playerContact) return;
+        ExitTriggered?.Invoke();
+        StartCoroutine(Change());
+    }
+
+    IEnumerator Change()
     {
         Transition.GetInstance().Exit();
         yield return new WaitForSeconds(2f);

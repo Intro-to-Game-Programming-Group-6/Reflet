@@ -39,4 +39,9 @@ public class OptionSettings : MonoBehaviour
         //    MusicManager.GetInstance().SetVolume(newvolume);
         //
     }
+
+    public void ExitOptionScene()
+    {
+        LevelManager.GetInstance().ExitOptionScene();
+    }
 }

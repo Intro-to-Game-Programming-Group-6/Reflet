@@ -9,10 +9,8 @@ public class TutorialManager : MonoBehaviour
     private static TutorialManager instance;
 
     private int currentState;
-    private int tutorialEnemyCount = 3;
 
     private Coroutine spawnCoroutine = null;
-    private GameObject tutorialEnemy = null;
 
     void Awake()
     {
@@ -34,6 +32,7 @@ public class TutorialManager : MonoBehaviour
     void Start()
     {
         currentState = 0;
+        LevelManager.GetInstance().Reset();
         StartCoroutine(MissionLog.GetInstance().UpdateLog("Press WASD to move"));
     }
 
@@ -83,7 +82,7 @@ public class TutorialManager : MonoBehaviour
             StartCoroutine(MissionLog.GetInstance().UpdateLog("Reflect bullets back at enemies"));
             if(spawnCoroutine == null)
             {
-                spawnCoroutine = StartCoroutine(SpawnEnemies());
+                EnemyManager.GetInstance().StartSpawning();
             }
         }
     }
@@ -112,45 +111,7 @@ public class TutorialManager : MonoBehaviour
         {
             currentState = 5;
             StartCoroutine(MissionLog.GetInstance().UpdateLog("Enter portal to exit tutorial"));
-            Exit.GetInstance().EnableExit();
+            Exit.GetInstance().EnableExit("MainMenu");
         }
-    }
-
-    IEnumerator SpawnEnemies()
-    {
-        Vector3 enemySpawnPoint1 = new Vector3(-3, 3, 0);
-        Vector3 enemySpawnPoint2 = new Vector3(3, 3, 0);
-
-        bool spawnPoint = true;
-        int currentEnemyCount = 0;
-
-        while(currentEnemyCount != tutorialEnemyCount || EnemyManager.GetInstance().enemyCount != 0)
-        {
-            if(EnemyManager.GetInstance().enemyCount == 0)
-            {
-                currentEnemyCount += 1;
-
-                yield return new WaitForSeconds(1.5f);
-
-                if(spawnPoint)
-                {
-                    tutorialEnemy = EnemyManager.GetInstance().SpawnEnemy(0, enemySpawnPoint1); 
-                    spawnPoint = false;
-                }
-                else
-                {
-                    tutorialEnemy = EnemyManager.GetInstance().SpawnEnemy(0, enemySpawnPoint2);
-                    spawnPoint = true;
-                }
-                
-            }
-            yield return null;
-        }
-
-        if(EnemyManager.GetInstance().enemyCount == 0)
-        {
-            PlayerKilledEnemies();
-        }
-        yield return null;
     }
 }

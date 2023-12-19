@@ -328,7 +328,7 @@ public class PlayerControlScript : MonoBehaviour
     {
         if (context.performed && canDash)
         {
-            Debug.Log("am going to dash");
+            // Debug.Log("Dashing");
             dashManager.StartDash(this);
         }
     }
@@ -337,7 +337,16 @@ public class PlayerControlScript : MonoBehaviour
     {
         if(context.performed)// && PlayerManager.GetInstance().m_canHeal)
         {
+            // Debug.Log("Healing");
             healManager.StartHeal(this);
+        }
+    }
+
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            Exit.GetInstance().ChangeScene();
         }
     }
 

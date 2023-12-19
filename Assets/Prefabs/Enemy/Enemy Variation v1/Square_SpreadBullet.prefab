@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 3710981622623732843}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.690417, y: -9.687368, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -205,11 +205,11 @@ MonoBehaviour:
   playerInAttackRange: 0
   playerInDetectRange: 0
   isAttacking: 0
-  full: {fileID: 0}
-  empty: {fileID: 0}
+  full: {fileID: 21300000, guid: fed24bd82cefc0c4a8ef64dab6231b53, type: 3}
+  empty: {fileID: 21300002, guid: fed24bd82cefc0c4a8ef64dab6231b53, type: 3}
   hearts: []
-  maxHealth: 0
+  maxHealth: 10
   currentHealth: 0
   hurtEffect: {fileID: 0}
-  dieEffect: {fileID: 0}
-  shootEffect: {fileID: 0}
+  dieEffect: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}
+  shootEffect: {fileID: 2515445351180927889, guid: 97cac7cef0c93364685d7aa055e6e944, type: 3}

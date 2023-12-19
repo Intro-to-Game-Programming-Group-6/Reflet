@@ -77,7 +77,17 @@ public class BouncingBullet : BaseBulletBehavior
 
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
+        //this isn't repeated code this make sur reflector work either it is triiger or not
         //do nothing since this is only non-trigger bullet
+        if (collision.gameObject.CompareTag("Reflector"))
+        {
+            Vector2 inNorm = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - GameObject.Find("Player").transform.position;
+
+            ReflectBullet(inNorm);
+
+            status = Status.OWNED_BY_PLAYER; //allow bullet to hit enemy maybe reverse back to owned by enemy when we add enemy that can also reflect bullet in the future
+        }
+
     }
 
     //make it act normally after leaving enemy

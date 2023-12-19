@@ -92,7 +92,7 @@ public class BaseBulletBehavior : MonoBehaviour
             if (status == Status.OWNED_BY_ENEMY)
             {
                 PlayerManager.GetInstance().AdjustHealth(-bulletDamage);
-                Destroy(gameObject);
+                Destroy(this.gameObject);
             }
         }
         else if (collision.gameObject.CompareTag("Enemy"))
@@ -101,7 +101,7 @@ public class BaseBulletBehavior : MonoBehaviour
             {
                 collision.gameObject.GetComponent<BaseEnemyBehavior>().AdjustHealth(-1);
                 collision.gameObject.GetComponent<BaseEnemyBehavior>().Knockback(gameObject.transform, knockbackForce);
-                Destroy(gameObject);
+                Destroy(this.gameObject);
             }
             
         }

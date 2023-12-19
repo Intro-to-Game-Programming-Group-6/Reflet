@@ -32,7 +32,7 @@ public class BaseEnemyBehavior : MonoBehaviour
     [SerializeField] Sprite full;
     [SerializeField] Sprite empty;
     [HideInInspector][SerializeField] List<GameObject> hearts = new List<GameObject>();
-    [HideInInspector][SerializeField] private int maxHealth;
+    [SerializeField] private int maxHealth;
     [HideInInspector][SerializeField] private int currentHealth;
     [HideInInspector][SerializeField] Coroutine[] heartCoroutines;
 
@@ -157,7 +157,7 @@ public class BaseEnemyBehavior : MonoBehaviour
         currentHealth += deltaHealth;
 
         UpdateHearts();
-        Instantiate(currentHealth <= 0 ? dieEffect: hurtEffect, transform.position, Quaternion.identity);
+        //Instantiate(currentHealth <= 0 ? dieEffect: hurtEffect, transform.position, Quaternion.identity);
         
         if (currentHealth <= 0)
         {

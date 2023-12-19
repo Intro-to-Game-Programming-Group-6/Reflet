@@ -1229,6 +1229,14 @@ PrefabInstance:
       propertyPath: fadeObject
       value: 
       objectReference: {fileID: 1298271883}
+    - target: {fileID: 4613113456929466527, guid: 1d37e9f15d3adfb4fbf0baa0acbced53, type: 3}
+      propertyPath: m_textTitle
+      value: reflet
+      objectReference: {fileID: 0}
+    - target: {fileID: 4613113456929466527, guid: 1d37e9f15d3adfb4fbf0baa0acbced53, type: 3}
+      propertyPath: m_transitionDelay
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8278337001006699901, guid: 1d37e9f15d3adfb4fbf0baa0acbced53, type: 3}
       propertyPath: m_Text
       value: reflet
@@ -1252,6 +1260,18 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4613113456929466514, guid: 1d37e9f15d3adfb4fbf0baa0acbced53, type: 3}
   m_PrefabInstance: {fileID: 1971918470}
   m_PrefabAsset: {fileID: 0}
+--- !u!225 &1971918475
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298271883}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1001 &2041428508
 PrefabInstance:
   m_ObjectHideFlags: 0

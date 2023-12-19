@@ -50,7 +50,7 @@ public class Exit : MonoBehaviour
 
     IEnumerator ChangeScene()
     {
-        Transition.GetInstance().StartFade(Color.black, 1.5f, 1f);
+        Transition.GetInstance().Exit();
         yield return new WaitForSeconds(2f);
         SceneManager.LoadScene(nextScene);
     }

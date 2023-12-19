@@ -11,6 +11,7 @@ public class ExplosiveBullet : BaseBulletBehavior
     //may add area of explosion in future
     public LayerMask isPlayer;
     public float explodingRange;
+    [SerializeField] private int explosionCountdown = 3;
 
     bool playerInExplode;
 
@@ -78,37 +79,74 @@ public class ExplosiveBullet : BaseBulletBehavior
         }
         else if (collision.gameObject.CompareTag("Enemy"))
         {
-            Vector2 inNorm = collision.contacts[0].normal;
-            //ReflectBullet
-            status = Status.OWNED_BY_ENEMY;
-            ReflectBullet(inNorm);
+            if (explosionCountdown > 0)
+            {
+                Vector2 inNorm = collision.contacts[0].normal;
+                //ReflectBullet
+                status = Status.OWNED_BY_ENEMY;
+                explosionCountdown -= 1;
+                ReflectBullet(inNorm);
+            }
+            else
+            {
+                Explode();
+            }
+                
             
         }
         //All Reflectable should have this
         else if (collision.gameObject.CompareTag("Reflector"))
         {
-            Vector2 inNorm = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - GameObject.Find("Player").transform.position;
+            if(explosionCountdown > 0)
+            {
+                Vector2 inNorm = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - GameObject.Find("Player").transform.position;
 
-            ReflectBullet(inNorm);
-
-            status = Status.OWNED_BY_PLAYER; //allow bullet to hit enemy maybe reverse back to owned by enemy when we add enemy that can also reflect bullet in the future
+                ReflectBullet(inNorm);
+                explosionCountdown -= 1;
+                status = Status.OWNED_BY_PLAYER; //allow bullet to hit enemy maybe reverse back to owned by enemy when we add enemy that can also reflect bullet in the future
+            }
+            else
+            {
+                Explode();
+            }
+            
         }
         else if (collision.gameObject.CompareTag("Wall") | collision.gameObject.CompareTag("Obstacles"))
         {
-            //Debug.Log("Hit " + collision.gameObject.tag);
-            //Get direction to bounce
-            Vector2 inNorm = collision.contacts[0].normal;
-            //ReflectBullet
-            ReflectBullet(inNorm);
+            if (explosionCountdown > 0)
+            {
+                //Debug.Log("Hit " + collision.gameObject.tag);
+                //Get direction to bounce
+                Vector2 inNorm = collision.contacts[0].normal;
+                //ReflectBullet
+                explosionCountdown -= 1;
+                status = Status.OWNED_BY_ENEMY;
+                ReflectBullet(inNorm);
+            }
+            else
+            {
+                Explode();
+            }
+                
         }
         else if (collision.gameObject.CompareTag("Bullet"))
         {
-            //uncommend this if choose bouncing to not collapse with other bouncing
-            //col.isTrigger = true;
-            //uncommend this to make bouncing bounce each other
-            Vector2 inNorm = collision.contacts[0].normal;
-            //ReflectBullet
-            ReflectBullet(inNorm);
+            if (explosionCountdown > 0)
+            {
+                //uncommend this if choose bouncing to not collapse with other bouncing
+                //col.isTrigger = true;
+                //uncommend this to make bouncing bounce each other
+                Vector2 inNorm = collision.contacts[0].normal;
+                //ReflectBullet
+                explosionCountdown -= 1;
+                status = Status.OWNED_BY_ENEMY;
+                ReflectBullet(inNorm);
+            }
+            else
+            {
+                Explode();
+            }   
+            
         }
 
 
@@ -116,7 +154,7 @@ public class ExplosiveBullet : BaseBulletBehavior
 
     protected override void Update()
     {
-        base.Update();
+        //base.Update();
 
         playerInExplode = Physics2D.OverlapCircle(transform.position + new Vector3(0.3f, 0f, 0f), explodingRange, isPlayer);
     }
@@ -134,6 +172,7 @@ public class ExplosiveBullet : BaseBulletBehavior
     private void Explode()
     {
         Debug.Log("Exploded");
+        //add explosion effect here
         if (playerInExplode)
         {
             PlayerManager.GetInstance().AdjustHealth(-bulletDamage);
@@ -157,6 +196,23 @@ public class ExplosiveBullet : BaseBulletBehavior
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
         //do nothing since this is only non-trigger bullet
+        //this isn't repeated code this make sur reflector work either it is triiger or not
+        if (collision.gameObject.CompareTag("Reflector"))
+        {
+            if (explosionCountdown > 0)
+            {
+                Vector2 inNorm = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - GameObject.Find("Player").transform.position;
+
+                ReflectBullet(inNorm);
+                explosionCountdown -= 1;
+                status = Status.OWNED_BY_PLAYER; //allow bullet to hit enemy maybe reverse back to owned by enemy when we add enemy that can also reflect bullet in the future
+            }
+            else
+            {
+                Explode();
+            }
+
+        }
     }
 
     //make it act normally after leaving enemy

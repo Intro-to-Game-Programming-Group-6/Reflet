@@ -2509,7 +2509,7 @@ GameObject:
   - component: {fileID: 3677329581552069065}
   m_Layer: 0
   m_Name: Obstacles
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3031,9 +3031,9 @@ GameObject:
   - component: {fileID: 2433993928435726448}
   - component: {fileID: 7982307344723829764}
   - component: {fileID: 5463970688402806611}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Edges
-  m_TagString: Untagged
+  m_TagString: Impassable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20754,6 +20754,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5844481987126934576}
   - component: {fileID: 5844481987126934577}
+  - component: {fileID: 4435411176487875592}
   m_Layer: 0
   m_Name: Map3
   m_TagString: Untagged
@@ -20796,6 +20797,19 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!114 &4435411176487875592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5844481987126934578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6552486dc9d08b94294583995209852b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &5844481987144549890
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4180017433697249695}
   - component: {fileID: 8200771315607175289}
   - component: {fileID: 8034316953749320834}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Temo
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -141,12 +141,15 @@ MonoBehaviour:
   bulletSpeed: 3
   bulletLifeTime: 5
   bulletDamage: 1
+  knockbackForce: 2
+  isMultiplied: 0
   rb: {fileID: 6577619795748586248}
   status: 1
   isPlayer:
     serializedVersion: 2
     m_Bits: 8
   explodingRange: 1
+  explosionCountdown: 3
   col: {fileID: 4180017433697249695}
 --- !u!95 &8034316953749320834
 Animator:
@@ -180,7 +183,7 @@ GameObject:
   - component: {fileID: 2059247307507855493}
   - component: {fileID: 3489210213510485483}
   - component: {fileID: 6426922522732489472}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ExplodeArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}

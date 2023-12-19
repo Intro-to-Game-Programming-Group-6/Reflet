@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
@@ -30,13 +31,16 @@ public class MainMenu : MonoBehaviour
         return instance;
     }
     
+    #region Intermediary
     public void LoadLevel(int level)
     {
+        DisableOtherButtons();
         LevelManager.GetInstance().LoadScene(level);
     }
 
     public void LoadTutorialLevelScene()
     {
+        DisableOtherButtons();
         LevelManager.GetInstance().LoadTutorialLevelScene();
     }
 
@@ -53,5 +57,30 @@ public class MainMenu : MonoBehaviour
     public void CloseGame()
     {
         Application.Quit();
+    }
+    #endregion
+
+    private void DisableOtherButtons()
+    {
+        Button[] buttons = FindObjectsOfType<Button>();
+        foreach (Button button in buttons)
+        {
+            if (button != null)
+            {
+                button.interactable = false;
+            }
+        }
+    }
+
+    private void EnableOtherButtons()
+    {
+        Button[] buttons = FindObjectsOfType<Button>();
+        foreach (Button button in buttons)
+        {
+            if (button != null)
+            {
+                button.interactable = true;
+            }
+        }
     }
 }

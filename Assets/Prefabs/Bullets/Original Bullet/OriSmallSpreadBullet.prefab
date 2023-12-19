@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5276161355811171965}
   - component: {fileID: 8537605703062359511}
   - component: {fileID: 8592271522546218220}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: OriSmallSpreadBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}

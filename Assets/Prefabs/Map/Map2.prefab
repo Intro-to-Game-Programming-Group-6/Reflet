@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 2890556279714104281}
   - component: {fileID: 2890556279714104279}
   - component: {fileID: 2890556279714104280}
+  - component: {fileID: 3403746028260940596}
+  - component: {fileID: 7934401487643438161}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Untagged
@@ -7704,6 +7706,35 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
+--- !u!114 &3403746028260940596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2890556279714104282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 0
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
+--- !u!114 &7934401487643438161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2890556279714104282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 709c8d6349be44c68dff3d220992400c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TileModifiers: []
 --- !u!1 &2890556279769748450
 GameObject:
   m_ObjectHideFlags: 0
@@ -7714,6 +7745,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2890556279769748448}
   - component: {fileID: 2890556279769748449}
+  - component: {fileID: 3904538495126374459}
   m_Layer: 0
   m_Name: Map2
   m_TagString: Untagged
@@ -7755,6 +7787,19 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!114 &3904538495126374459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2890556279769748450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6552486dc9d08b94294583995209852b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingPosition: {x: -4, y: 0, z: 0}
 --- !u!1 &2890556279783582162
 GameObject:
   m_ObjectHideFlags: 0
@@ -7887,7 +7932,7 @@ GameObject:
   - component: {fileID: 2901165970886043592}
   - component: {fileID: 3534857979488138820}
   m_Layer: 0
-  m_Name: RockPath
+  m_Name: Debris
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9107,9 +9152,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5336461255016893222}
+  - component: {fileID: 6650851909075166892}
   m_Layer: 0
   m_Name: Obtsacles
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9144,6 +9190,22 @@ Transform:
   m_Father: {fileID: 2890556279769748448}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6650851909075166892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5336461255016893223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &5336461255050394707
 GameObject:
   m_ObjectHideFlags: 0
@@ -9321,9 +9383,9 @@ GameObject:
   - component: {fileID: 5567813931873417595}
   - component: {fileID: 6098262933698782155}
   - component: {fileID: 7060969072094936194}
-  m_Layer: 0
-  m_Name: RockWalls
-  m_TagString: Wall
+  m_Layer: 6
+  m_Name: Edges
+  m_TagString: Impassable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

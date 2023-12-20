@@ -342,6 +342,14 @@ public class PlayerControlScript : MonoBehaviour
         }
     }
 
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            Exit.GetInstance().ChangeScene();
+        }
+    }
+
     /*
     public void FindBullet()
     {

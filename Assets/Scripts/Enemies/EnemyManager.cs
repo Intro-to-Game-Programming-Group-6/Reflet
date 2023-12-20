@@ -129,5 +129,12 @@ public class EnemyManager : MonoBehaviour
     {
         enemyAlive--;
         EnemyDie?.Invoke(deadEnemyPosition);
+        // EnemyDie?.Invoke();
+    }
+
+    public void OpenExit()
+    {
+        Exit.GetInstance().EnableExit(LevelManager.GetInstance().SelectRandomScene());
+        
     }
 }

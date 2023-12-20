@@ -1537,16 +1537,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseSceneIndex: 0
-  myFunctionEvent:
-    m_PersistentCalls:
-      m_Calls: []
   selectedLevel: 0
   levelOffset: 0
   EnemyPrefabs:
-  - {fileID: 5950629212138440001, guid: 814d2baffd188374bae0029ae4754253, type: 3}
-  - {fileID: 4135663763089416701, guid: bee1476a4e9a1fa448deda8e6fc967fb, type: 3}
-  - {fileID: 4151542799577268390, guid: 580af985aa745f44ca3a87a795713dcd, type: 3}
-  - {fileID: 8407231254362274037, guid: 9412048a0a48b88499acf061e3ec46d0, type: 3}
+  - {fileID: 6192775651426223815, guid: 416c51c896f3111499d84971079bca7e, type: 3}
+  - {fileID: 139876076968030808, guid: 8533ec4810c0d9d41adaad8820b98c1a, type: 3}
+  PlayMaps:
+  - Map1
+  - Map2
 --- !u!4 &1184931709469109577
 Transform:
   m_ObjectHideFlags: 0

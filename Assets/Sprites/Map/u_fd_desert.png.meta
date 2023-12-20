@@ -388,6 +388,111 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: u_fd_desert_13
+      rect:
+        serializedVersion: 2
+        x: 497
+        y: 512
+        width: 14
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47821db565abb274993ce1263337fc8e
+      internalID: -90460476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: u_fd_desert_14
+      rect:
+        serializedVersion: 2
+        x: 481
+        y: 512
+        width: 14
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b8ae96f64e97814e9a26efd43e0c92e
+      internalID: -1482730369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: u_fd_desert_15
+      rect:
+        serializedVersion: 2
+        x: 481
+        y: 528
+        width: 14
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fef1b43c2c1b47a46bb431cd7f99d207
+      internalID: -516748952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: u_fd_desert_16
+      rect:
+        serializedVersion: 2
+        x: 465
+        y: 512
+        width: 14
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f92b940ec525eb4db0b84e34d5fac57
+      internalID: -1963729119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: u_fd_desert_17
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 546
+        width: 10
+        height: 30
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8ac9d6438714654dbf32df273788600
+      internalID: 566606106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -404,14 +509,19 @@ TextureImporter:
       u_fd_desert_12: 1752653081
       u_fd_desert_5: 879046759
       u_fd_desert_6: -576087678
+      u_fd_desert_14: -1482730369
+      u_fd_desert_15: -516748952
       u_fd_desert_9: 2100540793
       u_fd_desert_11: 2094735585
       u_fd_desert_10: 727362404
       u_fd_desert_2: 986046692
+      u_fd_desert_16: -1963729119
+      u_fd_desert_17: 566606106
       u_fd_desert_1: 174439196
       u_fd_desert_4: -27109743
       u_fd_desert_8: 553872351
       u_fd_desert_3: -1673250643
+      u_fd_desert_13: 1292269934
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

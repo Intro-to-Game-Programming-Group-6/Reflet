@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1852946693091413195}
   - component: {fileID: 6517517742601833084}
   - component: {fileID: 9203887351217374623}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: OriPiercingBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -124,6 +124,8 @@ MonoBehaviour:
   bulletSpeed: 7
   bulletLifeTime: 10
   bulletDamage: 1
+  knockbackForce: 2
+  isMultiplied: 0
   rb: {fileID: 8482968226017281340}
   status: 1
 --- !u!95 &6517517742601833084

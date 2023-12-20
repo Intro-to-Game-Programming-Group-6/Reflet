@@ -111,7 +111,7 @@ public class TutorialManager : MonoBehaviour
         {
             currentState = 5;
             StartCoroutine(MissionLog.GetInstance().UpdateLog("Enter portal to exit tutorial"));
-            Exit.GetInstance().EnableExit();
+            Exit.GetInstance().EnableExit("MainMenu");
         }
     }
 }

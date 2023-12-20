@@ -79,11 +79,13 @@ public class BaseEnemyBehavior : MonoBehaviour
         else
         {
             playerInAttackRange = Physics2D.OverlapCircle(transform.position, attackRange, isPlayer);
-            playerInDetectRange = Physics2D.OverlapCircle(transform.position, detectRange, isPlayer);
+            // playerInDetectRange = Physics2D.OverlapCircle(transform.position, detectRange, isPlayer);
+            
+            Chasing();
 
             if (playerInAttackRange && playerInAttackRange) AttackPlayer();
-            else if (playerInDetectRange && !playerInAttackRange) Chasing();
-            else Idle();
+            // else if (playerInDetectRange && !playerInAttackRange) Chasing();
+            // else Idle();
         }
         
     }
@@ -125,8 +127,16 @@ public class BaseEnemyBehavior : MonoBehaviour
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
             if (rb != null)
             {
-                rb.velocity = Vector2.zero; // Optional: Zero out the current velocity before applying knockback
-                rb.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
+                Vector2 currentVelocity = rb.velocity;
+                Vector2 knockbackVelocity = knockbackDirection * knockbackForce;
+                Vector2 newVelocity = new Vector2(
+                    Mathf.Abs(knockbackVelocity.x) > Mathf.Abs(currentVelocity.x) ? 0 : currentVelocity.x,
+                    Mathf.Abs(knockbackVelocity.y) > Mathf.Abs(currentVelocity.y) ? 0 : currentVelocity.y
+                );
+
+                rb.velocity = newVelocity;
+
+                rb.AddForce(knockbackVelocity, ForceMode2D.Impulse);
             }
         }
     }

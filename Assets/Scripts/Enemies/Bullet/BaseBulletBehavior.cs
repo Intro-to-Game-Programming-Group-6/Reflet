@@ -34,16 +34,17 @@ public class BaseBulletBehavior : MonoBehaviour
 
     protected virtual void Update()
     {
-        lifetimeCount += 0.001f; // make lifetime close to second
+        lifetimeCount += Time.deltaTime; // make lifetime close to second
         if (lifetimeCount >= bulletLifeTime) EndLifetime();
     }
+    
     public virtual void ShootAt(Transform target)
     {
         Vector2 direction = (target.position - transform.position).normalized;
         rb.velocity = direction * bulletSpeed;
         //transform.LookAt(target); this look 'into' the screen
         //Use this instance of lookat
-        transform.right = direction; //work now but don't know why
+        transform.right = direction;
     }
 
     protected virtual void EndLifetime()
@@ -78,7 +79,7 @@ public class BaseBulletBehavior : MonoBehaviour
     public virtual void ReflectBullet(Vector2 inNorm)
     {
         Vector2 re_dir = Vector2.Reflect(lastvelocity, inNorm).normalized;
-        rb.velocity = re_dir * bulletSpeed;
+        rb.velocity = re_dir * bulletSpeed * 1.2f;
         //reset the direction of bullet
         transform.right =  re_dir;
     }
@@ -105,7 +106,6 @@ public class BaseBulletBehavior : MonoBehaviour
             }
             
         }
-        //All Reflectable should have this
         else if (collision.gameObject.CompareTag("Reflector"))
         {
             Vector2 inNorm = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - GameObject.Find("Player").transform.position;
@@ -115,7 +115,6 @@ public class BaseBulletBehavior : MonoBehaviour
             status = Status.OWNED_BY_PLAYER; //allow bullet to hit enemy maybe reverse back to owned by enemy when we add enemy that can also reflect bullet in the future
             PlayerManager.GetInstance().AdjustStaminaPoint(-5);
         }
-
         else if (collision.gameObject.CompareTag("RotatingReflect"))
         {
             Vector2 inNorm = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - GameObject.Find("Player").transform.position;
@@ -123,6 +122,12 @@ public class BaseBulletBehavior : MonoBehaviour
             ReflectBullet(inNorm);
 
             status = Status.OWNED_BY_PLAYER; //allow bullet to hit enemy maybe reverse back to owned by enemy when we add enemy that can also reflect bullet in the future
+        }
+        else if (collision.gameObject.CompareTag("Wall"))
+        {
+            Vector2 inNorm = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - GameObject.Find("Player").transform.position;
+
+            ReflectBullet(inNorm);
         }
     }
 }

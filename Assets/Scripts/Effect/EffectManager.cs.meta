@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: e81cf5918324d034f9092f0ba3b6162d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - deathVFX: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}
+  - hurtVFX: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}
+  - shootingSFX: {fileID: 8300000, guid: 2a0561f6e4332a347a76a3913761a77e, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

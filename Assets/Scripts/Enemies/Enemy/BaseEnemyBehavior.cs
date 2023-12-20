@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class BaseEnemyBehavior : MonoBehaviour
 {
@@ -37,9 +38,9 @@ public class BaseEnemyBehavior : MonoBehaviour
     [HideInInspector][SerializeField] Coroutine[] heartCoroutines;
 
     [Header("Effects")]
-    [SerializeField] GameObject hurtEffect;
-    [SerializeField] GameObject dieEffect;
-    [SerializeField] GameObject shootEffect;
+    UnityEvent<Vector3> hurtEvent;
+    UnityEvent<Vector3> dieEvent;
+    UnityEvent<Vector3> shootEvent;
 
     protected virtual void Awake()
     {
@@ -145,7 +146,8 @@ public class BaseEnemyBehavior : MonoBehaviour
     {
         while (true)
         {
-            Instantiate(shootEffect, transform.position, Quaternion.identity);
+            //Instantiate(shootEffect, transform.position, Quaternion.identity);
+            shootEvent.Invoke(transform.position);
             GameObject bullet = Instantiate(bulletPrefab, agent.transform.position, Quaternion.identity);
             bullet.GetComponent<BaseBulletBehavior>().ShootAt(player);
             yield return new WaitForSeconds(attackDelay);
@@ -161,8 +163,12 @@ public class BaseEnemyBehavior : MonoBehaviour
         
         if (currentHealth <= 0)
         {
+            dieEvent.Invoke(transform.position);
             PlayerManager.GetInstance().AddVialPoint(1);
             Destroy(this.gameObject);
+        }
+        else {
+            hurtEvent.Invoke(transform.position);
         }
     }
 
@@ -178,7 +184,7 @@ public class BaseEnemyBehavior : MonoBehaviour
 
     private void OnDestroy()
     {
-        EnemyManager.GetInstance().HandleEnemyDeath();
+        EnemyManager.GetInstance().HandleEnemyDeath(transform.position);
     }
 
     private void UpdateHearts()

@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
 
     private SoundManager SM;
     private LevelManager LM;
+    private EffectManager EM;
+
     public static GameManager Instance;
     void Awake(){
         if (Instance == null){
@@ -36,6 +38,7 @@ public class GameManager : MonoBehaviour
         // Get Managers
         LM = GetComponent<LevelManager>();
         SM = GetComponent<SoundManager>();
+        EM = ScriptableObject.CreateInstance<EffectManager>();
 
         // Set for Sound Manager Player Prefs
         PlayerPrefs.SetFloat("CurrVolume", 0.5f);

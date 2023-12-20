@@ -360,11 +360,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6123964007636854344, guid: da67f5d94f9bb234bbf9a67e402ac89e, type: 3}
   m_PrefabInstance: {fileID: 6123964007473724348}
   m_PrefabAsset: {fileID: 0}
---- !u!223 &248164842 stripped
-Canvas:
-  m_CorrespondingSourceObject: {fileID: 4130365635283641667, guid: b6b3db98c5c28194dac7500c9080260f, type: 3}
-  m_PrefabInstance: {fileID: 242890842}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &527959114
 GameObject:
   m_ObjectHideFlags: 0
@@ -3220,7 +3215,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InGameUI: {fileID: 1764953639}
-  PauseMenu: {fileID: 248164842}
 --- !u!114 &2107053001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3293,14 +3287,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyPrefabs:
   - {fileID: 5950629212138440001, guid: 814d2baffd188374bae0029ae4754253, type: 3}
-  enemyCount: 0
-  enemyWaveStarted: 0
-  upperCorner: {fileID: 0}
-  lowerCorner: {fileID: 0}
+  SpawnLocations: []
   EnemySpawned:
     m_PersistentCalls:
       m_Calls: []
   EnemyDie:
+    m_PersistentCalls:
+      m_Calls: []
+  AllEnemyDefeated:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &259039184022541214

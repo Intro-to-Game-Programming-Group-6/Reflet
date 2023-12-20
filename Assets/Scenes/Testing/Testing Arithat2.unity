@@ -409,28 +409,10 @@ MonoBehaviour:
   EnemyHurt:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2107052999}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  EnemyDie:
-    m_PersistentCalls:
-      m_Calls: []
-  AllEnemyDefeated:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: TutorialManager, Assembly-CSharp
-        m_MethodName: PlayerKilledEnemies
-        m_Mode: 1
+      - m_Target: {fileID: 1429756855}
+        m_TargetAssemblyTypeName: EffectManager, Assembly-CSharp
+        m_MethodName: SpawnHurtEffect
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -439,6 +421,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  EnemyDie:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1429756855}
+        m_TargetAssemblyTypeName: EffectManager, Assembly-CSharp
+        m_MethodName: SpawnHurtEffect
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  AllEnemyDefeated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &898896550
 Transform:
   m_ObjectHideFlags: 0
@@ -617,8 +617,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathVFX: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}
   hurtVFX: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}
-  healVFX: {fileID: 0}
-  shootVFX: {fileID: 0}
+  healVFX: {fileID: 5928383561694542103, guid: d250a883993ec544486b744c19e38d19, type: 3}
+  shootVFX: {fileID: 2515445351180927889, guid: 97cac7cef0c93364685d7aa055e6e944, type: 3}
   bulletBounceSFX: {fileID: 0}
 --- !u!4 &1429756856
 Transform:

@@ -2,21 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Effect Manager", menuName = "Managers/Effects")]
-public class EffectManager : ScriptableObject
+public class EffectManager : MonoBehaviour
 {
-    GameObject player;
+    AudioSource playerAudioSource;
+
+    public static EffectManager instance;
+    public static EffectManager GetInstance() { return instance; } 
+
     private void OnEnable() {
-        player = GameObject.Find("Player");
+        if(instance == null) {
+            instance = this;
+        } else if (instance != this) {
+            Destroy(gameObject);
+            return;
+        }
+        playerAudioSource = GameObject.Find("Player").GetComponent<AudioSource>();
     }
 
-    #region Movement Variables
+    #region Effect
     [Header("Visual Effects")]
     [SerializeField] private GameObject deathVFX;
     [SerializeField] private GameObject hurtVFX;
+    [SerializeField] private GameObject healVFX;
+    [SerializeField] private GameObject shootVFX;
 
     [Header("Sound Only")]
-    [SerializeField] private AudioClip shootingSFX;
+    [SerializeField] private AudioClip bulletBounceSFX;
     #endregion
 
 
@@ -30,9 +41,18 @@ public class EffectManager : ScriptableObject
         Instantiate(hurtVFX, position, Quaternion.identity);
     }
 
+    public void SpawnHealEffect(Vector3 position) {
+        Instantiate(healVFX, position, Quaternion.identity);
+    }
+
+    public void SpawnShootingEffect(Vector3 position) {
+        Instantiate(shootVFX, position, Quaternion.identity);
+    }
+
     //Non-positional effects
 
-    public void SpawnShootingEffect() {
-        player.GetComponent<AudioSource>().PlayOneShot(shootingSFX);
+    public void PlayBulletBounce() {
+        playerAudioSource.PlayOneShot(bulletBounceSFX);
     }
+
 }

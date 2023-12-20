@@ -12,8 +12,8 @@ public class MissionLog : MonoBehaviour
     public float duration;
     public bool isUpdating;
 
-    private Vector3 basePosition = new Vector3(290, 280, 0);
-    private Vector3 secondaryPosition = new Vector3(290, 400, 0);
+    private Vector3 basePosition = new Vector3(0, 280, 0);
+    private Vector3 secondaryPosition = new Vector3(0, 400, 0);
 
     void Awake()
     {
@@ -46,28 +46,28 @@ public class MissionLog : MonoBehaviour
         float elapsedTime;
 
         // Remove Old Log
-        startPosition = log.transform.position;
+        startPosition = log.transform.localPosition;
         elapsedTime = 0f;
 
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp01(elapsedTime / duration);
-            log.transform.position = Vector3.Lerp(startPosition, secondaryPosition, t);
+            log.transform.localPosition = Vector3.Lerp(startPosition, secondaryPosition, t);
             yield return null;
         }
 
         log.GetComponent<Mission>().UpdateText(value);
 
         //Update New Log
-        startPosition = log.transform.position;
+        startPosition = log.transform.localPosition;
         elapsedTime = 0f;
 
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp01(elapsedTime / duration);
-            log.transform.position = Vector3.Lerp(startPosition, basePosition, t);
+            log.transform.localPosition = Vector3.Lerp(startPosition, basePosition, t);
             yield return null;
         }
 

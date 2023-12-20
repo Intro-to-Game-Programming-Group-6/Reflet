@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
         // Get Managers
         LM = GetComponent<LevelManager>();
         SM = GetComponent<SoundManager>();
-        EM = ScriptableObject.CreateInstance<EffectManager>();
+        EM = GetComponent<EffectManager>();
 
         // Set for Sound Manager Player Prefs
         PlayerPrefs.SetFloat("CurrVolume", 0.5f);

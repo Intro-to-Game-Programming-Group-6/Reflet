@@ -49,6 +49,10 @@ public class BaseEnemyBehavior : MonoBehaviour
         animController = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
 
+        hurtEvent = new UnityEvent<Vector3>();
+        dieEvent = new UnityEvent<Vector3>();
+        shootEvent = new UnityEvent<Vector3>();
+
         //this 2 line make navmesh work in 2d (must have in everything use navmesh)
         agent.updateRotation = false;
         agent.updateUpAxis = false;

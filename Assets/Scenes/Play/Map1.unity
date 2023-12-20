@@ -321,6 +321,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5953191647291281297, guid: 3e000eb02f72f8e4e8b52e10181e7a9f, type: 3}
+      propertyPath: ExitTriggered.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5953191647291281297, guid: 3e000eb02f72f8e4e8b52e10181e7a9f, type: 3}
+      propertyPath: ExitTriggered.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5953191647291281297, guid: 3e000eb02f72f8e4e8b52e10181e7a9f, type: 3}
+      propertyPath: ExitTriggered.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5953191647291281300, guid: 3e000eb02f72f8e4e8b52e10181e7a9f, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -617,7 +629,19 @@ MonoBehaviour:
   SpawnLocations: []
   AllEnemyDefeated:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1996324904}
+        m_TargetAssemblyTypeName: EnemyManager, Assembly-CSharp
+        m_MethodName: OpenExit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &1996324905
 Transform:
   m_ObjectHideFlags: 0
@@ -839,7 +863,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1494668446595510597}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -186.51205, y: -188.62216, z: 0.08373851}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -917,6 +941,14 @@ PrefabInstance:
     - target: {fileID: 3838010669413717099, guid: 202e79449df18d14a90cc64f67e1f046, type: 3}
       propertyPath: m_Name
       value: Map1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5206984600364909216, guid: 202e79449df18d14a90cc64f67e1f046, type: 3}
+      propertyPath: m_TagString
+      value: Impassable
+      objectReference: {fileID: 0}
+    - target: {fileID: 6291776058196821440, guid: 202e79449df18d14a90cc64f67e1f046, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 202e79449df18d14a90cc64f67e1f046, type: 3}

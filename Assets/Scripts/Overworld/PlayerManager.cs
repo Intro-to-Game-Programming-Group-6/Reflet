@@ -80,11 +80,25 @@ public class PlayerManager : MonoBehaviour
         //m_staminaController.SetMax(m_maxStamina);
         //m_staminaController.SetValue(m_currentStamina);
     }
+
+    public void Reset()
+    {
+        HealthController.GetInstance().SetMax(m_maxHealthPoint);
+        HealthController.GetInstance().SetValue(m_healthPoint);
+
+        VialController.GetInstance().SetMax(m_vialPoint);
+        VialController.GetInstance().SetValue(m_vialPoint);
+        
+        StaminaController.GetInstance().SetMax(m_maxStaminaPoint);
+        StaminaController.GetInstance().SetValue(m_maxStaminaPoint);
+    }
+
     public void ModifyStaminaCapacity(float val)
     {
         m_maxStaminaPoint = val;
         StaminaController.GetInstance().SetMax(val);
     }
+
     public void RoundHP()
     {
         m_healthPoint = Mathf.Round(m_healthPoint);

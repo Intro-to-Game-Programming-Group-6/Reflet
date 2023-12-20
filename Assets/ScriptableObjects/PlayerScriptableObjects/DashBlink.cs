@@ -9,12 +9,15 @@ public class DashBlink : BaseAbillity
     Vector2 dashDirection;
     public IEnumerator GoDash(PlayerControlScript control)
     {
+        if(control.GetRigidBody().velocity.magnitude < 0.1f) yield break;
+
         control.canDash = false;
         control.currentlyDashing = true;
-        dashDirection = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - control.GetRigidBody().transform.position;
+
+        dashDirection = control.GetComponent<Rigidbody2D>().velocity.normalized;
         float max_range = control.dashSpeed * control.dashDuration;
         max_range = Mathf.Min(max_range, dashDirection.magnitude);
-        dashDirection = dashDirection.normalized;
+
         control.GetRigidBody().MovePosition(control.GetRigidBody().position + dashDirection * max_range);
         yield return new WaitForSeconds(control.dashDuration);
         control.currentlyDashing = false;

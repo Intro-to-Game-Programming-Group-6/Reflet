@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6077886672352417311}
   - component: {fileID: 2275553678832828409}
   - component: {fileID: 82536763443317506}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: OriExplosiveBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -140,12 +140,15 @@ MonoBehaviour:
   bulletSpeed: 3
   bulletLifeTime: 5
   bulletDamage: 1
+  knockbackForce: 2
+  isMultiplied: 0
   rb: {fileID: 3824396482740452488}
   status: 1
   isPlayer:
     serializedVersion: 2
     m_Bits: 0
   explodingRange: 0
+  explosionCountdown: 3
   col: {fileID: 0}
 --- !u!95 &82536763443317506
 Animator:

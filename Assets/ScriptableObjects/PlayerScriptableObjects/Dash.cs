@@ -10,11 +10,14 @@ public class Dash : BaseAbillity
 
     public IEnumerator GoDash(PlayerControlScript control)
     {
+        if(control.GetRigidBody().velocity.magnitude < 0.1f) yield break;
+
         control.canDash = false;
         control.currentlyDashing = true;
-        dashDirection = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - control.GetRigidBody().transform.position;
-        dashDirection = dashDirection.normalized;
+
+        dashDirection = control.GetComponent<Rigidbody2D>().velocity.normalized;
         control.GetRigidBody().velocity = dashDirection * control.dashSpeed;
+        
         yield return new WaitForSeconds(control.dashDuration);
         control.currentlyDashing = false;
         yield return new WaitForSeconds(control.dashCooldown);

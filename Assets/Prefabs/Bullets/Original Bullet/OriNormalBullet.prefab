@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2833296277639198664}
   - component: {fileID: 1734721591033189474}
   - component: {fileID: 248698208258390259}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: OriNormalBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -140,6 +140,8 @@ MonoBehaviour:
   bulletSpeed: 5
   bulletLifeTime: 5
   bulletDamage: 1
+  knockbackForce: 2
+  isMultiplied: 0
   rb: {fileID: 5051880019853581663}
   status: 1
 --- !u!95 &248698208258390259

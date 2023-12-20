@@ -42,6 +42,11 @@ public class LevelManager : MonoBehaviour
         return Instance;
     }
 
+    void Start()
+    {
+        Enqueue("Map1");
+    }
+
     #region  Randomizer
     public void Reset()
     {
@@ -50,12 +55,17 @@ public class LevelManager : MonoBehaviour
             enemyManager = EnemyManager.GetInstance();
             
             selectedEnemies.Clear();
-            selectedEnemies.Add(EnemyPrefabs[0]);
+            
+            int enemyLimit;
+            int enemyTotal;
 
-            int enemyLimit = 1;
-            int enemyTotal = 1;
-
-            if(SceneManager.GetActiveScene().name != "Tutorial")
+            if(SceneManager.GetActiveScene().name == "Tutorial")
+            {
+                selectedEnemies.Add(EnemyPrefabs[0]);
+                enemyLimit = 1;
+                enemyTotal = 3;
+            }
+            else
             {
                 SelectRandomEnemies();
                 enemyLimit = 5;
@@ -68,7 +78,7 @@ public class LevelManager : MonoBehaviour
 
     void SelectRandomEnemies()
     {
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 3; i++)
         {
             int randomIndex = Random.Range(0, EnemyPrefabs.Count);
 
@@ -87,6 +97,8 @@ public class LevelManager : MonoBehaviour
                 selectedScene = PlayMaps[Random.Range(0, PlayMaps.Count)];
             }
         }
+
+        Enqueue(selectedScene);
 
         return selectedScene;
     }

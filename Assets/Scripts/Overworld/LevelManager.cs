@@ -19,7 +19,7 @@ public class LevelManager : MonoBehaviour
     [Header("Randomizer Components")]
     EnemyManager enemyManager;
     List<GameObject> selectedEnemies = new List<GameObject>();
-    [SerializeField] private List<GameObject> EnemyPrefabs = new List<GameObject>();
+    [SerializeField] private List<GameObject> EnemyPrefabs;// = new List<GameObject>();
     [SerializeField] private List<string> PlayMaps = new List<string>();
     private Queue<string> sceneQueue = new Queue<string>();
     private int maxQueueLen = 1;

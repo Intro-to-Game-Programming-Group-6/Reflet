@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using UnityEngine.Events;
 
 
 public class LevelManager : MonoBehaviour
 {
-    private static LevelManager instance;
+    private static LevelManager Instance;
     [SerializeField] private int baseSceneIndex;
     private static float originTimeScale;
 
@@ -26,21 +27,19 @@ public class LevelManager : MonoBehaviour
 
     void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
             originTimeScale = Time.timeScale;
             DontDestroyOnLoad(this);
-        }
-        else 
-        {
+        } else {
             Destroy(gameObject);
         }
     }
 
     public static LevelManager GetInstance()
     {
-        return instance;
+        return Instance;
     }
 
     void Start()
@@ -120,15 +119,6 @@ public class LevelManager : MonoBehaviour
     {
         return levelOffset;
     }
-    public int GetLevel()
-    {
-        return selectedLevel;
-    }
-
-    public void SetLevel(int level)
-    {
-        selectedLevel = level;
-    }
 
     public void LoadOptionScene()
     {
@@ -139,12 +129,13 @@ public class LevelManager : MonoBehaviour
     {
         SceneManager.UnloadSceneAsync("OptionMenu");
     } 
-
+    
     public void LoadPausedScene()
     {
-        SceneManager.LoadScene("PausedMenu", LoadSceneMode.Additive);
         originTimeScale = Time.timeScale;
-        Time.timeScale = 0;
+        Time.timeScale = 0.05f;
+        SceneManager.LoadScene("PausedMenu", LoadSceneMode.Additive);
+        GameObject.FindWithTag("Player").GetComponent<PlayerInput>().enabled = false;
     }
 
     public void ExitPausedScene()
@@ -156,12 +147,12 @@ public class LevelManager : MonoBehaviour
     public void LoadTutorialLevelScene()
     {
         string s = "Scenes/Play/Tutorial";
-        StartCoroutine(LoadSceneStr(s));
+        StartCoroutine(TransitionLoadScene(s));
     } 
     public void ExitLevelMenuScene()
     {
         string s = "Scenes/Menu/MainMenu";
-        StartCoroutine(LoadSceneStr(s));
+        StartCoroutine(TransitionLoadScene(s));
     }
 
     public void LoadScene(string string_name)
@@ -177,51 +168,55 @@ public class LevelManager : MonoBehaviour
     /// 
     /// </summary>
 
+    public void SetLevel(int lvl){
+        selectedLevel = lvl;
+    }
     public void LoadScene(int int_index){
         int i = int_index;
-        StartCoroutine(LoadSceneInt(i));
+        StartCoroutine(TransitionLoadScene(i));
 
     }
     public void LoadLevel(int int_index){
         int i = int_index + levelOffset;
-        StartCoroutine(LoadSceneInt(i));
+        StartCoroutine(TransitionLoadScene(i));
     }
 
     public void LoadNextScene(){
         int i = SceneManager.GetActiveScene().buildIndex + 1;
-        StartCoroutine(LoadSceneInt(i));
+        StartCoroutine(TransitionLoadScene(i));
 
     }
     public void ReloadScene(){
         int i = SceneManager.GetActiveScene().buildIndex;
-        StartCoroutine(LoadSceneInt(i));
+        StartCoroutine(TransitionLoadScene(i));
     }
 
-    public void ExitGame()
+    public void LoadMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+        Time.timeScale = 1.0f;
     }
     public void QuitGame()
     {
-        Application.Quit();
+        if (SceneManager.GetActiveScene().buildIndex == 0) { Application.Quit(); return; }
+        else { LoadMainMenu(); return; }
     }
 
-    public void UnloadScene(string string_name)
+    IEnumerator TransitionLoadScene(int i , float transitironDuration = 1.5f, float delay = 1.0f)
     {
-        SceneManager.UnloadSceneAsync(string_name);
-    }
-
-    IEnumerator LoadSceneInt(int i)
-    {
-        Transition.GetInstance().StartFade(Color.black, 1.5f, 1f);
-        yield return new WaitForSeconds(2f);
+        Transition.GetInstance().transitionDelay = delay;
+        Transition.GetInstance().transitionDuration = transitironDuration;
+        Transition.GetInstance().Exit(); 
+        yield return new WaitForSeconds(transitironDuration + delay);
         SceneManager.LoadScene(i);
     }
 
-    IEnumerator LoadSceneStr(string s)
+    IEnumerator TransitionLoadScene(string s, float transitironDuration = 1.5f, float delay = 1.0f)
     {
-        Transition.GetInstance().StartFade(Color.black, 1.5f, 1f);
-        yield return new WaitForSeconds(2f);
+        Transition.GetInstance().transitionDelay = delay;
+        Transition.GetInstance().transitionDuration = transitironDuration;
+        Transition.GetInstance().Exit();
+        yield return new WaitForSeconds(transitironDuration + delay);
         SceneManager.LoadScene(s);
     }
     #endregion

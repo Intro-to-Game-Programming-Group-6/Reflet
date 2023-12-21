@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class BaseEnemyBehavior : MonoBehaviour
 {
@@ -47,6 +48,10 @@ public class BaseEnemyBehavior : MonoBehaviour
         player = GameObject.Find("Player").transform;
         animController = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
+
+        hurtEvent = new UnityEvent<Vector3>();
+        dieEvent = new UnityEvent<Vector3>();
+        shootEvent = new UnityEvent<Vector3>();
 
         //this 2 line make navmesh work in 2d (must have in everything use navmesh)
         agent.updateRotation = false;
@@ -143,7 +148,7 @@ public class BaseEnemyBehavior : MonoBehaviour
     protected virtual void AttackPlayer()
     {
         //agent.isStopped = true;
-        //Debug.Log("Attack!");
+        
         
         if (!isAttacking)
         {
@@ -153,15 +158,16 @@ public class BaseEnemyBehavior : MonoBehaviour
         }
     }
 
-    protected virtual IEnumerator ShootRoutine()
+    IEnumerator ShootRoutine()
     {
-
-        Instantiate(shootEffect, transform.position, Quaternion.identity);
-        GameObject bullet = Instantiate(bulletPrefab, agent.transform.position, Quaternion.identity);
-        bullet.GetComponent<BaseBulletBehavior>().ShootAt(player);
-        yield return new WaitForSeconds(attackDelay);
-        isAttacking = false;
-        
+        while (true)
+        {
+            //Instantiate(shootEffect, transform.position, Quaternion.identity);
+            shootEvent.Invoke(transform.position);
+            GameObject bullet = Instantiate(bulletPrefab, agent.transform.position, Quaternion.identity);
+            bullet.GetComponent<BaseBulletBehavior>().ShootAt(player);
+            yield return new WaitForSeconds(attackDelay);
+        }
     }
 
     public void AdjustHealth(int deltaHealth)
@@ -173,8 +179,12 @@ public class BaseEnemyBehavior : MonoBehaviour
         
         if (currentHealth <= 0)
         {
+            dieEvent.Invoke(transform.position);
             PlayerManager.GetInstance().AddVialPoint(1);
             Destroy(this.gameObject);
+        }
+        else {
+            hurtEvent.Invoke(transform.position);
         }
     }
 
@@ -183,14 +193,16 @@ public class BaseEnemyBehavior : MonoBehaviour
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, attackRange);
+            /*
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, detectRange);
+            */
         }
     }
 
     private void OnDestroy()
     {
-        //EnemyManager.GetInstance().HandleEnemyDeath();
+        EnemyManager.GetInstance().HandleEnemyDeath(transform.position);
     }
 
     private void UpdateHearts()

@@ -21,7 +21,7 @@ TagManager:
   - UI
   - Impassible
   - Bullet
-  - 
+  - Effect
   - 
   - 
   - 
@@ -54,6 +54,9 @@ TagManager:
     locked: 0
   - name: Overworld Text
     uniqueID: 2329859823
+    locked: 0
+  - name: Effects
+    uniqueID: 1325008621
     locked: 0
   - name: Main
     uniqueID: 548196675

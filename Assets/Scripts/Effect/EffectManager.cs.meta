@@ -6,7 +6,9 @@ MonoImporter:
   defaultReferences:
   - deathVFX: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}
   - hurtVFX: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}
-  - shootingSFX: {fileID: 8300000, guid: 2a0561f6e4332a347a76a3913761a77e, type: 3}
+  - healVFX: {fileID: 5928383561694542103, guid: d250a883993ec544486b744c19e38d19, type: 3}
+  - shootVFX: {fileID: 2515445351180927889, guid: 97cac7cef0c93364685d7aa055e6e944, type: 3}
+  - bulletBounceSFX: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

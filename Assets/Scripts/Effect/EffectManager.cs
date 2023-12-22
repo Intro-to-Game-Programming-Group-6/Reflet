@@ -16,7 +16,7 @@ public class EffectManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        playerAudioSource = GameObject.Find("Player").GetComponent<AudioSource>();
+        playerAudioSource = GameObject.Find("Player")?.GetComponent<AudioSource>();
     }
 
     #region Effect

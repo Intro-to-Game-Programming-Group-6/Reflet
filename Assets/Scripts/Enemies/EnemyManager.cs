@@ -16,6 +16,7 @@ public class EnemyManager : MonoBehaviour
     public UnityEvent<Vector3> EnemySpawned;
     public UnityEvent<Vector3> EnemyHurt;
     public UnityEvent<Vector3> EnemyDie;
+    public UnityEvent<Vector3> EnemyShoot;
     public UnityEvent AllEnemyDefeated;
 
     private int enemyAlive;

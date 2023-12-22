@@ -731,6 +731,10 @@ PrefabInstance:
       propertyPath: m_Value
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6123964007636854345, guid: da67f5d94f9bb234bbf9a67e402ac89e, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6123964007636854351, guid: da67f5d94f9bb234bbf9a67e402ac89e, type: 3}
       propertyPath: m_Name
       value: Vial Icon

@@ -37,21 +37,12 @@ public class BaseEnemyBehavior : MonoBehaviour
     [HideInInspector][SerializeField] private int currentHealth;
     [HideInInspector][SerializeField] Coroutine[] heartCoroutines;
 
-    [Header("Effects")]
-    UnityEvent<Vector3> hurtEvent;
-    UnityEvent<Vector3> dieEvent;
-    UnityEvent<Vector3> shootEvent;
-
     protected virtual void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.Find("Player").transform;
         animController = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
-
-        hurtEvent = new UnityEvent<Vector3>();
-        dieEvent = new UnityEvent<Vector3>();
-        shootEvent = new UnityEvent<Vector3>();
 
         //this 2 line make navmesh work in 2d (must have in everything use navmesh)
         agent.updateRotation = false;
@@ -161,7 +152,7 @@ public class BaseEnemyBehavior : MonoBehaviour
         while (true)
         {
             //Instantiate(shootEffect, transform.position, Quaternion.identity);
-            shootEvent.Invoke(transform.position);
+            EnemyManager.GetInstance().EnemyShoot.Invoke(gameObject.transform.position);
             GameObject bullet = Instantiate(bulletPrefab, agent.transform.position, Quaternion.identity);
             bullet.GetComponent<BaseBulletBehavior>().ShootAt(player);
             yield return new WaitForSeconds(attackDelay);
@@ -177,12 +168,12 @@ public class BaseEnemyBehavior : MonoBehaviour
         
         if (currentHealth <= 0)
         {
-            dieEvent.Invoke(transform.position);
+            EnemyManager.GetInstance().EnemyDie.Invoke(transform.position);
             PlayerManager.GetInstance().AddVialPoint(1);
             Destroy(this.gameObject);
         }
         else {
-            hurtEvent.Invoke(transform.position);
+            EnemyManager.GetInstance().EnemyShoot.Invoke(gameObject.transform.position);
         }
     }
 

@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 4613113456929466512}
   - component: {fileID: 4613113456929466513}
   - component: {fileID: 4613113456929466527}
+  - component: {fileID: 6450178274885135961}
   m_Layer: 5
   m_Name: FadeBlanket
   m_TagString: Untagged
@@ -171,13 +172,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1141ee37f966a2d4b9e83dff638aed4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doOnStart: 1
   m_transitionDuration: 1
   m_transitionDelay: 1
   m_transitionType: 0
   m_textTitle: Reflet
-  m_image: {fileID: 0}
-  m_title1: {fileID: 0}
-  m_title2: {fileID: 0}
+--- !u!225 &6450178274885135961
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4613113456929466515}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &6390569902950339009
 GameObject:
   m_ObjectHideFlags: 0

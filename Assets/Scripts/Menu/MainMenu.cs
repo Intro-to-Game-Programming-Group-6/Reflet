@@ -38,6 +38,12 @@ public class MainMenu : MonoBehaviour
         LevelManager.GetInstance().LoadScene(level);
     }
 
+    public void testLoadUpgrade(int level)
+    {
+        DisableOtherButtons();
+        LevelManager.GetInstance().LoadUpgradeScene();
+    }
+
     public void LoadTutorialLevelScene()
     {
         DisableOtherButtons();

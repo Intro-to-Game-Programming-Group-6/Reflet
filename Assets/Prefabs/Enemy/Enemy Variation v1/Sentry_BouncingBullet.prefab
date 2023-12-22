@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1931936722094757760}
   - component: {fileID: 1931936722094757763}
   - component: {fileID: 1931936722094757762}
-  - component: {fileID: 8097404924452331572}
+  - component: {fileID: 1854886170}
   m_Layer: 0
   m_Name: Sentry_BouncingBullet
   m_TagString: Enemy
@@ -179,7 +179,7 @@ NavMeshAgent:
   m_BaseOffset: 0.08
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8097404924452331572
+--- !u!114 &1854886170
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -188,7 +188,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 139876076968030808}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e36f26769633331459b09027d213c764, type: 3}
+  m_Script: {fileID: 11500000, guid: d5db8634d6a0a314eabf4d6c7b48398a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 1931936722094757762}
@@ -212,8 +212,10 @@ MonoBehaviour:
   maxHealth: 1
   currentHealth: 0
   hurtEffect: {fileID: 0}
-  dieEffect: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}
+  dieEffect: {fileID: 0}
   shootEffect: {fileID: 2515445351180927889, guid: 97cac7cef0c93364685d7aa055e6e944, type: 3}
+  rapidDelay: 0.2
+  bulletRound: 2
 --- !u!1001 &8711247076577667001
 PrefabInstance:
   m_ObjectHideFlags: 0

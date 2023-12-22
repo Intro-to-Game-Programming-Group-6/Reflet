@@ -18,16 +18,16 @@ public class BaseEnemyBehavior : MonoBehaviour
     [HideInInspector][SerializeField] static int AnimatorAttack = Animator.StringToHash("Attack");
 
     [Header("Player Variables")]
-    [SerializeField] private Transform player;
-    [SerializeField] private LayerMask isPlayer;
+    [SerializeField] protected Transform player;
+    [SerializeField] protected LayerMask isPlayer;
 
     [Header("Attack Variables")]
-    [SerializeField] private float attackRange;
-    [SerializeField] private float attackDelay;
-    [SerializeField] private float detectRange;
-    [HideInInspector] [SerializeField] private bool playerInAttackRange;
-    [HideInInspector] [SerializeField] private bool playerInDetectRange;
-    [HideInInspector] [SerializeField] private bool isAttacking = false;
+    [SerializeField] protected float attackRange;
+    [SerializeField] protected float attackDelay;
+    [SerializeField] protected float detectRange;
+    [HideInInspector] [SerializeField] protected bool playerInAttackRange;
+    [HideInInspector] [SerializeField] protected bool playerInDetectRange;
+    [HideInInspector] [SerializeField] protected bool isAttacking = false;
 
     [Header("Health Components")]
     [SerializeField] Sprite full;
@@ -36,6 +36,11 @@ public class BaseEnemyBehavior : MonoBehaviour
     [SerializeField] private int maxHealth;
     [HideInInspector][SerializeField] private int currentHealth;
     [HideInInspector][SerializeField] Coroutine[] heartCoroutines;
+
+    [Header("Effects")]
+    [SerializeField] protected GameObject hurtEffect;
+    [SerializeField] protected GameObject dieEffect;
+    [SerializeField] protected GameObject shootEffect;
 
     protected virtual void Awake()
     {
@@ -78,7 +83,7 @@ public class BaseEnemyBehavior : MonoBehaviour
             
             Chasing();
 
-            if (playerInAttackRange && playerInAttackRange) AttackPlayer();
+            if (playerInAttackRange) AttackPlayer();
             // else if (playerInDetectRange && !playerInAttackRange) Chasing();
             // else Idle();
         }
@@ -107,7 +112,7 @@ public class BaseEnemyBehavior : MonoBehaviour
 
     }
 
-    IEnumerator Dizzy()
+    protected IEnumerator Dizzy()
     {
         yield return new WaitForSeconds(5f);
         sleep = false;
@@ -138,10 +143,12 @@ public class BaseEnemyBehavior : MonoBehaviour
 
     protected virtual void AttackPlayer()
     {
-        agent.isStopped = true;
-        //agent.SetDestination(transform.position);
+        //agent.isStopped = true;
+        
+        
         if (!isAttacking)
         {
+            agent.SetDestination(transform.position);
             StartCoroutine(ShootRoutine());
             isAttacking = true;
         }
@@ -177,13 +184,15 @@ public class BaseEnemyBehavior : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
+    protected virtual void OnDrawGizmos()
     {
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, attackRange);
+            /*
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, detectRange);
+            */
         }
     }
 

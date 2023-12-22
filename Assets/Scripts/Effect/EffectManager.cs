@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class EffectManager : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class EffectManager : MonoBehaviour
 
     [Header("Sound Only")]
     [SerializeField] private AudioClip bulletBounceSFX;
+    [SerializeField] private AudioClip playerWalkSFX;
     #endregion
 
 
@@ -51,6 +53,15 @@ public class EffectManager : MonoBehaviour
 
     //Non-positional effects
 
+    public void PlayPlayerMove(InputAction.CallbackContext context) {
+        if(context.performed) {
+            playerAudioSource.loop = true;
+            playerAudioSource.clip = playerWalkSFX;
+            playerAudioSource.Play();
+        } else if (context.canceled) {
+            playerAudioSource.Stop();
+        }
+    }
     public void PlayBulletBounce() {
         playerAudioSource.PlayOneShot(bulletBounceSFX);
     }

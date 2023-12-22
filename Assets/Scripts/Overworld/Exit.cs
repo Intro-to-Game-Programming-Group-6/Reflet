@@ -66,15 +66,8 @@ public class Exit : MonoBehaviour
 
     public void ChangeScene()
     {
-        if(!playerContact) return;
+        if (!playerContact) return;
         ExitTriggered?.Invoke();
-        StartCoroutine(Change());
-    }
-
-    IEnumerator Change()
-    {
-        Transition.GetInstance().Exit();
-        yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene(nextScene);
+        LevelManager.GetInstance().LoadUpgradeScene();
     }
 }

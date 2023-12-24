@@ -19,7 +19,7 @@ public class LevelManager : MonoBehaviour
     [Header("Randomizer Components")]
     EnemyManager enemyManager;
     List<GameObject> selectedEnemies = new List<GameObject>();
-    [SerializeField] private List<GameObject> EnemyPrefabs = new List<GameObject>();
+    [SerializeField] private List<GameObject> EnemyPrefabs;// = new List<GameObject>();
     [SerializeField] private List<string> PlayMaps = new List<string>();
     private Queue<string> sceneQueue = new Queue<string>();
     private int maxQueueLen = 1;
@@ -74,6 +74,10 @@ public class LevelManager : MonoBehaviour
 
             enemyManager.SetEnemySelections(selectedEnemies, enemyLimit, enemyTotal);
         }
+        else
+        {
+            Debug.LogWarning("EnemyManager is null at this point.");
+        }
     }
 
     void SelectRandomEnemies()
@@ -120,6 +124,7 @@ public class LevelManager : MonoBehaviour
         return levelOffset;
     }
 
+    #region Option Menu
     public void LoadOptionScene()
     {
         SceneManager.LoadScene("OptionMenu", LoadSceneMode.Additive);
@@ -128,12 +133,14 @@ public class LevelManager : MonoBehaviour
     public void ExitOptionScene()
     {
         SceneManager.UnloadSceneAsync("OptionMenu");
-    } 
-    
+    }
+    #endregion
+
+    #region Paused Menu
     public void LoadPausedScene()
     {
         originTimeScale = Time.timeScale;
-        Time.timeScale = 0.05f;
+        Time.timeScale = 0.05f; // This determines the animation's speed at PausedMenu. For example 0.05f := 1/20, thus the speed up is 20x.
         SceneManager.LoadScene("PausedMenu", LoadSceneMode.Additive);
         GameObject.FindWithTag("Player").GetComponent<PlayerInput>().enabled = false;
     }
@@ -142,18 +149,38 @@ public class LevelManager : MonoBehaviour
     {
         SceneManager.UnloadSceneAsync("PausedMenu");
         Time.timeScale = originTimeScale;
-    } 
+        GameObject.FindWithTag("Player").GetComponent<PlayerInput>().enabled = true;
+    }
+    #endregion
+
+    #region Upgrade Menu
+    public void LoadUpgradeScene()
+    {
+        originTimeScale = Time.timeScale;
+        Time.timeScale = 0.05f; // This determines the animation's speed at PausedMenu. For example 0.05f := 1/20, thus the speed up is 20x.
+        SceneManager.LoadScene("UpgradeMenu", LoadSceneMode.Additive);
+        GameObject player = GameObject.FindWithTag("Player");
+        if (player != null)
+            player.GetComponent<PlayerInput>().enabled = false;
+    }
+    public void ExitUpgradeScene()
+    {
+        Time.timeScale = originTimeScale;
+        this.LoadNextScene(); // TODO: determine next level
+    }
+    #endregion
 
     public void LoadTutorialLevelScene()
     {
         string s = "Scenes/Play/Tutorial";
-        StartCoroutine(TransitionLoadScene(s));
+        TransitionLoadScene(s);
     } 
     public void ExitLevelMenuScene()
     {
         string s = "Scenes/Menu/MainMenu";
-        StartCoroutine(TransitionLoadScene(s));
+        TransitionLoadScene(s);
     }
+    
 
     public void LoadScene(string string_name)
     {
@@ -173,22 +200,22 @@ public class LevelManager : MonoBehaviour
     }
     public void LoadScene(int int_index){
         int i = int_index;
-        StartCoroutine(TransitionLoadScene(i));
+        TransitionLoadScene(i);
 
     }
     public void LoadLevel(int int_index){
         int i = int_index + levelOffset;
-        StartCoroutine(TransitionLoadScene(i));
+        TransitionLoadScene(i);
     }
 
     public void LoadNextScene(){
         int i = SceneManager.GetActiveScene().buildIndex + 1;
-        StartCoroutine(TransitionLoadScene(i));
+        TransitionLoadScene(i);
 
     }
     public void ReloadScene(){
         int i = SceneManager.GetActiveScene().buildIndex;
-        StartCoroutine(TransitionLoadScene(i));
+        TransitionLoadScene(i);
     }
 
     public void LoadMainMenu()
@@ -201,23 +228,18 @@ public class LevelManager : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == 0) { Application.Quit(); return; }
         else { LoadMainMenu(); return; }
     }
-
-    IEnumerator TransitionLoadScene(int i , float transitironDuration = 1.5f, float delay = 1.0f)
+    
+    void TransitionLoadScene(string s, float transitironDuration = 1.5f, float delay = 0.0f)
     {
         Transition.GetInstance().transitionDelay = delay;
         Transition.GetInstance().transitionDuration = transitironDuration;
-        Transition.GetInstance().Exit(); 
-        yield return new WaitForSeconds(transitironDuration + delay);
-        SceneManager.LoadScene(i);
+        Transition.GetInstance().Exit(() => SceneManager.LoadScene(s));
     }
-
-    IEnumerator TransitionLoadScene(string s, float transitironDuration = 1.5f, float delay = 1.0f)
+    void TransitionLoadScene(int i, float transitironDuration = 1.5f, float delay = 1.0f)
     {
         Transition.GetInstance().transitionDelay = delay;
         Transition.GetInstance().transitionDuration = transitironDuration;
-        Transition.GetInstance().Exit();
-        yield return new WaitForSeconds(transitironDuration + delay);
-        SceneManager.LoadScene(s);
+        Transition.GetInstance().Exit(() => SceneManager.LoadScene(i));
     }
     #endregion
 }

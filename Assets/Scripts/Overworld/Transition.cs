@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Transition : MonoBehaviour
 {
+    #region Class Variable
     public enum TransitionType
     {
         Fade,
@@ -12,7 +13,10 @@ public class Transition : MonoBehaviour
     }
 
     private static Transition instance;
+
     [Header("Transition Details")]
+
+    [SerializeField] private bool doOnStart;
     [SerializeField] private float m_transitionDuration = 1f;
     public float transitionDuration
     {
@@ -39,10 +43,9 @@ public class Transition : MonoBehaviour
         set { m_textTitle = value; if (m_title1 != null) m_title1.text = value; if (m_title2 != null) m_title2.text = value; }
     }
 
-    [Header("Object")]
-    [SerializeField] private Image m_image;
-    [SerializeField] private Text m_title1;
-    [SerializeField] private Text m_title2;
+    private Image m_image;
+    private Text m_title1;
+    private Text m_title2;
 
     private Color[] currentColor
     {
@@ -62,7 +65,14 @@ public class Transition : MonoBehaviour
 
     private Color[] originalColor;
 
-    private void Awake()
+    #endregion
+
+    public static Transition GetInstance()
+    {
+        return instance;
+    }
+
+    void Awake()
     {
         if (instance == null)
         {
@@ -75,16 +85,33 @@ public class Transition : MonoBehaviour
         }
     }
 
-    private void Start()
+    void Start()
     {
-        Reset();
+        if (doOnStart) Reset();
+        else SetColorTo(Color.clear);
     }
 
-    public static Transition GetInstance()
+
+    #region Public Method
+    public void StartTransition(TransitionType type, Color? to, bool isExit, float duration, float delay = 0f, System.Action callback = null)
     {
-        return instance;
+        StartCoroutine(DoTransition(type, to, isExit, duration, delay, callback));
     }
 
+    public void Enter(System.Action callback = null)
+    {
+        textTitle = m_textTitle;
+        StartTransition(m_transitionType, Color.clear, false, m_transitionDuration, m_transitionDelay, callback);
+    }
+
+    public void Exit(System.Action callback = null)
+    {
+        textTitle = "";
+        StartTransition(m_transitionType, Color.black, true, m_transitionDuration, m_transitionDelay, callback);
+    }
+    #endregion
+
+    #region Private Method
     IEnumerator Circular(Color[] from, Color[] to, float duration, bool isExit)
     {
         m_image.fillMethod = Image.FillMethod.Radial360;
@@ -108,9 +135,9 @@ public class Transition : MonoBehaviour
             {
                 temp[i] = Color.Lerp(from[i], to[i], t);
             }
-            
+
             // Update Colour
-            currentColor = temp;
+            SetColorTo(temp);
 
             // Update Circular
             m_image.fillAmount = Mathf.Lerp(lerp_start, lerp_end, t);
@@ -135,7 +162,7 @@ public class Transition : MonoBehaviour
                 temp[i] = Color.Lerp(from[i], to[i], elapsedTime / duration);
             }
             // Update Colour
-            currentColor = temp;
+            SetColorTo(temp);
 
             yield return null;
         }
@@ -177,32 +204,15 @@ public class Transition : MonoBehaviour
         // Post-transition
         m_title1.text = "";
         m_title2.text = "";
-        if (callback != null) callback.Invoke();
+        callback?.Invoke();
         
         yield return null;
-    }
-
-    public void StartTransition(TransitionType type, Color? to, bool isExit, float duration, float delay = 0f, System.Action callback = null)
-    {
-        StartCoroutine(DoTransition(type, to, isExit, duration, delay, callback));
     }
 
     private void Reset()
     {
         ResetColor();
         Enter();
-    }
-
-    public void Enter()
-    {
-        textTitle = m_textTitle;
-        StartTransition(m_transitionType, Color.clear, false, m_transitionDuration, m_transitionDelay);
-    }
-
-    public void Exit()
-    {
-        textTitle = "";
-        StartTransition(m_transitionType, Color.black, true, m_transitionDuration, m_transitionDelay);
     }
     
     public void SetTitle(string s)
@@ -212,9 +222,26 @@ public class Transition : MonoBehaviour
 
     private void ResetColor()
     {
-        currentColor = originalColor;
+        SetColorTo(originalColor);
     }
 
+    private void SetColorTo(Color[] to)
+    {
+        if (to.Length == currentColor.Length)
+            currentColor = to;
+        else
+            Debug.LogWarning("Color is not assigned, since the assigned length does not match.");
+    }
+
+    private void SetColorTo(Color to)
+    {
+        Color[] tos = (Color[])new[] { to, to, to };
+        currentColor = tos;
+    }
+
+    /// <summary>
+    /// Initialize any necessary object and the value.
+    /// </summary>
     private void Initialize()
     {
         m_image = GetComponent<Image>();
@@ -228,4 +255,7 @@ public class Transition : MonoBehaviour
 
         SetTitle(m_textTitle);
     }
+
+    #endregion
+
 }

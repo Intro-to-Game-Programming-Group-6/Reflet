@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 8028998741060856019}
   - component: {fileID: 8028998741060856045}
   m_Layer: 5
-  m_Name: UpgradeSelectPanel
+  m_Name: SelectPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -386,6 +386,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8028998741060856018}
     m_Modifications:
+    - target: {fileID: 474153762397770155, guid: 4a22d4996c4dfa647934cc20a7855df1, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1635254136, guid: 288228d9bced238449a54a2f6271fff2, type: 3}
     - target: {fileID: 6464170324742312662, guid: 4a22d4996c4dfa647934cc20a7855df1, type: 3}
       propertyPath: m_Name
       value: Choose_000
@@ -493,6 +497,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8028998741060856018}
     m_Modifications:
+    - target: {fileID: 474153762397770155, guid: 4a22d4996c4dfa647934cc20a7855df1, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b8241096259b5a34293da432d6325e42, type: 3}
     - target: {fileID: 6464170324742312662, guid: 4a22d4996c4dfa647934cc20a7855df1, type: 3}
       propertyPath: m_Name
       value: Choose_002
@@ -600,6 +608,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8028998741060856018}
     m_Modifications:
+    - target: {fileID: 474153762397770155, guid: 4a22d4996c4dfa647934cc20a7855df1, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300074, guid: e883cca0e8273cb4e8b2c019e0d360ee, type: 3}
     - target: {fileID: 6464170324742312662, guid: 4a22d4996c4dfa647934cc20a7855df1, type: 3}
       propertyPath: m_Name
       value: Choose_001

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class PlayerControlScript : MonoBehaviour
 {
@@ -73,6 +74,7 @@ public class PlayerControlScript : MonoBehaviour
     private float reflectionInterval = 0.1f; // 1 second interval
     public float stamina_regen;
     public float stamina_decay;
+    public UnityEvent<Vector3> playerHealEvent;
 
     private void OnEnable()
     {
@@ -339,6 +341,7 @@ public class PlayerControlScript : MonoBehaviour
         {
             // Debug.Log("Healing");
             healManager.StartHeal(this);
+            playerHealEvent.Invoke(transform.position);
         }
     }
 

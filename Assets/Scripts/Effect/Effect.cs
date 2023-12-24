@@ -11,4 +11,8 @@ public class Effect : MonoBehaviour         //Used for an effect that's supposed
         Destroy(gameObject, timeout);
         GetComponent<AudioSource>().PlayOneShot(effectSound);
     }
+
+    private void OnDestroy() {
+        Destroy(gameObject);
+    }
 }

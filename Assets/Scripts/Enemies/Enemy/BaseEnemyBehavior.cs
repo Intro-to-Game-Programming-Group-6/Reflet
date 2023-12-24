@@ -154,7 +154,7 @@ public class BaseEnemyBehavior : MonoBehaviour
         }
     }
 
-    IEnumerator ShootRoutine()
+    protected virtual IEnumerator ShootRoutine()
     {
         while (true)
         {

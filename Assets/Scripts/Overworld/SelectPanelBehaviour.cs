@@ -6,8 +6,9 @@ using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
 
-public class SelectBehaviour : MonoBehaviour
+public class SelectPanelBehaviour : MonoBehaviour
 {
+    #region Class Variable
     int m_upperLimit;
     int m_lowerLimit;
     [SerializeField] int m_size;
@@ -16,8 +17,8 @@ public class SelectBehaviour : MonoBehaviour
     [SerializeField] private GameObject[] m_selectionObjects;
     private Button[] m_selectionButtons;
     private Image[] m_selectionImages;
-    private TextMeshProUGUI[] m_selectionTexts;
-    private string[] m_detailsText;
+    private TextMeshProUGUI[] m_titleTexts;
+    private TextMeshProUGUI[] m_detailsTexts;
 
     [SerializeField] private GameObject m_confirmObjects;
     [HideInInspector] public bool m_isHasConfirmButton;
@@ -37,14 +38,18 @@ public class SelectBehaviour : MonoBehaviour
             else Debug.LogWarning("Text cannot be changed, since object is not assigned");
         }
     }
+    #endregion
 
+    #region Input & System Variable
     private InputAction m_upArrowAction;
     private InputAction m_downArrowAction;
     private InputAction m_enterAction;
 
     private System.Action<int> onConfirmed;
     private System.Action<int> onSelectionChange;
+    #endregion
 
+    #region Routine Function
     void Awake()
     {
         GetComponents();
@@ -62,9 +67,18 @@ public class SelectBehaviour : MonoBehaviour
         // TODO need to be set for what purpose of selection is this...
         onSelectionChange += (value) => LevelManager.GetInstance().SetLevel(value);
     }
+    #endregion
 
     #region Public Methods
-    public void SetImageTextButtonAt(int idx, Sprite sprite, string title, string details, System.Action callback)
+    /// <summary>
+    /// Setup Button's Appaearance overall (sprite, title, detail/description, and its callback)
+    /// </summary>
+    /// <param name="idx"></param> which button wants to be edited (START AT 0 INDEX).
+    /// <param name="sprite"></param>
+    /// <param name="title"></param>
+    /// <param name="details"></param>
+    /// <param name="callback"></param>
+    public void SetupButtonAt(int idx, Sprite sprite = null, string title = null, string details = null, System.Action callback = null)
     {
         // TODO: SFX, show DETIALS by clicking the item (reshape TMP and use it as the container) do these procedural on the callback.
         // Alternatively using the animation to show and hide if selected.
@@ -74,11 +88,18 @@ public class SelectBehaviour : MonoBehaviour
             UnityAction unityAction = new UnityAction(callback);
             m_selectionButtons[idx].onClick.AddListener(unityAction);
         }
-        m_detailsText[idx] = details;
-
-        m_selectionImages[idx].sprite = sprite;
-        m_selectionTexts[idx].text = title;
-        
+        if (title != null)
+        {
+            m_titleTexts[idx].text = title;
+        }
+        if (details != null)
+        {
+            m_detailsTexts[idx].text = details;
+        }
+        if (sprite != null)
+        {
+            m_selectionImages[idx].sprite = sprite;
+        }
     }
 
 
@@ -114,19 +135,53 @@ public class SelectBehaviour : MonoBehaviour
         int len = m_selectionObjects.Length;
         m_selectionButtons = new Button[len];
         m_selectionImages = new Image[len];
-        m_selectionTexts = new TextMeshProUGUI[len];
-        m_detailsText = new string[len];
+        m_titleTexts = new TextMeshProUGUI[len];
+        m_detailsTexts = new TextMeshProUGUI[len];
 
         for (int i = 0; i < len; i++)
         {
-            m_selectionButtons[i] = m_selectionObjects[i].GetComponent<Button>();
-            m_selectionImages[i] = m_selectionObjects[i].GetComponentInChildren<Image>();
-            m_selectionTexts[i] = m_selectionObjects[i].GetComponentInChildren<TextMeshProUGUI>();
+            // m_selectionButtons[i] = m_selectionObjects[i].GetComponent<Button>();
+            // m_selectionImages[i] = m_selectionObjects[i].GetComponentInChildren<Image>();
+            bool isFoundButton = false;
+            foreach ( Transform g in  m_selectionObjects[i].GetComponentsInChildren<Transform>())
+            {
+                switch (g.name)
+                {
+                    case "Image":
+                        m_selectionImages[i] = g.transform.GetComponent<Image>();
+                        break;
+                    case "Title":
+                        m_titleTexts[i] = g.transform.GetComponent<TextMeshProUGUI>();
+                        break;
+                    case "Details":
+                        m_detailsTexts[i] = g.transform.GetComponent<TextMeshProUGUI>();
+                        break;
+                    default:
+                        if (g.transform.GetComponent<Button>() != null) { 
+                            if (isFoundButton)
+                            {
+                                Debug.LogWarning("Object with name " + g.name + "is selected to be the button");
+                            }
+                            m_selectionButtons[i] = g.transform.GetComponent<Button>();
+                            isFoundButton = true;
+                        }
+                        break;
+                }
+            }
+            if (!isFoundButton)
+            {
+                Debug.LogError("Object with name missing Button components");
+            }
         }
+
+        // Setup abal-abal
         for (int i = 0; i < len; i++)
         {
-            m_selectionTexts[i].text = "Item-" + (i + 1);
+            m_titleTexts[i].text = "Item-" + (i + 1);
+            m_detailsTexts[i].text = "Details for item number " + (i + 1);
+            // m_selectionImages[i].sprite = ...
         }
+
 
         // Confirmation Button
         m_isHasConfirmButton = (m_confirmObjects != null);

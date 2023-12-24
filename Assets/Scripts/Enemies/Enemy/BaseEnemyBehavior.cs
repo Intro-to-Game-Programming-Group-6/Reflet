@@ -113,7 +113,7 @@ public class BaseEnemyBehavior : MonoBehaviour
 
     IEnumerator Dizzy()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2f);
         sleep = false;
     }
 

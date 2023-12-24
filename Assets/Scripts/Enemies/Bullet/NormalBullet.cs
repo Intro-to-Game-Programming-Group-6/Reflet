@@ -12,7 +12,7 @@ public class NormalBullet : BaseBulletBehavior
     {
         base.OnTriggerEnter2D(collision);
         //this bullet doesn't bounce against wall and obstacles
-        if(collision.gameObject.CompareTag("Wall") | collision.gameObject.CompareTag("Obstacles"))
+        if(collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Obstacles"))
         {
             Destroy(this.gameObject);
         }

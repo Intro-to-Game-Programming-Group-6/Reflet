@@ -251,6 +251,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyPrefabs: []
   SpawnLocations: []
+  EnemySpawned:
+    m_PersistentCalls:
+      m_Calls: []
+  EnemyHurt:
+    m_PersistentCalls:
+      m_Calls: []
+  EnemyDie:
+    m_PersistentCalls:
+      m_Calls: []
+  EnemyShoot:
+    m_PersistentCalls:
+      m_Calls: []
   AllEnemyDefeated:
     m_PersistentCalls:
       m_Calls:
@@ -495,7 +507,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3330282294596991331, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3330282294596991343, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
       propertyPath: m_Pivot.x
@@ -583,23 +595,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3330282295343449226, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3330282295343449226, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3330282295433484840, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.01
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3330282295433484840, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3330282295698337454, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}

@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+//Require: Player, EnemyManager, Player
+
 public class EffectManager : MonoBehaviour
 {
     AudioSource playerAudioSource;
 
     public static EffectManager instance;
-    public static EffectManager GetInstance() { return instance; } 
+    //public static EffectManager GetInstance() { return instance; } 
 
     private void OnEnable() {
         if(instance == null) {
@@ -32,22 +34,31 @@ public class EffectManager : MonoBehaviour
     [SerializeField] private AudioClip playerWalkSFX;
     #endregion
 
+    private void Start() {
+        EnemyManager.GetInstance().EnemyHurt.AddListener(SpawnHurtEffect);
+        EnemyManager.GetInstance().EnemyDie.AddListener(SpawnDeathEffect);
+        EnemyManager.GetInstance().EnemyShoot.AddListener(SpawnShootingEffect);
+    }
+
+    private void Initialize() {
+        //deathVFX.Add("Sentry", (GameObject)Resources.Load("", typeof(GameObject)));
+    }
 
     //Positional Effects
 
-    public void SpawnDeathEffect(Vector3 position) {
+    public void SpawnDeathEffect(Vector3 position, string enemyName) {
         Instantiate(deathVFX, position, Quaternion.identity);
     }
 
-    public void SpawnHurtEffect(Vector3 position) {
+    public void SpawnHurtEffect(Vector3 position, string enemyName) {
         Instantiate(hurtVFX, position, Quaternion.identity);
     }
 
-    public void SpawnHealEffect(Vector3 position) {
+    public void SpawnHealEffect(Vector3 position, string enemyName) {
         Instantiate(healVFX, position, Quaternion.identity);
     }
 
-    public void SpawnShootingEffect(Vector3 position) {
+    public void SpawnShootingEffect(Vector3 position, string enemyName) {
         Instantiate(shootVFX, position, Quaternion.identity);
     }
 

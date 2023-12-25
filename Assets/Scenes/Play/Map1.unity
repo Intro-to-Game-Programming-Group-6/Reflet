@@ -383,6 +383,56 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e000eb02f72f8e4e8b52e10181e7a9f, type: 3}
+--- !u!1 &1510886008
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1510886010}
+  - component: {fileID: 1510886009}
+  m_Layer: 0
+  m_Name: EffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1510886009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1510886008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e81cf5918324d034f9092f0ba3b6162d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathVFX: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}
+  hurtVFX: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}
+  healVFX: {fileID: 5928383561694542103, guid: d250a883993ec544486b744c19e38d19, type: 3}
+  shootVFX: {fileID: 2515445351180927889, guid: 97cac7cef0c93364685d7aa055e6e944, type: 3}
+  bulletBounceSFX: {fileID: 0}
+  playerWalkSFX: {fileID: 0}
+--- !u!4 &1510886010
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1510886008}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.5579033, y: 0.58224815, z: 0.7890816}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1633326608
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,7 +512,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1633326608}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.1529007, y: -3.5, z: -10}
+  m_LocalPosition: {x: -8.440362, y: -3.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -627,6 +677,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyPrefabs: []
   SpawnLocations: []
+  EnemySpawned:
+    m_PersistentCalls:
+      m_Calls: []
+  EnemyHurt:
+    m_PersistentCalls:
+      m_Calls: []
+  EnemyDie:
+    m_PersistentCalls:
+      m_Calls: []
+  EnemyShoot:
+    m_PersistentCalls:
+      m_Calls: []
   AllEnemyDefeated:
     m_PersistentCalls:
       m_Calls:

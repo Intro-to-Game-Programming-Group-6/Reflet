@@ -49,9 +49,10 @@ public class BaseEnemyBehavior : MonoBehaviour
         animController = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
 
-        //this 2 line make navmesh work in 2d (must have in everything use navmesh)
+        //***this 2 line make navmesh work in 2d (must have in everything use navmesh)
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        //****
         sleep = true;
         currentHealth = maxHealth;
 
@@ -156,14 +157,14 @@ public class BaseEnemyBehavior : MonoBehaviour
 
     protected virtual IEnumerator ShootRoutine()
     {
-        while (true)
-        {
+        
             //Instantiate(shootEffect, transform.position, Quaternion.identity);
-            EnemyManager.GetInstance().EnemyShoot.Invoke(gameObject.transform.position);
-            GameObject bullet = Instantiate(bulletPrefab, agent.transform.position, Quaternion.identity);
-            bullet.GetComponent<BaseBulletBehavior>().ShootAt(player);
-            yield return new WaitForSeconds(attackDelay);
-        }
+        EnemyManager.GetInstance().EnemyShoot.Invoke(gameObject.transform.position);
+        GameObject bullet = Instantiate(bulletPrefab, agent.transform.position, Quaternion.identity);
+        bullet.GetComponent<BaseBulletBehavior>().ShootAt(player);
+        yield return new WaitForSeconds(attackDelay);
+        isAttacking = false;
+        
     }
 
     public void AdjustHealth(int deltaHealth)

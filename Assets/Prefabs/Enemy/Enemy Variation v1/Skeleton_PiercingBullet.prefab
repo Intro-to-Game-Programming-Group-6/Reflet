@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5872602009914623622}
   - component: {fileID: 8779110592293385192}
   - component: {fileID: 3483271707430182168}
-  - component: {fileID: 3889676543551436833}
+  - component: {fileID: 1096298867}
   m_Layer: 0
   m_Name: Skeleton_PiercingBullet
   m_TagString: Enemy
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 548196675
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e4ef92bf89cc58c4c91657dac3f5170a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -181,7 +181,7 @@ NavMeshAgent:
   m_BaseOffset: 0.09
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &3889676543551436833
+--- !u!114 &1096298867
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -190,7 +190,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1297743061378408835}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e36f26769633331459b09027d213c764, type: 3}
+  m_Script: {fileID: 11500000, guid: 95a9c6c1cb0ed3a48a91d8a9fe8233ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 3483271707430182168}
@@ -216,6 +216,10 @@ MonoBehaviour:
   hurtEffect: {fileID: 0}
   dieEffect: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}
   shootEffect: {fileID: 2515445351180927889, guid: 97cac7cef0c93364685d7aa055e6e944, type: 3}
+  obstacles: []
+  myObstacle: {fileID: 0}
+  escapeRange: 5
+  playerTooClose: 0
 --- !u!1001 &1855508074910828272
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -225,7 +229,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 245192431883139864, guid: 0fbc8588865fdaa458a98b896c30cec6, type: 3}
       propertyPath: m_SortingLayer
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 245192431883139864, guid: 0fbc8588865fdaa458a98b896c30cec6, type: 3}
       propertyPath: m_SortingLayerID
@@ -307,7 +311,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 245192431883139864, guid: 0fbc8588865fdaa458a98b896c30cec6, type: 3}
       propertyPath: m_SortingLayer
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 245192431883139864, guid: 0fbc8588865fdaa458a98b896c30cec6, type: 3}
       propertyPath: m_SortingLayerID
@@ -389,7 +393,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 245192431883139864, guid: 0fbc8588865fdaa458a98b896c30cec6, type: 3}
       propertyPath: m_SortingLayer
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 245192431883139864, guid: 0fbc8588865fdaa458a98b896c30cec6, type: 3}
       propertyPath: m_SortingLayerID

@@ -12,16 +12,19 @@ public class SelectPanelBehaviour : MonoBehaviour
     int m_upperLimit;
     int m_lowerLimit;
     [SerializeField] int m_size;
+    public int Size { get { return m_size; } private set { m_size = value; } }
     [SerializeField] int m_selectedIdx;
 
     [SerializeField] private GameObject[] m_selectionObjects;
+    private string[] UpgradeDescription;
     private Button[] m_selectionButtons;
     private Image[] m_selectionImages;
     private TextMeshProUGUI[] m_titleTexts;
     private TextMeshProUGUI[] m_detailsTexts;
 
     [SerializeField] private GameObject m_confirmObjects;
-    [HideInInspector] public bool m_isHasConfirmButton;
+    private bool m_isHasConfirmButton;
+    public bool IsHasConfirmButton { get { return m_isHasConfirmButton; } private set { m_isHasConfirmButton = value; } }
 
     private Button m_confirmButton;
     private TextMeshProUGUI m_tmpText;
@@ -50,7 +53,7 @@ public class SelectPanelBehaviour : MonoBehaviour
     #endregion
 
     #region Routine Function
-    void Awake()
+    public void Awake()
     {
         GetComponents();
         if (m_selectionButtons.Length == 0)
@@ -66,6 +69,13 @@ public class SelectPanelBehaviour : MonoBehaviour
         
         // TODO need to be set for what purpose of selection is this...
         onSelectionChange += (value) => LevelManager.GetInstance().SetLevel(value);
+        for(int i = 0; i<m_selectionButtons.Length; i++)
+        {
+            TempUpgradeTrigger upgrades = m_selectionButtons[i].GetComponent<TempUpgradeTrigger>();
+            upgrades.GenerateUpgrades();
+
+            SetupButtonAt(i, null, upgrades.upgrade_mode +" Upgrade", upgrades.GetUpgradeDesc());
+        }
     }
     #endregion
 
@@ -74,11 +84,11 @@ public class SelectPanelBehaviour : MonoBehaviour
     /// Setup Button's Appaearance overall (sprite, title, detail/description, and its callback)
     /// </summary>
     /// <param name="idx"></param> which button wants to be edited (START AT 0 INDEX).
-    /// <param name="sprite"></param>
+    /// <param name="image"></param>
     /// <param name="title"></param>
     /// <param name="details"></param>
     /// <param name="callback"></param>
-    public void SetupButtonAt(int idx, Sprite sprite = null, string title = null, string details = null, System.Action callback = null)
+    public void SetupButtonAt(int idx, Sprite image = null, string title = null, string details = null, System.Action callback = null)
     {
         // TODO: SFX, show DETIALS by clicking the item (reshape TMP and use it as the container) do these procedural on the callback.
         // Alternatively using the animation to show and hide if selected.
@@ -96,9 +106,9 @@ public class SelectPanelBehaviour : MonoBehaviour
         {
             m_detailsTexts[idx].text = details;
         }
-        if (sprite != null)
+        if (image != null)
         {
-            m_selectionImages[idx].sprite = sprite;
+            m_selectionImages[idx].sprite = image;
         }
     }
 
@@ -137,6 +147,7 @@ public class SelectPanelBehaviour : MonoBehaviour
         m_selectionImages = new Image[len];
         m_titleTexts = new TextMeshProUGUI[len];
         m_detailsTexts = new TextMeshProUGUI[len];
+        UpgradeDescription = new string[len];
 
         for (int i = 0; i < len; i++)
         {
@@ -156,6 +167,9 @@ public class SelectPanelBehaviour : MonoBehaviour
                     case "Details":
                         m_detailsTexts[i] = g.transform.GetComponent<TextMeshProUGUI>();
                         break;
+                    case "TempUpgradeTrigger":
+                        Debug.Log("jackpot!");
+                        break;
                     default:
                         if (g.transform.GetComponent<Button>() != null) { 
                             if (isFoundButton)
@@ -164,10 +178,14 @@ public class SelectPanelBehaviour : MonoBehaviour
                             }
                             m_selectionButtons[i] = g.transform.GetComponent<Button>();
                             isFoundButton = true;
+                            //m_selectionButtons[i].GetComponent<TempUpgradeTrigger>().enabled = true;
+                            //UpgradeDescription[i] = m_selectionButtons[i].GetComponent<TempUpgradeTrigger>().GetUpgradeDesc();
+                            //Debug.Log("upgrade description is " + UpgradeDescription[i]);
                         }
                         break;
                 }
             }
+
             if (!isFoundButton)
             {
                 Debug.LogError("Object with name missing Button components");

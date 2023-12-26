@@ -10,22 +10,26 @@ public class DashBlink : BaseAbillity
     public IEnumerator GoDash(PlayerControlScript control)
     {
         Debug.Log("Dash blinking activated");
-        if(control.GetRigidBody().velocity.magnitude < 0.1f) yield break;
+        if(control.GetRigidBody().velocity.magnitude < 0.1f || control.dashCounter <= 0) yield break;
 
         control.BlinkParticle.Play();
         
         control.canDash = false;
         control.currentlyDashing = true;
-        yield return new WaitForSeconds(control.dashDuration);
+        yield return new WaitForSeconds(control.dashCastTime);
 
         dashDirection = control.GetComponent<Rigidbody2D>().velocity.normalized;
         float max_range = control.blinkRange;
 
-        control.GetRigidBody().position = (control.GetRigidBody().position + dashDirection * max_range);
+        control.gameObject.transform.position = ((Vector2)control.gameObject.transform.position + dashDirection * max_range);
         yield return new WaitForSeconds(control.dashDuration);
         control.currentlyDashing = false;
         control.BlinkParticle.Stop();
-        yield return new WaitForSeconds(control.dashCooldown);
-        control.canDash = true;
+        if (control.dashCounter > 0)
+        {
+            control.dashCounter--;
+            control.canDash = true;
+            yield break;
+        }
     }
 }

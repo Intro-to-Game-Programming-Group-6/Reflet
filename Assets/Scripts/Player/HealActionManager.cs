@@ -14,15 +14,17 @@ public class HealActionManager : MonoBehaviour
         switch (mainController.HealID)
         {
             case 1:
-                PlayerManager.GetInstance().Heal(1);
+                PlayerManager.GetInstance().Heal(mainController.normalHeal);
                 break;
             case 2:
                 AoeHeal.CreateField(AoEPrefab, mainController);
                 break;
             case 3:
+                PlayerManager.GetInstance().Heal(mainController.normalHeal);
                 Disintegration.CreateField(DisintegratePrefab, mainController);
                 break;
             case 4:
+                PlayerManager.GetInstance().Heal(mainController.normalHeal);
                 ShieldReflect.CreateField(ReflectShieldPrefab, mainController);
                 break;
         }

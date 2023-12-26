@@ -10,7 +10,7 @@ public class Dash : BaseAbillity
 
     public IEnumerator GoDash(PlayerControlScript control)
     {
-        if(control.GetRigidBody().velocity.magnitude < 0.1f) yield break;
+        if(control.GetRigidBody().velocity.magnitude < 0.1f || control.dashCounter<=0) yield break;
 
         control.canDash = false;
         control.currentlyDashing = true;
@@ -20,7 +20,15 @@ public class Dash : BaseAbillity
         
         yield return new WaitForSeconds(control.dashDuration);
         control.currentlyDashing = false;
-        yield return new WaitForSeconds(control.dashCooldown);
-        control.canDash = true;
+
+        //add dash charges
+        if (control.dashCounter > 0)
+        {
+            control.dashCounter--;
+            control.canDash = true;
+            yield break;
+        }
+        //yield return new WaitForSeconds(control.dashCooldown);
+        //control.canDash = true;
     }
 }

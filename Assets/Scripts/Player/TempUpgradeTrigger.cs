@@ -7,59 +7,230 @@ public class TempUpgradeTrigger : MonoBehaviour
     // Start is called before the first frame update
 
     public string upgrade_mode;
+    public HealUpgradeValues ChosenHealUpgrade;
+    public ReflectUpgradeValues ChosenReflectUpgrade;
+    public DashUpgradeValues ChosenDashUpgrade;
     PlayerControlScript player_control_info;
     PlayerManager player_manager_info;
     ReflectUpgradeType randomUpgrade;
     HealUpgradeType randomHealUpgrade;
-    void Start()
+    DashUpgradeType randomDashUpgrade;
+
+    void OnEnable()
     {
         player_manager_info = PlayerManager.GetInstance();
         player_control_info = PlayerControlScript.GetInstance();
         randomUpgrade = (ReflectUpgradeType)Random.Range(0, System.Enum.GetValues(typeof(ReflectUpgradeType)).Length);
+        randomDashUpgrade = (DashUpgradeType)Random.Range(0, System.Enum.GetValues(typeof(DashUpgradeType)).Length);
         randomHealUpgrade = (HealUpgradeType)Random.Range(0, System.Enum.GetValues(typeof(HealUpgradeType)).Length);
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
+        ChosenDashUpgrade = GenerateDashUpgrades();
+        ChosenHealUpgrade = GenerateHealUpgrades();
+        ChosenReflectUpgrade = GenerateReflectAndStaminaUpgrades();
         
     }
 
-    public enum HealUpgradeType
+    public string GetUpgradeDesc()
     {
-        HealID,
-        VialCapacity,
-        VialResourceDrain,
+        if (upgrade_mode == "reflect")
+            return ChosenDashUpgrade.UpgradeDescription;
+        else if (upgrade_mode == "dash")
+            return ChosenDashUpgrade.UpgradeDescription;
+        else if (upgrade_mode == "heal")
+            return ChosenHealUpgrade.UpgradeDescription;
+        else
+            return "None";
     }
 
-    void GenerateHealUpgrades()
+    #region DashUpgrade
+    public enum DashUpgradeType
     {
-        HealUpgradeType randomUpgrade = (HealUpgradeType)Random.Range(0, System.Enum.GetValues(typeof(HealUpgradeType)).Length);
+        DashCharge,
+        DashSpeed,
+        DashCooldown
+    }
 
+    public struct DashUpgradeValues
+    {
+        public float increaseSpeed;
+        public float reduceCooldown;
+        public string UpgradeDescription;
+        public DashUpgradeType UpgradeID; 
+
+        public DashUpgradeValues(DashUpgradeType id, float speed, float cooldown, string desc)
+        {
+            UpgradeID = id;
+            increaseSpeed = speed;
+            reduceCooldown = cooldown;
+            UpgradeDescription = desc;
+        }
+    }
+
+    DashUpgradeValues GenerateDashUpgrades()
+    {
+        DashUpgradeType randomUpgrade = (DashUpgradeType)Random.Range(0, System.Enum.GetValues(typeof(DashUpgradeType)).Length);
+        string UpgradeDescription ="";
+        float IncreaseSpeed = 0;
+        float ReduceCooldown = 0;
         switch (randomUpgrade)
         {
-            case HealUpgradeType.HealID:
-                HandleSpecificHealAction();
+            case DashUpgradeType.DashCharge:
+                UpgradeDescription = "Increase Dash Charge by 1.";
                 break;
 
-            case HealUpgradeType.VialCapacity:
-                float IncreaseCapacity = Random.Range(10f, 30f);
-                player_manager_info.maxVial *= (1 + IncreaseCapacity / 100);
+            case DashUpgradeType.DashSpeed:
+                IncreaseSpeed = Random.Range(10f, 30f);
+                UpgradeDescription = $"Increase Dash Speed by {IncreaseSpeed:F2}%";
                 break;
 
-            case HealUpgradeType.VialResourceDrain:
-                float ReduceUsage = Random.Range(10f, 30f);
-                player_manager_info.useVial *= (1 - ReduceUsage / 100);
+            case DashUpgradeType.DashCooldown:
+                ReduceCooldown = Random.Range(10f, 30f);
+                UpgradeDescription = $"Reduce Dash Cooldown by {ReduceCooldown:F2}%";
+                break;
+            default:
+                break;
+
+        }
+        DashUpgradeValues retval = new DashUpgradeValues(randomUpgrade, IncreaseSpeed, ReduceCooldown, UpgradeDescription);
+        return retval;
+    }
+
+    void ApplyDashUpgrades(DashUpgradeValues upgrade)
+    {
+        DashUpgradeType selected_upgrade = upgrade.UpgradeID;
+        switch (selected_upgrade)
+        {
+            case DashUpgradeType.DashCharge:
+                player_control_info.dashMaxCharge += 1;
+                break;
+
+            case DashUpgradeType.DashSpeed:
+                player_control_info.dashSpeed *= (1 + upgrade.increaseSpeed / 100);
+                break;
+
+            case DashUpgradeType.DashCooldown:
+                player_control_info.dashCooldown *= (1 - upgrade.reduceCooldown / 100);
                 break;
             default:
                 break;
 
         }
     }
+    #endregion
 
-    void HandleSpecificHealAction()
+    #region Heal Upgrades
+    public enum HealUpgradeType
     {
-        int ChooseHealingID = Random.Range(2, 5);
+        HealID,
+        VialCapacity,
+        VialResourceDrain,
+        BaseHealing
+    }
+
+    public struct HealUpgradeValues
+    {
+        public HealUpgradeType upgradeID;
+        public float VialCapacity;
+        public float VialDrain;
+        public float BaseHealing;
+        public string UpgradeDescription;
+        public int ChooseHealingID;
+
+        public HealUpgradeValues(HealUpgradeType upgrade, float capac, float drain, float baseheal, string desc, int healmode)
+        {
+            upgradeID = upgrade;
+            VialCapacity = capac;
+            VialDrain = drain;
+            BaseHealing = baseheal;
+            UpgradeDescription = desc;
+            ChooseHealingID = healmode;
+        }
+    }
+
+    HealUpgradeValues GenerateHealUpgrades()
+    {
+        HealUpgradeType randomUpgrade = (HealUpgradeType)Random.Range(0, System.Enum.GetValues(typeof(HealUpgradeType)).Length);
+        string UpgradeDescription = "";
+
+        // Declare variables to store upgrade values
+        float capac = 0f;
+        float drain = 0f;
+        float baseheal = 0f;
+        int ChooseHealingID = 2;
+
+        // Generate upgrade values based on the upgrade type
+        switch (randomUpgrade)
+        {
+            case HealUpgradeType.HealID:
+                ChooseHealingID = Random.Range(2, 5);
+                switch (ChooseHealingID)
+                {
+                    case 2:
+                        UpgradeDescription = $"Turn Heal into AoE Healing";
+                        break;
+                    case 3:
+                        UpgradeDescription = $"Turn Heal into Disintegration Shield";
+                        break;
+                    case 4:
+                        UpgradeDescription = $"Turn Heal into Reflecting Shield";
+                        break;
+                    default:
+                        break;
+                }
+                break;
+
+            case HealUpgradeType.VialCapacity:
+                capac = Random.Range(10f, 30f);
+                UpgradeDescription = $"Increase Vial Capacity by {capac:F2}%";
+                break;
+
+            case HealUpgradeType.VialResourceDrain:
+                drain = Random.Range(10f, 30f);
+                UpgradeDescription = $"Reduce Vial Usage by {drain:F2}%";
+                break;
+
+            case HealUpgradeType.BaseHealing:
+                baseheal = Random.Range(10f, 30f);
+                UpgradeDescription = $"Increase Base Healing by {baseheal:F2}%";
+                break;
+
+            default:
+                break;
+        }
+
+        HealUpgradeValues retval = new HealUpgradeValues(randomUpgrade, capac, drain, baseheal, UpgradeDescription, ChooseHealingID);
+        return retval;
+    }
+
+    void ApplyHealUpgrades(HealUpgradeValues upgradeValues)
+    {
+        HealUpgradeType chosenupgrade = upgradeValues.upgradeID;
+        switch (chosenupgrade)
+        {
+            case HealUpgradeType.HealID:
+                ApplySpecificHeal(upgradeValues.ChooseHealingID);
+                break;
+            case HealUpgradeType.VialCapacity:
+                player_manager_info.maxVial *= (1 + upgradeValues.VialCapacity / 100);
+                break;
+
+            case HealUpgradeType.VialResourceDrain:
+                player_manager_info.useVial *= (1 - upgradeValues.VialDrain / 100);
+                break;
+
+            case HealUpgradeType.BaseHealing:
+                player_control_info.normalHeal *= (1 + upgradeValues.BaseHealing / 100);
+                player_control_info.normalHeal = Mathf.Round(player_control_info.normalHeal);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    string ApplySpecificHeal(int ChooseHealingID)
+    {
+        string UpgradeDescription ="";
         if (ChooseHealingID == player_control_info.HealID)
         {
             if (ChooseHealingID == 2) //AoE healing HealActionManager id 2
@@ -74,16 +245,40 @@ public class TempUpgradeTrigger : MonoBehaviour
             else if (ChooseHealingID == 3)//HealActionManager Disintegration
             {
                 float IncreaseDisintegrationDuration = Random.Range(10f, 30f);
+                UpgradeDescription = $"Increase Disintegration Shield Duration by {IncreaseDisintegrationDuration}%";
                 player_control_info.DisintegrationDuration *= (1f + IncreaseDisintegrationDuration / 100);
-            }else if(ChooseHealingID == 4)//HealActionManager ReflectShield
+            }
+            else if (ChooseHealingID == 4)//HealActionManager ReflectShield
             {
+                UpgradeDescription = $"Unlocks Reflecting Shield, Increase Shield Durability by 1";
                 player_control_info.ReflectShieldHP += 1;
             }
-                    
+
         }
         else
+        {
             player_control_info.HealID = ChooseHealingID;
+            switch (ChooseHealingID)
+            {
+                case 2:
+                    UpgradeDescription = $"Unlocks AoE Healing";
+                    break;
+                case 3:
+                    UpgradeDescription = $"Unlocks Disintegration Shield";
+                    break;
+                case 4:
+                    UpgradeDescription = $"Unlocks Reflecting Shield";
+                    break;
+            }
+
+        }
+        return UpgradeDescription;
     }
+
+
+    #endregion
+
+    #region Reflect and Stamina Upgrades
     public enum ReflectUpgradeType
     {
         RotatingShield,
@@ -92,29 +287,98 @@ public class TempUpgradeTrigger : MonoBehaviour
         StaminaCapacity,
         StaminaDecay
     }
-    void GenerateReflectUpgrades()
+
+    public struct ReflectUpgradeValues
     {
+        public float StaminaRegen;
+        public float StaminaCapacity;
+        public float StaminaDecay;
+        public string UpgradeDescription;
+        public ReflectUpgradeType UpgradeID;
+
+        public ReflectUpgradeValues(ReflectUpgradeType id, float regen, float capac, float decay, string desc)
+        {
+            UpgradeID = id;
+            StaminaRegen = regen;
+            StaminaCapacity = capac;
+            StaminaDecay = decay;
+            UpgradeDescription = desc;
+        }
+    }
+    ReflectUpgradeValues GenerateReflectAndStaminaUpgrades()
+    {
+        string UpgradeDescription = "";
+        ReflectUpgradeType randomUpgrade = (ReflectUpgradeType)Random.Range(0, System.Enum.GetValues(typeof(ReflectUpgradeType)).Length);
+        float IncreaseRegenRate = 0;
+        float ReduceDecayRate = 0;
+        float finalStamina = player_manager_info.maxStamina;
         switch (randomUpgrade)
         {
             case ReflectUpgradeType.StaminaCapacity:
                 float IncreaseCapacity = Random.Range(10f, 30f);
-                float newval = player_manager_info.maxStamina * (1 + IncreaseCapacity / 100);
-                player_manager_info.ModifyStaminaCapacity(Mathf.Round(newval));
+                UpgradeDescription = $"Increase Stamina Capacity by {IncreaseCapacity:F2}%";
+                finalStamina = player_manager_info.maxStamina * (1 + IncreaseCapacity / 100);
                 break;
             case ReflectUpgradeType.StaminaRegen:
-                float IncreaseRegenRate = Random.Range(10f, 30f);
-                player_control_info.stamina_regen *= (1 + IncreaseRegenRate / 100);
+                IncreaseRegenRate = Random.Range(10f, 30f);
+                UpgradeDescription = $"Increase Stamina Regeneration by {IncreaseRegenRate:F2}%";
                 break;
             case ReflectUpgradeType.StaminaDecay:
-                float ReduceDecayRate = Random.Range(10f, 30f);
-                player_control_info.stamina_decay *= (1 - ReduceDecayRate / 100);
+                ReduceDecayRate = Random.Range(10f, 30f);
+                UpgradeDescription = $"Reduce Stamina Usage by {ReduceDecayRate:F2}%";
                 break;
             case ReflectUpgradeType.Duplication:
                 if (player_manager_info.multiply)
-                    player_manager_info.bulletMultiplier += 1;
+                {
+                    UpgradeDescription = $"Increase Bullet Multiplication by 1";
+                }
                 else
-                    player_manager_info.multiply = true;
+                {
+                    UpgradeDescription = $"Enable Bullet Multiplication";
+                }
                 break;
+            case ReflectUpgradeType.RotatingShield:
+                if (!player_control_info.mirrorRotate)
+                {
+                    UpgradeDescription = $"Enable Rotating Shields";
+                }
+                else
+                {
+                    UpgradeDescription = $"Increase Rotating Shields by 1";
+                }
+                break;
+        }
+        ReflectUpgradeValues retval = new ReflectUpgradeValues(randomUpgrade, IncreaseRegenRate, finalStamina, ReduceDecayRate, UpgradeDescription);
+        return retval;
+    }
+
+    void ApplyReflectUpgrades(ReflectUpgradeValues upgradeValues)
+    {
+        ReflectUpgradeType selectedUpgrade = upgradeValues.UpgradeID;
+        switch (selectedUpgrade)
+        {
+            case ReflectUpgradeType.StaminaCapacity:
+                player_manager_info.ModifyStaminaCapacity(Mathf.Round(upgradeValues.StaminaCapacity));
+                break;
+            case ReflectUpgradeType.StaminaRegen:
+                player_control_info.stamina_regen *= (1 + upgradeValues.StaminaRegen / 100);
+                break;
+
+            case ReflectUpgradeType.StaminaDecay:
+                player_control_info.stamina_decay *= (1 - upgradeValues.StaminaDecay / 100);
+                break;
+
+            case ReflectUpgradeType.Duplication:
+                if (player_manager_info.multiply)
+                {
+                    player_manager_info.bulletMultiplier += 1;
+                }
+                else
+                {
+                    player_manager_info.multiply = true;
+                }
+                break;
+
             case ReflectUpgradeType.RotatingShield:
                 if (!player_control_info.mirrorRotate)
                 {
@@ -128,8 +392,13 @@ public class TempUpgradeTrigger : MonoBehaviour
                     player_control_info.CreateOrbitingShields();
                 }
                 break;
+
+            default:
+                break;
         }
     }
+
+    #endregion
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -139,14 +408,21 @@ public class TempUpgradeTrigger : MonoBehaviour
             {
                 Debug.Log("Player accessing reflect upgrade");
                 Debug.Log("Player is currently locked to using: " + randomUpgrade);
-                GenerateReflectUpgrades();
+                ApplyReflectUpgrades(ChosenReflectUpgrade);
                 Debug.Log("Upgrade Applied");
             }
             else if(upgrade_mode == "heal")
             {
                 Debug.Log("Player accessing heal upgrade");
                 Debug.Log("Player is currently locked to using: " + randomHealUpgrade);
-                GenerateHealUpgrades();
+                ApplyHealUpgrades(ChosenHealUpgrade);
+                Debug.Log("Upgrade Applied");
+            }
+            else if (upgrade_mode == "dash")
+            {
+                Debug.Log("Player accessing dash upgrade");
+                Debug.Log("Player is currently locked to using: " + randomDashUpgrade);
+                ApplyDashUpgrades(ChosenDashUpgrade);
                 Debug.Log("Upgrade Applied");
             }
         }
@@ -159,15 +435,31 @@ public class TempUpgradeTrigger : MonoBehaviour
             if (upgrade_mode == "reflect")
             {
                 Debug.Log("Randomizing Reflect Upgrade");
-                randomUpgrade = (ReflectUpgradeType)Random.Range(0, System.Enum.GetValues(typeof(ReflectUpgradeType)).Length);
-                Debug.Log("Player is currently locked to using: " + randomUpgrade);
+                ChosenReflectUpgrade = GenerateReflectAndStaminaUpgrades();
+                //Debug.Log("Player is currently locked to using: " + randomUpgrade);
             }
             else if (upgrade_mode == "heal")
             {
                 Debug.Log("Randomizing Heal Upgrade");
-                randomHealUpgrade = (HealUpgradeType)Random.Range(0, System.Enum.GetValues(typeof(HealUpgradeType)).Length);
-                Debug.Log("Player is currently locked to using: " + randomHealUpgrade);
+                ChosenHealUpgrade = GenerateHealUpgrades();
+                //Debug.Log("Player is currently locked to using: " + randomHealUpgrade);
+            }
+            else if (upgrade_mode == "dash")
+            {
+                Debug.Log("Randomizing Heal Upgrade");
+                ChosenDashUpgrade = GenerateDashUpgrades();
+                //Debug.Log("Player is currently locked to using: " + randomDashUpgrade);
             }
         }
+    }
+
+    public void ApplyUpgradeViaButton()
+    {
+        if (upgrade_mode == "reflect")
+            ApplyReflectUpgrades(ChosenReflectUpgrade);
+        else if (upgrade_mode == "dash")
+            ApplyDashUpgrades(ChosenDashUpgrade);
+        else if (upgrade_mode == "heal")
+            ApplyHealUpgrades(ChosenHealUpgrade);
     }
 }

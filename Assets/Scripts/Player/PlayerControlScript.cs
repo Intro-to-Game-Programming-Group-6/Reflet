@@ -26,14 +26,18 @@ public class PlayerControlScript : MonoBehaviour
     #region Dash Variables
     [Header("Dash Variables")]
     [SerializeField] DashManager dashManager;
-    [SerializeField] public float dashSpeed = 3f;
-    [SerializeField] public int dashID = 2;
+    [SerializeField] public float dashSpeed = 5f;
+    [SerializeField] public int dashID = 1;
     [SerializeField] public float dashDuration = 0.5f;
-    [SerializeField] public float dashCooldown = 1.5f;
+    [SerializeField] public float dashCooldown = 5f;
     [SerializeField] public int dashCounter;
+    [SerializeField] public int dashMaxCharge;
+    [SerializeField] public float dashRefresh;
     [SerializeField] public TrailRenderer trail;
     [HideInInspector][SerializeField] public bool canDash = true;
     [HideInInspector][SerializeField] public bool currentlyDashing;
+    [HideInInspector][SerializeField] public ParticleSystem BlinkParticle;
+    [SerializeField] public float blinkRange = 5f;
     #endregion
 
     #region Reflect Variables
@@ -49,6 +53,7 @@ public class PlayerControlScript : MonoBehaviour
     [HideInInspector][SerializeField] public float attackRange = 0f;
     [HideInInspector] [SerializeField] private List<float> angle_pos = new List<float>();
     [HideInInspector] [SerializeField] private List<GameObject> rotateshields = new List<GameObject>();
+
 
     #endregion
 
@@ -75,6 +80,7 @@ public class PlayerControlScript : MonoBehaviour
     public float stamina_regen;
     public float stamina_decay;
     public UnityEvent<Vector3> playerHealEvent;
+
 
     private void OnEnable()
     {
@@ -110,6 +116,8 @@ public class PlayerControlScript : MonoBehaviour
         animator = GetComponent<Animator>();
         dashManager = GetComponent<DashManager>();
         trail = GetComponent<TrailRenderer>();
+        BlinkParticle = GetComponent<ParticleSystem>();
+        BlinkParticle.Stop();
 
         rb.gravityScale = 0f;
         trail.emitting = true;
@@ -120,13 +128,17 @@ public class PlayerControlScript : MonoBehaviour
         numShields = 0;
         canDash = true;
 
+        dashMaxCharge = 3;
+        dashCounter = 1;
+        dashRefresh = 0;
+
         aoeHealRadius = 3;
         aoeHealTime = 10f;
         aoeHealTotal = 10f;
 
         stamina_decay = -1f;
         stamina_regen = 1f;
-
+        ReflectShieldHP = 1;
         //CreateOrbitingShields();
     }
 
@@ -152,6 +164,17 @@ public class PlayerControlScript : MonoBehaviour
         // {
         //     rb.velocity = (movementInput) * movementspeed;
         // }
+        dashRefresh += Time.deltaTime;
+
+        if(dashRefresh >= dashCooldown)
+        {
+            dashRefresh = 0f;
+            if (dashCounter < dashMaxCharge)
+            {
+                dashCounter++;
+                Debug.Log("dash Restored : " + dashCounter);
+            }
+        }
 
         rb.velocity = (movementInput) * movementspeed;
 

@@ -195,6 +195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 3483271707430182168}
   bulletPrefab: {fileID: 5712115813734137524, guid: 662336a7dc5193146b1bc7f3af4dbc15, type: 3}
+  enemyName: Skeleton
   sleep: 0
   animController: {fileID: 0}
   sprite: {fileID: 0}

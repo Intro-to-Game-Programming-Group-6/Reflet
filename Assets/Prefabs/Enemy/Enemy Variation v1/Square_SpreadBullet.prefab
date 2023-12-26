@@ -76,7 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 548196675
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 03459a0c274c8c4438a7ee2d7820e5e9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -192,6 +192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 5529700683570693018}
   bulletPrefab: {fileID: 5811033692806323098, guid: 0e6e90538758f504c898c30b159cc5d0, type: 3}
+  enemyName: Square
   sleep: 0
   animController: {fileID: 0}
   sprite: {fileID: 0}

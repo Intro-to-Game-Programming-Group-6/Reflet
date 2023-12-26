@@ -8,8 +8,8 @@ public class BaseEnemyBehavior : MonoBehaviour
 {
     public NavMeshAgent agent;
     public GameObject bulletPrefab;
+    public string enemyName;
     public bool sleep;
-    
 
     [Header("Animation Properties")]
     [HideInInspector][SerializeField] Animator animController;
@@ -159,7 +159,7 @@ public class BaseEnemyBehavior : MonoBehaviour
     {
         
             //Instantiate(shootEffect, transform.position, Quaternion.identity);
-        EnemyManager.GetInstance().EnemyShoot.Invoke(gameObject.transform.position);
+        EnemyManager.GetInstance().EnemyShoot.Invoke(gameObject.transform.position, enemyName);
         GameObject bullet = Instantiate(bulletPrefab, agent.transform.position, Quaternion.identity);
         bullet.GetComponent<BaseBulletBehavior>().ShootAt(player);
         yield return new WaitForSeconds(attackDelay);
@@ -176,12 +176,12 @@ public class BaseEnemyBehavior : MonoBehaviour
         
         if (currentHealth <= 0)
         {
-            EnemyManager.GetInstance().EnemyDie.Invoke(transform.position);
+            EnemyManager.GetInstance().EnemyDie.Invoke(transform.position, enemyName);
             PlayerManager.GetInstance().AddVialPoint(1);
             Destroy(this.gameObject);
         }
         else {
-            EnemyManager.GetInstance().EnemyShoot.Invoke(gameObject.transform.position);
+            EnemyManager.GetInstance().EnemyShoot.Invoke(gameObject.transform.position, enemyName);
         }
     }
 
@@ -199,7 +199,7 @@ public class BaseEnemyBehavior : MonoBehaviour
 
     private void OnDestroy()
     {
-        EnemyManager.GetInstance().HandleEnemyDeath(transform.position);
+        EnemyManager.GetInstance().HandleEnemyDeath(transform.position, enemyName);
     }
 
     private void UpdateHearts()

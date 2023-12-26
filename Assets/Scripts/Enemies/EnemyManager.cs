@@ -14,9 +14,9 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private List<GameObject> SpawnLocations = new List<GameObject>();
 
     public UnityEvent<Vector3> EnemySpawned;
-    public UnityEvent<Vector3> EnemyHurt;
-    public UnityEvent<Vector3> EnemyDie;
-    public UnityEvent<Vector3> EnemyShoot;
+    public UnityEvent<Vector3, string> EnemyHurt;
+    public UnityEvent<Vector3, string> EnemyDie;
+    public UnityEvent<Vector3, string> EnemyShoot;
     public UnityEvent AllEnemyDefeated;
 
     private int enemyAlive;
@@ -126,10 +126,10 @@ public class EnemyManager : MonoBehaviour
     }
     */
 
-    public void HandleEnemyDeath(Vector3 deadEnemyPosition)
+    public void HandleEnemyDeath(Vector3 deadEnemyPosition, string enemyName)
     {
         enemyAlive--;
-        EnemyDie?.Invoke(deadEnemyPosition);
+        EnemyDie?.Invoke(deadEnemyPosition, enemyName);
         // EnemyDie?.Invoke();
     }
 

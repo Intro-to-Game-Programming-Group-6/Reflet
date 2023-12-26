@@ -56,7 +56,8 @@ public class BurstFireEnemy : BaseEnemyBehavior {
         //Debug.Log("Shoot!");
         for (int i = 0; i < bulletRound; i++)
         {
-            Instantiate(shootEffect, transform.position, Quaternion.identity);
+            EnemyManager.GetInstance().EnemyShoot.Invoke(transform.position, enemyName);
+            //Instantiate(shootEffect, transform.position, Quaternion.identity);
             GameObject bullet = Instantiate(bulletPrefab, agent.transform.position, Quaternion.identity);
             bullet.GetComponent<BaseBulletBehavior>().ShootAt(player);
             yield return new WaitForSeconds(rapidDelay);

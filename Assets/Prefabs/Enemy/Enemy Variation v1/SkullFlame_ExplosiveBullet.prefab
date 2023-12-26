@@ -78,7 +78,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 548196675
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 6079cb37ee784c746bd6ae79d78838a0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -194,6 +194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 5603284820093896380}
   bulletPrefab: {fileID: 2068484565061326571, guid: 870caf1a1f0633d46b66a698aca9f100, type: 3}
+  enemyName: SkullFlame
   sleep: 0
   animController: {fileID: 0}
   sprite: {fileID: 0}
@@ -224,7 +225,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 245192431883139864, guid: 0fbc8588865fdaa458a98b896c30cec6, type: 3}
       propertyPath: m_SortingLayer
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 245192431883139864, guid: 0fbc8588865fdaa458a98b896c30cec6, type: 3}
       propertyPath: m_SortingLayerID
@@ -306,7 +307,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 245192431883139864, guid: 0fbc8588865fdaa458a98b896c30cec6, type: 3}
       propertyPath: m_SortingLayer
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 245192431883139864, guid: 0fbc8588865fdaa458a98b896c30cec6, type: 3}
       propertyPath: m_SortingLayerID

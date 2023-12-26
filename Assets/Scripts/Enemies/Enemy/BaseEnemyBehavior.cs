@@ -10,7 +10,6 @@ public class BaseEnemyBehavior : MonoBehaviour
     public GameObject bulletPrefab;
     public string enemyName;
     public bool sleep;
-    
 
     [Header("Animation Properties")]
     [HideInInspector][SerializeField] Animator animController;

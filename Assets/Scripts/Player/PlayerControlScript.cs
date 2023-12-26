@@ -29,6 +29,7 @@ public class PlayerControlScript : MonoBehaviour
     [SerializeField] public float dashSpeed = 5f;
     [SerializeField] public int dashID = 1;
     [SerializeField] public float dashDuration = 0.5f;
+    [SerializeField] public float dashCastTime = 1.5f;
     [SerializeField] public float dashCooldown = 5f;
     [SerializeField] public int dashCounter;
     [SerializeField] public int dashMaxCharge;
@@ -131,6 +132,7 @@ public class PlayerControlScript : MonoBehaviour
         dashMaxCharge = 3;
         dashCounter = 1;
         dashRefresh = 0;
+        dashCastTime = 1.5f;
 
         aoeHealRadius = 3;
         aoeHealTime = 10f;
@@ -204,9 +206,10 @@ public class PlayerControlScript : MonoBehaviour
         if (currentlyDashing)
         {
             trail.emitting = true;
+            animator.SetBool("isDashing", true);
             return;
         }
-
+        animator.SetBool("isDashing", false);
         //if (DashAbility.Ability_Status == AbilityStatus.ACTIVE) return;
         // if (isSprinting)
         // {

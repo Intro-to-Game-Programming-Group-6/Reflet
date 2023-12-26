@@ -12,28 +12,21 @@ public class TempUpgradeTrigger : MonoBehaviour
     public DashUpgradeValues ChosenDashUpgrade;
     PlayerControlScript player_control_info;
     PlayerManager player_manager_info;
-    ReflectUpgradeType randomUpgrade;
-    HealUpgradeType randomHealUpgrade;
-    DashUpgradeType randomDashUpgrade;
 
-    void OnEnable()
+    public void GenerateUpgrades()
     {
         player_manager_info = PlayerManager.GetInstance();
         player_control_info = PlayerControlScript.GetInstance();
-        randomUpgrade = (ReflectUpgradeType)Random.Range(0, System.Enum.GetValues(typeof(ReflectUpgradeType)).Length);
-        randomDashUpgrade = (DashUpgradeType)Random.Range(0, System.Enum.GetValues(typeof(DashUpgradeType)).Length);
-        randomHealUpgrade = (HealUpgradeType)Random.Range(0, System.Enum.GetValues(typeof(HealUpgradeType)).Length);
 
         ChosenDashUpgrade = GenerateDashUpgrades();
         ChosenHealUpgrade = GenerateHealUpgrades();
         ChosenReflectUpgrade = GenerateReflectAndStaminaUpgrades();
-        
     }
 
     public string GetUpgradeDesc()
     {
         if (upgrade_mode == "reflect")
-            return ChosenDashUpgrade.UpgradeDescription;
+            return ChosenReflectUpgrade.UpgradeDescription;
         else if (upgrade_mode == "dash")
             return ChosenDashUpgrade.UpgradeDescription;
         else if (upgrade_mode == "heal")
@@ -47,22 +40,25 @@ public class TempUpgradeTrigger : MonoBehaviour
     {
         DashCharge,
         DashSpeed,
-        DashCooldown
+        DashCooldown,
+        DashCastTime
     }
 
     public struct DashUpgradeValues
     {
         public float increaseSpeed;
         public float reduceCooldown;
+        public float dashCastTime;
         public string UpgradeDescription;
         public DashUpgradeType UpgradeID; 
 
-        public DashUpgradeValues(DashUpgradeType id, float speed, float cooldown, string desc)
+        public DashUpgradeValues(DashUpgradeType id, float speed, float cooldown, float casttime, string desc)
         {
             UpgradeID = id;
             increaseSpeed = speed;
             reduceCooldown = cooldown;
             UpgradeDescription = desc;
+            dashCastTime = casttime;
         }
     }
 
@@ -72,6 +68,7 @@ public class TempUpgradeTrigger : MonoBehaviour
         string UpgradeDescription ="";
         float IncreaseSpeed = 0;
         float ReduceCooldown = 0;
+        float ReduceCastTime = 0;
         switch (randomUpgrade)
         {
             case DashUpgradeType.DashCharge:
@@ -87,11 +84,24 @@ public class TempUpgradeTrigger : MonoBehaviour
                 ReduceCooldown = Random.Range(10f, 30f);
                 UpgradeDescription = $"Reduce Dash Cooldown by {ReduceCooldown:F2}%";
                 break;
+
+            case DashUpgradeType.DashCastTime:
+                ReduceCastTime = Random.Range(10f, 30f);
+                if (player_control_info.dashID == 2)
+                {
+                    UpgradeDescription = $"Reduce Blink CastTime by {ReduceCastTime:F2}%";
+                }
+                else
+                {
+                    UpgradeDescription = $"Change into Blink Dash";
+                }
+                break;
             default:
                 break;
 
         }
-        DashUpgradeValues retval = new DashUpgradeValues(randomUpgrade, IncreaseSpeed, ReduceCooldown, UpgradeDescription);
+        Debug.Log("chosen dash upgrade is: "+ UpgradeDescription);
+        DashUpgradeValues retval = new DashUpgradeValues(randomUpgrade, IncreaseSpeed, ReduceCooldown, ReduceCastTime, UpgradeDescription);
         return retval;
     }
 
@@ -110,6 +120,17 @@ public class TempUpgradeTrigger : MonoBehaviour
 
             case DashUpgradeType.DashCooldown:
                 player_control_info.dashCooldown *= (1 - upgrade.reduceCooldown / 100);
+                break;
+
+            case DashUpgradeType.DashCastTime:
+                if (player_control_info.dashID == 2)
+                {
+                    player_control_info.dashCastTime *= (1 - upgrade.dashCastTime / 100);
+                }
+                else
+                {
+                    player_control_info.dashID = 2;
+                }
                 break;
             default:
                 break;
@@ -400,6 +421,7 @@ public class TempUpgradeTrigger : MonoBehaviour
 
     #endregion
 
+    /*
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -456,10 +478,20 @@ public class TempUpgradeTrigger : MonoBehaviour
     public void ApplyUpgradeViaButton()
     {
         if (upgrade_mode == "reflect")
+        {
             ApplyReflectUpgrades(ChosenReflectUpgrade);
+            Debug.Log("finish upgrade reflect");
+        }
         else if (upgrade_mode == "dash")
+        {
             ApplyDashUpgrades(ChosenDashUpgrade);
+            Debug.Log("finish upgrade dash");
+        }
         else if (upgrade_mode == "heal")
+        {
             ApplyHealUpgrades(ChosenHealUpgrade);
+            Debug.Log("finish upgrade heal");
+        }
     }
+    */
 }

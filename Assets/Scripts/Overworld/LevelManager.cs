@@ -46,7 +46,14 @@ public class LevelManager : MonoBehaviour
     {
         Enqueue("Map1");
     }
-
+    #region Controller Related
+    private void SetPlayerInput(bool status)
+    {
+        GameObject player = GameObject.FindWithTag("Player");
+        if (player != null)
+            player.GetComponent<PlayerInput>().enabled = status;
+    }
+    #endregion
     #region  Randomizer
     public void Reset()
     {
@@ -142,14 +149,14 @@ public class LevelManager : MonoBehaviour
         originTimeScale = Time.timeScale;
         Time.timeScale = 0.05f; // This determines the animation's speed at PausedMenu. For example 0.05f := 1/20, thus the speed up is 20x.
         SceneManager.LoadScene("PausedMenu", LoadSceneMode.Additive);
-        GameObject.FindWithTag("Player").GetComponent<PlayerInput>().enabled = false;
+        SetPlayerInput(false);
     }
 
     public void ExitPausedScene()
     {
         SceneManager.UnloadSceneAsync("PausedMenu");
         Time.timeScale = originTimeScale;
-        GameObject.FindWithTag("Player").GetComponent<PlayerInput>().enabled = true;
+        SetPlayerInput(true);
     }
     #endregion
 
@@ -159,16 +166,20 @@ public class LevelManager : MonoBehaviour
         originTimeScale = Time.timeScale;
         Time.timeScale = 0.05f; // This determines the animation's speed at PausedMenu. For example 0.05f := 1/20, thus the speed up is 20x.
         SceneManager.LoadScene("UpgradeMenu", LoadSceneMode.Additive);
-        GameObject player = GameObject.FindWithTag("Player");
-        if (player != null)
-            player.GetComponent<PlayerInput>().enabled = false;
+        SetPlayerInput(false);
     }
     public void ExitUpgradeScene()
     {
         Time.timeScale = originTimeScale;
         this.LoadNextScene(); // TODO: determine next level
+        SetPlayerInput(true);
     }
     #endregion
+
+    public void LoadRandomLevel()
+    {
+        TransitionLoadScene(SelectRandomScene());
+    }
 
     public void LoadTutorialLevelScene()
     {
@@ -206,6 +217,7 @@ public class LevelManager : MonoBehaviour
     public void LoadLevel(int int_index){
         int i = int_index + levelOffset;
         TransitionLoadScene(i);
+        SetPlayerInput(true);
     }
 
     public void LoadNextScene(){

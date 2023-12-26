@@ -15,6 +15,7 @@ public class SelectPanelBehaviour : MonoBehaviour
     [SerializeField] int m_selectedIdx;
 
     [SerializeField] private GameObject[] m_selectionObjects;
+    private string[] UpgradeDescription;
     private Button[] m_selectionButtons;
     private Image[] m_selectionImages;
     private TextMeshProUGUI[] m_titleTexts;
@@ -66,6 +67,13 @@ public class SelectPanelBehaviour : MonoBehaviour
         
         // TODO need to be set for what purpose of selection is this...
         onSelectionChange += (value) => LevelManager.GetInstance().SetLevel(value);
+        for(int i = 0; i<m_selectionButtons.Length; i++)
+        {
+            TempUpgradeTrigger upgrades = m_selectionButtons[i].GetComponent<TempUpgradeTrigger>();
+            upgrades.GenerateUpgrades();
+
+            SetupButtonAt(i, null, upgrades.upgrade_mode +" Upgrade", upgrades.GetUpgradeDesc());
+        }
     }
     #endregion
 
@@ -137,6 +145,7 @@ public class SelectPanelBehaviour : MonoBehaviour
         m_selectionImages = new Image[len];
         m_titleTexts = new TextMeshProUGUI[len];
         m_detailsTexts = new TextMeshProUGUI[len];
+        UpgradeDescription = new string[len];
 
         for (int i = 0; i < len; i++)
         {
@@ -156,6 +165,9 @@ public class SelectPanelBehaviour : MonoBehaviour
                     case "Details":
                         m_detailsTexts[i] = g.transform.GetComponent<TextMeshProUGUI>();
                         break;
+                    case "TempUpgradeTrigger":
+                        Debug.Log("jackpot!");
+                        break;
                     default:
                         if (g.transform.GetComponent<Button>() != null) { 
                             if (isFoundButton)
@@ -164,10 +176,14 @@ public class SelectPanelBehaviour : MonoBehaviour
                             }
                             m_selectionButtons[i] = g.transform.GetComponent<Button>();
                             isFoundButton = true;
+                            //m_selectionButtons[i].GetComponent<TempUpgradeTrigger>().enabled = true;
+                            //UpgradeDescription[i] = m_selectionButtons[i].GetComponent<TempUpgradeTrigger>().GetUpgradeDesc();
+                            //Debug.Log("upgrade description is " + UpgradeDescription[i]);
                         }
                         break;
                 }
             }
+
             if (!isFoundButton)
             {
                 Debug.LogError("Object with name missing Button components");

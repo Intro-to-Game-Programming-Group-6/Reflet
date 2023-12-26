@@ -12,6 +12,7 @@ public class SelectPanelBehaviour : MonoBehaviour
     int m_upperLimit;
     int m_lowerLimit;
     [SerializeField] int m_size;
+    public int Size { get { return m_size; } private set { m_size = value; } }
     [SerializeField] int m_selectedIdx;
 
     [SerializeField] private GameObject[] m_selectionObjects;
@@ -22,7 +23,8 @@ public class SelectPanelBehaviour : MonoBehaviour
     private TextMeshProUGUI[] m_detailsTexts;
 
     [SerializeField] private GameObject m_confirmObjects;
-    [HideInInspector] public bool m_isHasConfirmButton;
+    private bool m_isHasConfirmButton;
+    public bool IsHasConfirmButton { get { return m_isHasConfirmButton; } private set { m_isHasConfirmButton = value; } }
 
     private Button m_confirmButton;
     private TextMeshProUGUI m_tmpText;
@@ -51,7 +53,7 @@ public class SelectPanelBehaviour : MonoBehaviour
     #endregion
 
     #region Routine Function
-    void Awake()
+    public void Awake()
     {
         GetComponents();
         if (m_selectionButtons.Length == 0)
@@ -82,11 +84,11 @@ public class SelectPanelBehaviour : MonoBehaviour
     /// Setup Button's Appaearance overall (sprite, title, detail/description, and its callback)
     /// </summary>
     /// <param name="idx"></param> which button wants to be edited (START AT 0 INDEX).
-    /// <param name="sprite"></param>
+    /// <param name="image"></param>
     /// <param name="title"></param>
     /// <param name="details"></param>
     /// <param name="callback"></param>
-    public void SetupButtonAt(int idx, Sprite sprite = null, string title = null, string details = null, System.Action callback = null)
+    public void SetupButtonAt(int idx, Sprite image = null, string title = null, string details = null, System.Action callback = null)
     {
         // TODO: SFX, show DETIALS by clicking the item (reshape TMP and use it as the container) do these procedural on the callback.
         // Alternatively using the animation to show and hide if selected.
@@ -104,9 +106,9 @@ public class SelectPanelBehaviour : MonoBehaviour
         {
             m_detailsTexts[idx].text = details;
         }
-        if (sprite != null)
+        if (image != null)
         {
-            m_selectionImages[idx].sprite = sprite;
+            m_selectionImages[idx].sprite = image;
         }
     }
 

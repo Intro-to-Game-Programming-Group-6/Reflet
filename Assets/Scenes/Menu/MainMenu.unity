@@ -711,6 +711,7 @@ MonoBehaviour:
   PlayMaps:
   - Map1
   - Map2
+  - Map3
 --- !u!4 &1184931709469109577
 Transform:
   m_ObjectHideFlags: 0

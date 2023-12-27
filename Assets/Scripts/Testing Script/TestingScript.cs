@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class TestingScript : MonoBehaviour
 {
+    public int index = 0;
     //Used for testing purpose.
     public void SpawnEnemy() {
-        EnemyManager.GetInstance().SpawnEnemy(0, new Vector3(0, 0, 0));
+        
+        EnemyManager.GetInstance().SpawnEnemy(index, new Vector3(0, 0, 0));
     }
 }

@@ -591,6 +591,7 @@ MonoBehaviour:
   bulletCaptureProgress: 0
   bulletCaptureLimit: 0
   stolen_bullet_holder: {fileID: 0}
+  damage_animation: {fileID: 0}
 --- !u!4 &831127246
 Transform:
   m_ObjectHideFlags: 0
@@ -637,6 +638,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyPrefabs:
   - {fileID: 6192775651426223815, guid: 416c51c896f3111499d84971079bca7e, type: 3}
+  - {fileID: 139876076968030808, guid: 8533ec4810c0d9d41adaad8820b98c1a, type: 3}
   SpawnLocations: []
   EnemySpawned:
     m_PersistentCalls:
@@ -973,6 +975,7 @@ MonoBehaviour:
   healVFX: {fileID: 5928383561694542103, guid: d250a883993ec544486b744c19e38d19, type: 3}
   bulletBounceSFX: {fileID: 0}
   playerWalkSFX: {fileID: 8300000, guid: f63274291c9bd0740a347ed2b6ae8615, type: 3}
+  playerDashSFX: {fileID: 0}
 --- !u!4 &1429756856
 Transform:
   m_ObjectHideFlags: 0
@@ -1147,6 +1150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 530e8ac9f4c34094facdc38eda1de6f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  index: 1
 --- !u!4 &1781187436
 Transform:
   m_ObjectHideFlags: 0
@@ -1786,7 +1790,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143754, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: playerHealEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6507202684667143754, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: playerHealEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode

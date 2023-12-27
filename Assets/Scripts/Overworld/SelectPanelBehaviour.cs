@@ -69,13 +69,6 @@ public class SelectPanelBehaviour : MonoBehaviour
         
         // TODO need to be set for what purpose of selection is this...
         onSelectionChange += (value) => LevelManager.GetInstance().SetLevel(value);
-        for(int i = 0; i<m_selectionButtons.Length; i++)
-        {
-            TempUpgradeTrigger upgrades = m_selectionButtons[i].GetComponent<TempUpgradeTrigger>();
-            upgrades.GenerateUpgrades();
-
-            SetupButtonAt(i, null, upgrades.upgrade_mode +" Upgrade", upgrades.GetUpgradeDesc());
-        }
     }
     #endregion
 

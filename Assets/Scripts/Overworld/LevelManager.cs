@@ -222,6 +222,8 @@ public class LevelManager : MonoBehaviour
 
     public void LoadNextScene(){
         int i = SceneManager.GetActiveScene().buildIndex + 1;
+        //Debug.Log("current scene is " + SceneManager.GetSceneAt(i - 1).name);
+        //Debug.Log("next scene is " + SceneManager.GetSceneAt(i).name);
         TransitionLoadScene(i);
 
     }
@@ -247,6 +249,7 @@ public class LevelManager : MonoBehaviour
         Transition.GetInstance().transitionDuration = transitironDuration;
         Transition.GetInstance().Exit(() => SceneManager.LoadScene(s));
     }
+
     void TransitionLoadScene(int i, float transitironDuration = 1.5f, float delay = 1.0f)
     {
         Transition.GetInstance().transitionDelay = delay;

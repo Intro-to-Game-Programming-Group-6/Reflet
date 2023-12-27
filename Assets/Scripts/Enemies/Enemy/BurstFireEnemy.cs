@@ -51,7 +51,7 @@ public class BurstFireEnemy : BaseEnemyBehavior {
             agent.SetDestination(runTo);
         }
     }
-    protected IEnumerator ShootRoutine()
+    protected override IEnumerator ShootRoutine()
     {
         //Debug.Log("Shoot!");
         for (int i = 0; i < bulletRound; i++)

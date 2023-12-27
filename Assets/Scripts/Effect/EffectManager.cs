@@ -12,18 +12,13 @@ public class EffectManager : MonoBehaviour
 
     public static EffectManager instance;
 
-
-
-    //public static EffectManager GetInstance() { return instance; } 
-
-    private void OnEnable() {
+    private void Awake() {
         if(instance == null) {
             instance = this;
         } else if (instance != this) {
             Destroy(gameObject);
             return;
         }
-        playerAudioSource = GameObject.Find("Player")?.GetComponent<AudioSource>();
     }
 
     #region Effect
@@ -35,18 +30,24 @@ public class EffectManager : MonoBehaviour
     [SerializeField] private GameObject healVFX;
     [SerializeField] private AudioClip bulletBounceSFX;
     [SerializeField] private AudioClip playerWalkSFX;
+    [SerializeField] private AudioClip playerDashSFX;
     #endregion
 
 
     private void Start() {
+        effectDict = effectSettings.Dict();
+        playerAudioSource = GameObject.Find("Player")?.GetComponent<AudioSource>();
         EnemyManager.GetInstance().EnemyHurt.AddListener(SpawnHurtEffect);
         EnemyManager.GetInstance().EnemyDie.AddListener(SpawnDeathEffect);
         EnemyManager.GetInstance().EnemyShoot.AddListener(SpawnShootingEffect);
-        effectDict = effectSettings.Dict();
+        PlayerControlScript.GetInstance().playerDashEvent.AddListener(PlayPlayerDash);
     }
 
-    private void Initialize() {
-        //deathVFX.Add("Sentry", (GameObject)Resources.Load("", typeof(GameObject)));
+    private void OnDisable() {
+        EnemyManager.GetInstance().EnemyHurt.RemoveListener(SpawnHurtEffect);
+        EnemyManager.GetInstance().EnemyDie.RemoveListener(SpawnDeathEffect);
+        EnemyManager.GetInstance().EnemyShoot.RemoveListener(SpawnShootingEffect);
+        PlayerControlScript.GetInstance().playerDashEvent.RemoveListener(PlayPlayerDash);
     }
 
     //Positional Effects
@@ -77,6 +78,11 @@ public class EffectManager : MonoBehaviour
             playerAudioSource.Stop();
         }
     }
+
+    public void PlayPlayerDash() {
+        playerAudioSource.PlayOneShot(playerDashSFX);
+    }
+
     public void PlayBulletBounce() {
         playerAudioSource.PlayOneShot(bulletBounceSFX);
     }

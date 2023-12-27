@@ -39,6 +39,7 @@ public class PlayerControlScript : MonoBehaviour
     [HideInInspector][SerializeField] public bool currentlyDashing;
     [HideInInspector][SerializeField] public ParticleSystem BlinkParticle;
     [SerializeField] public float blinkRange = 5f;
+    public UnityEvent playerDashEvent;
     #endregion
 
     #region Reflect Variables
@@ -358,6 +359,7 @@ public class PlayerControlScript : MonoBehaviour
         {
             // Debug.Log("Dashing");
             dashManager.StartDash(this);
+            playerDashEvent.Invoke();
         }
     }
 

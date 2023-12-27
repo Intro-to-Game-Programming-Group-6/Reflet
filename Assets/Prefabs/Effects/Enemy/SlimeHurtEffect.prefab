@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4577228346711874695}
   - component: {fileID: -7211797951118775456}
   m_Layer: 0
-  m_Name: BlueSlimeHurtEffect
+  m_Name: SlimeHurtEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

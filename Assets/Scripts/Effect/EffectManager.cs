@@ -40,14 +40,12 @@ public class EffectManager : MonoBehaviour
         EnemyManager.GetInstance().EnemyHurt.AddListener(SpawnHurtEffect);
         EnemyManager.GetInstance().EnemyDie.AddListener(SpawnDeathEffect);
         EnemyManager.GetInstance().EnemyShoot.AddListener(SpawnShootingEffect);
-        PlayerControlScript.GetInstance().playerDashEvent.AddListener(PlayPlayerDash);
     }
 
     private void OnDisable() {
         EnemyManager.GetInstance().EnemyHurt.RemoveListener(SpawnHurtEffect);
         EnemyManager.GetInstance().EnemyDie.RemoveListener(SpawnDeathEffect);
         EnemyManager.GetInstance().EnemyShoot.RemoveListener(SpawnShootingEffect);
-        PlayerControlScript.GetInstance().playerDashEvent.RemoveListener(PlayPlayerDash);
     }
 
     //Positional Effects
@@ -69,6 +67,8 @@ public class EffectManager : MonoBehaviour
 
     //Non-positional effects
 
+    // @Booby plz move these to the player script
+    /*
     public void PlayPlayerMove(InputAction.CallbackContext context) {
         if(context.performed) {
             playerAudioSource.loop = true;
@@ -79,12 +79,8 @@ public class EffectManager : MonoBehaviour
         }
     }
 
-    public void PlayPlayerDash() {
-        playerAudioSource.PlayOneShot(playerDashSFX);
-    }
-
     public void PlayBulletBounce() {
         playerAudioSource.PlayOneShot(bulletBounceSFX);
     }
-
+    */
 }

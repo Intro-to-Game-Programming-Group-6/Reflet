@@ -51,6 +51,8 @@ public class SneakyEnemy : BaseEnemyBehavior
     {
         //maybe random obstacle to hide every time or select the nearest
         //Transform bindBox = obstacles[Random.Range(0, obstacles.Length)];
+        //find nearest obstacle to hide
+
         //calculate hiding spot and set destination
         Vector3 behindBox = myObstacle.position + (((myObstacle.position - player.position).normalized) * 2f);//new Vector3(2f, 0, 0);
         agent.SetDestination(behindBox);

@@ -575,58 +575,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3889676543551436833, guid: a1e5b512f31547a40ba999345072e5bf, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1e5b512f31547a40ba999345072e5bf, type: 3}
---- !u!1 &1096298866 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1297743061378408835, guid: a1e5b512f31547a40ba999345072e5bf, type: 3}
-  m_PrefabInstance: {fileID: 1069434654}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1096298867
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1096298866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95a9c6c1cb0ed3a48a91d8a9fe8233ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agent: {fileID: 1096298868}
-  bulletPrefab: {fileID: 5712115813734137524, guid: 662336a7dc5193146b1bc7f3af4dbc15, type: 3}
-  sleep: 0
-  animController: {fileID: 0}
-  sprite: {fileID: 0}
-  player: {fileID: 0}
-  isPlayer:
-    serializedVersion: 2
-    m_Bits: 8
-  attackRange: 8
-  attackDelay: 5
-  detectRange: 12
-  playerInAttackRange: 0
-  playerInDetectRange: 0
-  isAttacking: 0
-  full: {fileID: 21300000, guid: fed24bd82cefc0c4a8ef64dab6231b53, type: 3}
-  empty: {fileID: 21300002, guid: fed24bd82cefc0c4a8ef64dab6231b53, type: 3}
-  hearts: []
-  maxHealth: 3
-  currentHealth: 0
-  hurtEffect: {fileID: 0}
-  dieEffect: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}
-  shootEffect: {fileID: 2515445351180927889, guid: 97cac7cef0c93364685d7aa055e6e944, type: 3}
-  obstacles: []
-  myObstacle: {fileID: 0}
-  escapeRange: 5
-  playerTooClose: 0
---- !u!195 &1096298868 stripped
-NavMeshAgent:
-  m_CorrespondingSourceObject: {fileID: 3483271707430182168, guid: a1e5b512f31547a40ba999345072e5bf, type: 3}
-  m_PrefabInstance: {fileID: 1069434654}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1152661117 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5012245243051735857, guid: f1a11d6930b0c804cb1b2b22a4ed9f7e, type: 3}

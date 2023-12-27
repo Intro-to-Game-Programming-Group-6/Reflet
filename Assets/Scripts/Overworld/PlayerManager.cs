@@ -33,6 +33,7 @@ public class PlayerManager : MonoBehaviour
     public int bulletMultiplier;
     public int bulletCaptureProgress, bulletCaptureLimit;
     public GameObject stolen_bullet_holder;
+    public Animator damage_animation;
     
     public static PlayerManager GetInstance()
     {
@@ -77,8 +78,10 @@ public class PlayerManager : MonoBehaviour
 
         bulletCaptureProgress = 0;
         bulletCaptureLimit = 3;
+        damage_animation = GameObject.Find("Player").GetComponent<Animator>();
         //m_staminaController.SetMax(m_maxStamina);
         //m_staminaController.SetValue(m_currentStamina);
+        
     }
 
     public void Reset()
@@ -121,7 +124,16 @@ public class PlayerManager : MonoBehaviour
     }
 
     public void AdjustHealth(float deltaHealth) {
+        if(deltaHealth < 0)
+        {
+            if(!damage_animation.GetBool("isDead"))
+                damage_animation.Play("hurt", -1, 0f);
+        }
         m_healthPoint += deltaHealth;
+        if(m_healthPoint <= 0)
+        {
+            damage_animation.SetBool("isDead", true);
+        }
 
         if (m_healthPoint > m_maxHealthPoint)
         {

@@ -80,7 +80,11 @@ public class PlayerControlScript : MonoBehaviour
     private float reflectionInterval = 0.1f; // 1 second interval
     public float stamina_regen;
     public float stamina_decay;
+    private bool reflect_shield_freeze;
+    private bool reflect_force_stop;
     public UnityEvent<Vector3> playerHealEvent;
+    public List<AudioClip> heal_audios = new List<AudioClip>();
+    public AudioSource shields_up;
 
 
     private void OnEnable()
@@ -128,6 +132,8 @@ public class PlayerControlScript : MonoBehaviour
         mirrorRotate = false;
         numShields = 0;
         canDash = true;
+        reflect_shield_freeze = false;
+        reflect_force_stop = false;
 
         dashMaxCharge = 3;
         dashCounter = 1;
@@ -146,8 +152,11 @@ public class PlayerControlScript : MonoBehaviour
 
     void Update()
     {
+        if (animator.GetBool("isDead"))
+            return;
         ManageSprite();
-        ManageMovement();
+        if(!reflect_shield_freeze)
+            ManageMovement();
         ManageShieldAction();
     }
 
@@ -158,6 +167,7 @@ public class PlayerControlScript : MonoBehaviour
             trail.emitting = true;
             return;
         }
+        shields_up.pitch = 1.4f;
         // if (isSprinting)
         // {
         //     rb.velocity = (movementInput) * sprintspeed;
@@ -334,15 +344,44 @@ public class PlayerControlScript : MonoBehaviour
 
     }
 
+    private IEnumerator PlayAnimationAndWait(InputAction.CallbackContext context)
+    {
+        Debug.Log("animator called");
+        reflect_shield_freeze = true;
+        shields_up.Play();
+        animator.Play("skill1", -1, 0f);
+        yield return null;
+        // Wait until the current animation is finished
+        while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+        {
+            yield return null;
+        }
+        reflect_shield_freeze = false;
+        // Animation has finished playing, proceed with the remaining code
+        if (reflect_force_stop)
+        {
+            reflect_force_stop = false;
+            yield break;
+        }
+        PlayerManager.GetInstance().AdjustStaminaPoint(-5);
+        isReflecting = true;
+    }
+
+
     public void OnAttack(InputAction.CallbackContext context)
     {
         if (context.performed && PlayerManager.GetInstance().currentStamina > 0)// && Sword.GetInstance() == null)
         {
-            PlayerManager.GetInstance().AdjustStaminaPoint(-5);
-            isReflecting = true;
+            isReflecting = false;
+            if (!animator.GetBool("isDead") && !animator.GetCurrentAnimatorStateInfo(0).IsName("skill1"))
+                StartCoroutine(PlayAnimationAndWait(context));
+            //PlayerManager.GetInstance().AdjustStaminaPoint(-5);
+            //isReflecting = true;
         }
         else if (context.canceled)
         {
+            if(reflect_shield_freeze)
+                reflect_force_stop = true;
             if (shield != null)
             {
                 Destroy(shield);
@@ -356,6 +395,7 @@ public class PlayerControlScript : MonoBehaviour
     {
         if (context.performed && canDash)
         {
+            
             // Debug.Log("Dashing");
             dashManager.StartDash(this);
         }

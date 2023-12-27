@@ -60,12 +60,14 @@ public class HealingCircleLogic : MonoBehaviour
         }
     }
     */
-
+    Color newColor;
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
             playerInsideCircle = true;
+            ColorUtility.TryParseHtmlString("#00FF1D", out newColor);
+            other.GetComponent<SpriteRenderer>().color = newColor;
         }
     }
 
@@ -74,6 +76,8 @@ public class HealingCircleLogic : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInsideCircle = false;
+            ColorUtility.TryParseHtmlString("#FFFFFF", out newColor);
+            other.GetComponent<SpriteRenderer>().color = newColor;
         }
     }
 }

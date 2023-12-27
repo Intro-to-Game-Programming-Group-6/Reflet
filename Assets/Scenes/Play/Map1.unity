@@ -1952,6 +1952,7 @@ MonoBehaviour:
   healVFX: {fileID: 5928383561694542103, guid: d250a883993ec544486b744c19e38d19, type: 3}
   bulletBounceSFX: {fileID: 0}
   playerWalkSFX: {fileID: 0}
+  playerDashSFX: {fileID: 8300000, guid: 0cb8e14b731765147b216ddf97c9f876, type: 3}
 --- !u!4 &1510886010
 Transform:
   m_ObjectHideFlags: 0

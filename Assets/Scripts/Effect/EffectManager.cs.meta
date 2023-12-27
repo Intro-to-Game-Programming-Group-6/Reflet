@@ -4,11 +4,10 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - deathVFX: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}
-  - hurtVFX: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}
+  - effectSettings: {fileID: 11400000, guid: 2885d614f05fb454db244933453374fa, type: 2}
   - healVFX: {fileID: 5928383561694542103, guid: d250a883993ec544486b744c19e38d19, type: 3}
-  - shootVFX: {fileID: 2515445351180927889, guid: 97cac7cef0c93364685d7aa055e6e944, type: 3}
   - bulletBounceSFX: {instanceID: 0}
+  - playerWalkSFX: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

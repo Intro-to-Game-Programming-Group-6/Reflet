@@ -15,8 +15,8 @@ MonoBehaviour:
   dictEntry:
   - enemyName: Sentry
     shootingEffect: {fileID: 2515445351180927889, guid: 97cac7cef0c93364685d7aa055e6e944, type: 3}
-    hurtingEffect: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}
-    dyingEffect: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}
+    hurtingEffect: {fileID: 100064942374482488, guid: db780a9b2709cf2479beb7654a616c10, type: 3}
+    dyingEffect: {fileID: 100064942374482488, guid: db780a9b2709cf2479beb7654a616c10, type: 3}
   - enemyName: Skeleton
     shootingEffect: {fileID: 2515445351180927889, guid: 97cac7cef0c93364685d7aa055e6e944, type: 3}
     hurtingEffect: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}

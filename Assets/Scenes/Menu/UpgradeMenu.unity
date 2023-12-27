@@ -140,7 +140,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4613113456929466514, guid: 1d37e9f15d3adfb4fbf0baa0acbced53, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4613113456929466514, guid: 1d37e9f15d3adfb4fbf0baa0acbced53, type: 3}
       propertyPath: m_AnchorMax.x
@@ -331,6 +331,10 @@ PrefabInstance:
     - target: {fileID: 8028998741060856017, guid: 8b1bd1d891b06f14f9e9dac3628ea807, type: 3}
       propertyPath: m_Name
       value: UpgradeSelectPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8028998741060856017, guid: 8b1bd1d891b06f14f9e9dac3628ea807, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8028998741060856018, guid: 8b1bd1d891b06f14f9e9dac3628ea807, type: 3}
       propertyPath: m_Pivot.x
@@ -531,8 +535,8 @@ RectTransform:
   - {fileID: 2087765592}
   - {fileID: 1998387410}
   - {fileID: 867280100}
-  - {fileID: 791028929}
   - {fileID: 867280099}
+  - {fileID: 791028929}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -704,6 +708,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UpgradeSelectPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 5963646525027076364, guid: 500dec128d878d4488997b1961931e42, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5963646525027076367, guid: 500dec128d878d4488997b1961931e42, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -714,7 +722,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5963646525027076367, guid: 500dec128d878d4488997b1961931e42, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5963646525027076367, guid: 500dec128d878d4488997b1961931e42, type: 3}
       propertyPath: m_AnchorMax.x

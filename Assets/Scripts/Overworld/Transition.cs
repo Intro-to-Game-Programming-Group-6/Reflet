@@ -188,15 +188,15 @@ public class Transition : MonoBehaviour
         switch (type)
         {
             case TransitionType.Circular:
-                Debug.Log("Circular");
+                // Debug.Log("Circular");
                 yield return Circular(froms, tos, duration, isExit);
                 break;
             case TransitionType.Fade:
-                Debug.Log("Fade");
+                // Debug.Log("Fade");
                 yield return Fade(froms, tos, duration, isExit);
                 break;
             default:
-                Debug.LogWarning("Transition type not found. Do fade transition instead.");
+                // Debug.LogWarning("Transition type not found. Do fade transition instead.");
                 yield return Fade(froms, tos, duration, isExit);
                 break;
         }

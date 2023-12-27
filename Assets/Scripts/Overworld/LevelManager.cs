@@ -17,12 +17,13 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private int levelOffset; 
 
     [Header("Randomizer Components")]
-    EnemyManager enemyManager;
-    List<GameObject> selectedEnemies = new List<GameObject>();
     [SerializeField] private List<GameObject> EnemyPrefabs;// = new List<GameObject>();
     [SerializeField] private List<string> PlayMaps = new List<string>();
-    private Queue<string> sceneQueue = new Queue<string>();
-    private int maxQueueLen = 1;
+    public Queue<string> sceneQueue = new Queue<string>();
+    EnemyManager enemyManager;
+    List<GameObject> selectedEnemies = new List<GameObject>();
+    
+    private int maxQueueLen = 2;
     // private int finalBossThresh = 10;
 
     void Awake()
@@ -46,6 +47,7 @@ public class LevelManager : MonoBehaviour
     {
         Enqueue("Map1");
     }
+
     #region Controller Related
     private void SetPlayerInput(bool status)
     {
@@ -101,15 +103,11 @@ public class LevelManager : MonoBehaviour
     {
         string selectedScene = null;
 
-        if (PlayMaps.Count > 0)
+        int iteration = 100;
+        while((selectedScene == null || sceneQueue.Contains(selectedScene)) && --iteration > 0)
         {
-            while (selectedScene == null || sceneQueue.Contains(selectedScene))
-            {
-                selectedScene = PlayMaps[Random.Range(0, PlayMaps.Count)];
-            }
+            selectedScene = PlayMaps[Random.Range(0, PlayMaps.Count)];
         }
-
-        Enqueue(selectedScene);
 
         return selectedScene;
     }
@@ -178,7 +176,9 @@ public class LevelManager : MonoBehaviour
 
     public void LoadRandomLevel()
     {
-        TransitionLoadScene(SelectRandomScene());
+        string nextScene = SelectRandomScene();
+        Enqueue(nextScene);
+        TransitionLoadScene(nextScene);
     }
 
     public void LoadTutorialLevelScene()

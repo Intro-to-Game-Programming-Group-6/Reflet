@@ -1109,6 +1109,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1935856622998959682, guid: b1f652f8b3cd23a408948319d514d2dc, type: 3}
+      propertyPath: m_TagString
+      value: Obstacles
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935856623274421024, guid: b1f652f8b3cd23a408948319d514d2dc, type: 3}
+      propertyPath: m_TagString
+      value: Obstacles
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935856623291675448, guid: b1f652f8b3cd23a408948319d514d2dc, type: 3}
+      propertyPath: m_TagString
+      value: Obstacles
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935856623300796017, guid: b1f652f8b3cd23a408948319d514d2dc, type: 3}
+      propertyPath: m_TagString
+      value: Obstacles
+      objectReference: {fileID: 0}
     - target: {fileID: 3755094560812380180, guid: b1f652f8b3cd23a408948319d514d2dc, type: 3}
       propertyPath: m_RootOrder
       value: 2

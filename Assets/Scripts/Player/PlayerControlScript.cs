@@ -97,7 +97,7 @@ public class PlayerControlScript : MonoBehaviour
     // 4 = walking
 
     public AudioSource shields_up;
-    public AudioSource SpecializedForWalking;
+    public AudioSource NormalPitchSource;
 
     private void OnEnable()
     {
@@ -140,7 +140,7 @@ public class PlayerControlScript : MonoBehaviour
         // shield_time = max_shield_time;
         // shield_cooldown = 0f;
         mirrorRotate = false;
-        numShields = 4;
+        numShields = 0;
         canDash = true;
         reflect_shield_freeze = false;
         reflect_force_stop = false;
@@ -157,7 +157,7 @@ public class PlayerControlScript : MonoBehaviour
         stamina_decay = -1f;
         stamina_regen = 1f;
         ReflectShieldHP = 1;
-        CreateOrbitingShields();
+        //CreateOrbitingShields();
     }
 
     void Update()
@@ -339,16 +339,16 @@ public class PlayerControlScript : MonoBehaviour
     {
         if (context.performed)
         {
-            if (!SpecializedForWalking.isPlaying)
+            if (!NormalPitchSource.isPlaying)
             {
-                SpecializedForWalking.Play();
+                NormalPitchSource.Play();
             }
             movementInput = context.ReadValue<Vector2>();
             movementInput.Normalize();
         }
         if (context.canceled)
         {
-            SpecializedForWalking.Stop();
+            NormalPitchSource.Stop();
             movementInput = context.ReadValue<Vector2>();
             movementInput.Normalize();
         }
@@ -417,7 +417,7 @@ public class PlayerControlScript : MonoBehaviour
 
     public void OnHeal(InputAction.CallbackContext context)
     {
-        if(context.performed)// && PlayerManager.GetInstance().m_canHeal)
+        if(context.performed && PlayerManager.GetInstance().m_canHeal)
         {
             // Debug.Log("Healing");
             healManager.StartHeal(this);
@@ -521,10 +521,18 @@ public class PlayerControlScript : MonoBehaviour
 
             case "PiercingBullet":
                 PiercingBullet pierce = newProjectile.GetComponent<PiercingBullet>();
-                PolygonCollider2D pierce_collid = newProjectile.GetComponent<PolygonCollider2D>();
+                EdgeCollider2D pierce_collid = newProjectile.GetComponent<EdgeCollider2D>();
                 pierce.PlayerForceOwnership();
                 pierce.enabled = true;
                 pierce_collid.enabled = true;
+                break;
+
+            case "SpreadBullet":
+                SpreadBullet spread = newProjectile.GetComponent<SpreadBullet>();
+                CircleCollider2D spread_collid = newProjectile.GetComponent<CircleCollider2D>();
+                spread.PlayerForceOwnership();
+                spread.enabled = true;
+                spread_collid.enabled = true;
                 break;
         }
         return;

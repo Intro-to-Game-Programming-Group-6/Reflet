@@ -23,7 +23,7 @@ public class LevelManager : MonoBehaviour
     EnemyManager enemyManager;
     List<GameObject> selectedEnemies = new List<GameObject>();
     
-    private int maxQueueLen = 2;
+    private int maxQueueLen = 3;
     // private int finalBossThresh = 10;
 
     void Awake()

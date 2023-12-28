@@ -708,10 +708,15 @@ MonoBehaviour:
   EnemyPrefabs:
   - {fileID: 6192775651426223815, guid: 416c51c896f3111499d84971079bca7e, type: 3}
   - {fileID: 139876076968030808, guid: 8533ec4810c0d9d41adaad8820b98c1a, type: 3}
+  - {fileID: 1297743061378408835, guid: a1e5b512f31547a40ba999345072e5bf, type: 3}
+  - {fileID: 3710981622623732843, guid: 16e6a444c8e536f40b2a03c2d34dbec0, type: 3}
+  - {fileID: 2839310737214167404, guid: 74f7f7321af9a514ea4da77d5d6a7349, type: 3}
   PlayMaps:
   - Map1
   - Map2
   - Map3
+  - Map4
+  - Map5
 --- !u!4 &1184931709469109577
 Transform:
   m_ObjectHideFlags: 0

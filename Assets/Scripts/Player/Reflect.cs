@@ -44,13 +44,11 @@ public class Reflect : MonoBehaviour
     {
         if (collision.CompareTag("Bullet") && this.gameObject.CompareTag("RotatingReflect"))
         {
-            EffectManager.GetInstance().bullet_reflected.Invoke();
             DeactivateShields();
             StartCoroutine(Reactivate(10f));
         }
         else if (collision.CompareTag("Bullet"))
         {
-            EffectManager.GetInstance().bullet_reflected.Invoke();
             if (PlayerManager.GetInstance().multiply && !collision.GetComponent<BaseBulletBehavior>().isMultiplied)
             {
                 Vector2 collisionVelocity = collision.GetComponent<Rigidbody2D>().velocity;
@@ -61,14 +59,12 @@ public class Reflect : MonoBehaviour
             {
                 PlayerManager.GetInstance().bulletCaptureProgress = 0;
                 PlayerManager.GetInstance().StealProjectile(collision.gameObject);
-                EffectManager.GetInstance().bullet_captured.Invoke();
             }
         }
     }
 
     void DeactivateShields()
     {
-        EffectManager.GetInstance().shield_broken.Invoke();
         this.GetComponent<SpriteRenderer>().enabled = false;
         this.GetComponent<BoxCollider2D>().enabled = false;
         this.GetComponent<Rigidbody2D>().simulated = false;

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -24,6 +25,11 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private float m_useVialPoint;
     [SerializeField] private float m_vialPoint;
     [SerializeField] public bool m_canHeal;
+
+    [Header("Events")]
+    public UnityEvent playerHurtEvent;
+    public UnityEvent playerDieEvent;
+
     public float maxVial { get { return m_maxVialPoint; } set { m_maxVialPoint = value; } }
     public float useVial { get { return m_useVialPoint; } set { m_maxVialPoint = value; } }
     public float currentVial { get { return m_vialPoint; } }
@@ -128,7 +134,7 @@ public class PlayerManager : MonoBehaviour
     public void AdjustHealth(float deltaHealth) {
         if(deltaHealth < 0)
         {
-            EffectManager.GetInstance().player_hurt.Invoke();
+            playerHurtEvent.Invoke();
             if (!damage_animation.GetBool("isDead"))
                 damage_animation.Play("hurt", -1, 0f);
         }
@@ -138,7 +144,7 @@ public class PlayerManager : MonoBehaviour
             damage_animation.SetBool("isDead", true);
             if (death_sound_played == false)
             {
-                EffectManager.GetInstance().player_die.Invoke();
+                playerDieEvent.Invoke();
                 death_sound_played = true;
             }
         }
@@ -199,7 +205,6 @@ public class PlayerManager : MonoBehaviour
         m_currentStamina += deltaPoint;
         if (deltaPoint <= 0 && m_currentStamina <= 0)
         {
-            EffectManager.GetInstance().stamina_depleted.Invoke();
         }
 
         if (m_currentStamina >= m_maxStaminaPoint)

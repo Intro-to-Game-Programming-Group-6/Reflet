@@ -9,18 +9,17 @@ public class DashManager : MonoBehaviour
     public DashBlink BlinkDash;
     public void StartDash(PlayerControlScript mainController)
     {
-        mainController.trail.emitting = true;
         mainController.shields_up.pitch = 1f;
         switch (mainController.dashID)
         {
             case 1:
                 if(mainController.dashCounter > 0)
-                    mainController.shields_up.PlayOneShot(mainController.heal_audios[3]);
+                    mainController.shields_up.PlayOneShot(mainController.dashing_audio_clip);
                 StartCoroutine(NormalDash.GoDash(mainController));
                 break;
             case 2:
                 if (mainController.dashCounter > 0)
-                    mainController.shields_up.PlayOneShot(mainController.heal_audios[3]);
+                    mainController.shields_up.PlayOneShot(mainController.blinking_audio_clip);
                 StartCoroutine(BlinkDash.GoDash(mainController));
                 break;
             case 3:

@@ -117,7 +117,7 @@ public class BaseBulletBehavior : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("RotatingReflect"))
         {
-            Vector2 inNorm = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - GameObject.Find("Player").transform.position;
+            Vector2 inNorm = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - collision.gameObject.transform.position;// GameObject.Find("Player").transform.position;
 
             ReflectBullet(inNorm);
 

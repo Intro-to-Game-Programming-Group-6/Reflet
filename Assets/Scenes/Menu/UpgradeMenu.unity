@@ -154,7 +154,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b1adf00f25bd1e246bec3cdb0afc07c6, type: 3}
   - {fileID: 21300000, guid: 96af5a901dba47641869f05bfeddd739, type: 3}
   - {fileID: 21300000, guid: d7473fdd4fe09744ca7d0a667411bdcd, type: 3}
-  m_Speed: 0.15
 --- !u!114 &408874211 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1507186212029633019, guid: 8b1bd1d891b06f14f9e9dac3628ea807, type: 3}
@@ -449,7 +448,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8028998741060856017, guid: 8b1bd1d891b06f14f9e9dac3628ea807, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8028998741060856018, guid: 8b1bd1d891b06f14f9e9dac3628ea807, type: 3}
       propertyPath: m_Pivot.x
@@ -588,7 +587,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: aeb17a37498bd0845b66cd891942324e, type: 3}
   - {fileID: 21300000, guid: 2a22fa3eeb337234ea3cba871bc7740e, type: 3}
   - {fileID: 21300000, guid: 3a4acaf8fac91514999a37454fd5ddf6, type: 3}
-  m_Speed: 0.3
 --- !u!1 &1578912299
 GameObject:
   m_ObjectHideFlags: 0
@@ -815,7 +813,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6921695c2752dbd4aad1e75e303fef9f, type: 3}
   - {fileID: 21300000, guid: acc5072251442fd44b3a5f41c60ed868, type: 3}
   - {fileID: 21300000, guid: fa48a462511f646498a73df8a5e16cf9, type: 3}
-  m_Speed: 0.1
 --- !u!1 &2087765591
 GameObject:
   m_ObjectHideFlags: 0
@@ -905,7 +902,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5963646525027076364, guid: 500dec128d878d4488997b1961931e42, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5963646525027076367, guid: 500dec128d878d4488997b1961931e42, type: 3}
       propertyPath: m_Pivot.x

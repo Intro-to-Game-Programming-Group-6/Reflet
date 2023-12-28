@@ -321,6 +321,12 @@ MonoBehaviour:
   blinking_audio_clip: {fileID: 8300000, guid: 0a6cdd7522b685b46b35c01d19e7473f, type: 3}
   walking_audio_clip: {fileID: 8300000, guid: 90865fd73c732aa4a82ce049c8767769, type: 3}
   shield_summon_audio_clip: {fileID: 8300000, guid: eadd78e026895a5448292bd7a4423751, type: 3}
+  shield_reflect_audio_clip: {fileID: 8300000, guid: e33825c9ac818a54a9045a8d1a43a0c4, type: 3}
+  shield_break_audio_clip: {fileID: 8300000, guid: 22ed6987381762d469a27091d95f1830, type: 3}
+  bulletCapturedSFX: {fileID: 8300000, guid: 7f635e5eb27e7a749b5607abac9f8da1, type: 3}
+  player_hurt_audio_clip: {fileID: 8300000, guid: abe42819f8a57eb4294776028e7fab8c, type: 3}
+  player_die_audio_clip: {fileID: 8300000, guid: 044ad4cfe3845b34ca2d3c8b5216eaa7, type: 3}
+  stamina_out_audio_clip: {fileID: 8300000, guid: 99ee1b4f082279d40bf0b1bb8fe19730, type: 3}
   shields_up: {fileID: 5496602214049149573}
   NormalPitchSource: {fileID: 5712101896700206479}
 --- !u!50 &6507202684667143797

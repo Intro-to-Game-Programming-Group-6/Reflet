@@ -474,8 +474,8 @@ public class PlayerControlScript : MonoBehaviour
         {
             Debug.Log("peluru lagi dibuang");
             float bulletSpeed = 15f;
-            BaseBulletBehavior bulletbehav = PlayerManager.GetInstance().stolen_bullet_holder.GetComponent<BaseBulletBehavior>();
-            string get_bullet_type = bulletbehav.GetBulletType();
+            //BaseBulletBehavior bulletbehav = PlayerManager.GetInstance().stolen_bullet_holder.GetComponent<BaseBulletBehavior>();
+            //string get_bullet_type = bulletbehav.GetBulletType();
             PlayerManager.GetInstance().stolen_bullet_holder.SetActive(true);
             PlayerManager.GetInstance().stolen_bullet_holder.transform.position = transform.position;
             // Make the projectile reappear in the game view

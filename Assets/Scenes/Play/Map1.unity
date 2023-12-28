@@ -2100,7 +2100,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1633326608}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.497934, y: -3.5, z: -10}
+  m_LocalPosition: {x: -6.494974, y: -3.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3195,6 +3195,7 @@ MonoBehaviour:
   bulletCaptureProgress: 0
   bulletCaptureLimit: 0
   stolen_bullet_holder: {fileID: 0}
+  damage_animation: {fileID: 0}
 --- !u!1 &1494668446595510597
 GameObject:
   m_ObjectHideFlags: 0
@@ -3244,6 +3245,9 @@ MonoBehaviour:
   levelOffset: 0
   EnemyPrefabs: []
   PlayMaps: []
+  maxQueueLen: 3
+  finalBossThresh: 5
+  stageCounter: 0
 --- !u!1001 &6291776057155058230
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3293,15 +3297,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3838010669413717097, guid: 202e79449df18d14a90cc64f67e1f046, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3838010669413717097, guid: 202e79449df18d14a90cc64f67e1f046, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3838010669413717097, guid: 202e79449df18d14a90cc64f67e1f046, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3838010669413717097, guid: 202e79449df18d14a90cc64f67e1f046, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3334,6 +3338,14 @@ PrefabInstance:
     - target: {fileID: 6109320080078334146, guid: 202e79449df18d14a90cc64f67e1f046, type: 3}
       propertyPath: m_TagString
       value: Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 6291776056710254466, guid: 202e79449df18d14a90cc64f67e1f046, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].y
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6291776056710254466, guid: 202e79449df18d14a90cc64f67e1f046, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[3].y
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 6291776057071205613, guid: 202e79449df18d14a90cc64f67e1f046, type: 3}
       propertyPath: m_TagString

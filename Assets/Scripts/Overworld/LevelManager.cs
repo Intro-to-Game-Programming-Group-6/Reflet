@@ -78,8 +78,8 @@ public class LevelManager : MonoBehaviour
             else
             {
                 SelectRandomEnemies();
-                enemyLimit = 5;
-                enemyTotal = 10;
+                enemyLimit = 4 + Mathf.FloorToInt(stageCounter / 2f);
+                enemyTotal = 10 + stageCounter;
             }
 
             enemyManager.SetEnemySelections(selectedEnemies, enemyLimit, enemyTotal);
@@ -94,7 +94,12 @@ public class LevelManager : MonoBehaviour
     {
         for (int i = 0; i < 3; i++)
         {
-            int randomIndex = Random.Range(0, EnemyPrefabs.Count);
+            int difficultyVal = 1 + stageCounter;
+            if(difficultyVal > EnemyPrefabs.Count)
+            {
+                difficultyVal = EnemyPrefabs.Count;
+            }
+            int randomIndex = Random.Range(0, difficultyVal);
 
             selectedEnemies.Add(EnemyPrefabs[randomIndex]);
         }

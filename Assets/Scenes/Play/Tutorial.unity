@@ -347,6 +347,7 @@ MonoBehaviour:
   healVFX: {fileID: 5928383561694542103, guid: d250a883993ec544486b744c19e38d19, type: 3}
   bulletBounceSFX: {fileID: 0}
   playerWalkSFX: {fileID: 0}
+  playerDashSFX: {fileID: 0}
 --- !u!4 &762096802
 Transform:
   m_ObjectHideFlags: 0
@@ -404,6 +405,7 @@ MonoBehaviour:
   bulletCaptureProgress: 0
   bulletCaptureLimit: 0
   stolen_bullet_holder: {fileID: 0}
+  damage_animation: {fileID: 0}
 --- !u!4 &831127246
 Transform:
   m_ObjectHideFlags: 0
@@ -584,7 +586,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 982921492}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5, y: -3.5, z: -10}
+  m_LocalPosition: {x: -0.10500145, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -988,6 +990,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3330282293773030803, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3330282293773030815, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
       propertyPath: m_textTitle
       value: tutorial
@@ -1249,11 +1255,9 @@ MonoBehaviour:
   levelOffset: 0
   EnemyPrefabs: []
   PlayMaps: []
---- !u!96 &6507202683048810750 stripped
-TrailRenderer:
-  m_CorrespondingSourceObject: {fileID: 3740100131174927121, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
-  m_PrefabInstance: {fileID: 8980132805176353343}
-  m_PrefabAsset: {fileID: 0}
+  maxQueueLen: 3
+  finalBossThresh: 5
+  stageCounter: 0
 --- !u!114 &6507202683048810754 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6507202684667143754, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
@@ -1283,7 +1287,7 @@ PrefabInstance:
     - target: {fileID: 2350048284375422701, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: myTrail
       value: 
-      objectReference: {fileID: 6507202683048810750}
+      objectReference: {fileID: 0}
     - target: {fileID: 2350048284375422701, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_Enabled
       value: 0

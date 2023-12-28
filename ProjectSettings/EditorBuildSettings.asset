@@ -32,4 +32,22 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Play/Map3.unity
     guid: 3ea4810ffb3180044bf0c85bd9b11f15
+  - enabled: 1
+    path: Assets/Scenes/Play/Map4.unity
+    guid: 88ce178985071ad49949aeacb0274ed6
+  - enabled: 1
+    path: Assets/Scenes/Play/Map5.unity
+    guid: e16b490357a2da74aa1aa041cc5d4009
+  - enabled: 1
+    path: Assets/Scenes/Play/Map6.unity
+    guid: bb62497366e38e242868ad1455e06ff8
+  - enabled: 1
+    path: Assets/Scenes/Play/Map7.unity
+    guid: 61704e310526d5e4093e32a2702e7377
+  - enabled: 1
+    path: Assets/Scenes/Play/Map8.unity
+    guid: 80464282492595c44b6154d7a4853dce
+  - enabled: 1
+    path: Assets/Scenes/Play/Final.unity
+    guid: 87ddcf586025970418051aaa18dfa0ad
   m_configObjects: {}

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2998178984542664515}
   - component: {fileID: 4312971439390756945}
   - component: {fileID: 5529700683570693018}
-  - component: {fileID: 8971001804821600904}
+  - component: {fileID: 1648142706}
   m_Layer: 0
   m_Name: Square_SpreadBullet
   m_TagString: Enemy
@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 3710981622623732843}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.690417, y: -9.687368, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 1}
+  m_LocalScale: {x: 20, y: 20, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -178,7 +178,7 @@ NavMeshAgent:
   m_BaseOffset: 0.065
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8971001804821600904
+--- !u!114 &1648142706
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -187,7 +187,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3710981622623732843}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e36f26769633331459b09027d213c764, type: 3}
+  m_Script: {fileID: 11500000, guid: d892300943451304486ead28571aead8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 5529700683570693018}
@@ -212,5 +212,6 @@ MonoBehaviour:
   maxHealth: 10
   currentHealth: 0
   hurtEffect: {fileID: 0}
-  dieEffect: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}
-  shootEffect: {fileID: 2515445351180927889, guid: 97cac7cef0c93364685d7aa055e6e944, type: 3}
+  dieEffect: {fileID: 0}
+  shootEffect: {fileID: 0}
+  lazyDelay: 2

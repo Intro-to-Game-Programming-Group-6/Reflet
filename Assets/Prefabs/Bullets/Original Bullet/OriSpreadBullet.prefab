@@ -75,7 +75,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 548196675
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 591770746, guid: a0dc8b0eadfc4754393083aff2eac5d6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -130,7 +130,7 @@ MonoBehaviour:
   status: 1
   childBulletPrefeb: {fileID: 2155963583699463123, guid: bfcaeb51af99eb94cbbb0210e1a6f967, type: 3}
   numberOfBulletsOut: 3
-  spreadRange: 60
+  spreadRange: 100
   childBulletSpeed: 0
 --- !u!95 &1270252808271130061
 Animator:

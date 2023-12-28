@@ -539,6 +539,7 @@ GameObject:
   - component: {fileID: 399224757}
   - component: {fileID: 399224756}
   - component: {fileID: 399224759}
+  - component: {fileID: 399224760}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -624,6 +625,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 836cdf397e6bf6f46b102755e66e3080, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &399224760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 399224755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowDebugText: 0
+  m_ShowCameraFrustum: 1
+  m_IgnoreTimeScale: 0
+  m_WorldUpOverride: {fileID: 0}
+  m_UpdateMethod: 2
+  m_BlendUpdateMethod: 1
+  m_DefaultBlend:
+    m_Style: 1
+    m_Time: 2
+    m_CustomCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  m_CustomBlends: {fileID: 0}
+  m_CameraCutEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_CameraActivatedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &476795902
 GameObject:
   m_ObjectHideFlags: 0
@@ -2060,6 +2095,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3330282293773030803, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3330282293773030815, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
       propertyPath: m_textTitle
       value: seek n' find!
@@ -3327,11 +3366,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1722524831205890827, guid: 1e3f99f59ccfb8145ac4e372ebe2d57c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1722524831205890827, guid: 1e3f99f59ccfb8145ac4e372ebe2d57c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1722524831205890827, guid: 1e3f99f59ccfb8145ac4e372ebe2d57c, type: 3}
       propertyPath: m_LocalPosition.z

@@ -30,11 +30,10 @@ public class PlayerControlScript : MonoBehaviour
     [SerializeField] public int dashID = 1;
     [SerializeField] public float dashDuration = 0.5f;
     [SerializeField] public float dashCastTime = 1.5f;
-    [SerializeField] public float dashCooldown = 5f;
+    [SerializeField] public float dashCooldown = 10f;
     [SerializeField] public int dashCounter;
     [SerializeField] public int dashMaxCharge;
     [SerializeField] public float dashRefresh;
-    [SerializeField] public TrailRenderer trail;
     [HideInInspector][SerializeField] public bool canDash = true;
     [HideInInspector][SerializeField] public bool currentlyDashing;
     [HideInInspector][SerializeField] public ParticleSystem BlinkParticle;
@@ -84,9 +83,21 @@ public class PlayerControlScript : MonoBehaviour
     private bool reflect_shield_freeze;
     private bool reflect_force_stop;
     public UnityEvent<Vector3> playerHealEvent;
-    public List<AudioClip> heal_audios = new List<AudioClip>();
-    public AudioSource shields_up;
+    [SerializeField] public AudioClip normal_healing_audio_clip;
+    [SerializeField] public AudioClip aoe_healing_audio_clip;
+    [SerializeField] public AudioClip special_healing_audio_clip;
+    [SerializeField] public AudioClip dashing_audio_clip;
+    [SerializeField] public AudioClip blinking_audio_clip;
+    [SerializeField] public AudioClip walking_audio_clip;
+    [SerializeField] public AudioClip shield_summon_audio_clip;
+    // 0 = normal heal
+    // 1 = aoe heal
+    // 2 = special heal
+    // 3 = dashing effect
+    // 4 = walking
 
+    public AudioSource shields_up;
+    public AudioSource SpecializedForWalking;
 
     private void OnEnable()
     {
@@ -121,17 +132,15 @@ public class PlayerControlScript : MonoBehaviour
         playerSprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         dashManager = GetComponent<DashManager>();
-        trail = GetComponent<TrailRenderer>();
         BlinkParticle = GetComponent<ParticleSystem>();
         BlinkParticle.Stop();
 
         rb.gravityScale = 0f;
-        trail.emitting = true;
         isReflecting = false;
         // shield_time = max_shield_time;
         // shield_cooldown = 0f;
         mirrorRotate = false;
-        numShields = 0;
+        numShields = 4;
         canDash = true;
         reflect_shield_freeze = false;
         reflect_force_stop = false;
@@ -148,7 +157,7 @@ public class PlayerControlScript : MonoBehaviour
         stamina_decay = -1f;
         stamina_regen = 1f;
         ReflectShieldHP = 1;
-        //CreateOrbitingShields();
+        CreateOrbitingShields();
     }
 
     void Update()
@@ -165,7 +174,6 @@ public class PlayerControlScript : MonoBehaviour
     {
         if (currentlyDashing)
         {
-            trail.emitting = true;
             return;
         }
         shields_up.pitch = 1.4f;
@@ -191,7 +199,6 @@ public class PlayerControlScript : MonoBehaviour
 
         rb.velocity = (movementInput) * movementspeed;
 
-        trail.emitting = false;
     }
 
     void ManageSprite()
@@ -216,7 +223,6 @@ public class PlayerControlScript : MonoBehaviour
 
         if (currentlyDashing)
         {
-            trail.emitting = true;
             animator.SetBool("isDashing", true);
             return;
         }
@@ -231,7 +237,6 @@ public class PlayerControlScript : MonoBehaviour
         //     rb.velocity = (movementInput) * movementspeed;
         // }
 
-        trail.emitting = false;
     }
 
     void ManageShieldAction()
@@ -334,11 +339,16 @@ public class PlayerControlScript : MonoBehaviour
     {
         if (context.performed)
         {
+            if (!SpecializedForWalking.isPlaying)
+            {
+                SpecializedForWalking.Play();
+            }
             movementInput = context.ReadValue<Vector2>();
             movementInput.Normalize();
         }
         if (context.canceled)
         {
+            SpecializedForWalking.Stop();
             movementInput = context.ReadValue<Vector2>();
             movementInput.Normalize();
         }
@@ -349,7 +359,7 @@ public class PlayerControlScript : MonoBehaviour
     {
         Debug.Log("animator called");
         reflect_shield_freeze = true;
-        shields_up.Play();
+        shields_up.PlayOneShot(shield_summon_audio_clip);
         animator.Play("skill1", -1, 0f);
         yield return null;
         // Wait until the current animation is finished
@@ -366,6 +376,7 @@ public class PlayerControlScript : MonoBehaviour
         }
         PlayerManager.GetInstance().AdjustStaminaPoint(-5);
         isReflecting = true;
+        float remaining_time = shields_up.clip.length - shields_up.time;
     }
 
 
@@ -375,7 +386,9 @@ public class PlayerControlScript : MonoBehaviour
         {
             isReflecting = false;
             if (!animator.GetBool("isDead") && !animator.GetCurrentAnimatorStateInfo(0).IsName("skill1"))
+            {
                 StartCoroutine(PlayAnimationAndWait(context));
+            }
             //PlayerManager.GetInstance().AdjustStaminaPoint(-5);
             //isReflecting = true;
         }
@@ -396,7 +409,6 @@ public class PlayerControlScript : MonoBehaviour
     {
         if (context.performed && canDash)
         {
-            
             // Debug.Log("Dashing");
             dashManager.StartDash(this);
             playerDashEvent.Invoke();

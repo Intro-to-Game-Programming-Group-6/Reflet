@@ -84,6 +84,12 @@ public class BaseBulletBehavior : MonoBehaviour
         transform.right =  re_dir;
     }
 
+    public virtual void Activate() {
+        PlayerForceOwnership();
+        enabled = true;
+        GetComponent<CircleCollider2D>().enabled = true;
+    }
+
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         //Basic for all bullet

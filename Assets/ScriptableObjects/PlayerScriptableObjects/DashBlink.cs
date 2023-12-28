@@ -13,7 +13,6 @@ public class DashBlink : BaseAbillity
         if(control.dashCounter <= 0) yield break;
         Debug.Log("Dash blinking activated");
         control.BlinkParticle.Play();
-        control.SpecializedForWalking.Stop();
 
         control.canDash = false;
         control.currentlyDashing = true;

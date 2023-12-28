@@ -14,20 +14,20 @@ public class HealActionManager : MonoBehaviour
         switch (mainController.HealID)
         {
             case 1:
-                mainController.shields_up.PlayOneShot(mainController.normal_healing_audio_clip);
+                mainController.NormalPitchSource.PlayOneShot(mainController.normal_healing_audio_clip);
                 PlayerManager.GetInstance().Heal(mainController.normalHeal);
                 break;
             case 2:
-                mainController.shields_up.PlayOneShot(mainController.aoe_healing_audio_clip);
+                mainController.NormalPitchSource.PlayOneShot(mainController.aoe_healing_audio_clip);
                 AoeHeal.CreateField(AoEPrefab, mainController);
                 break;
             case 3:
-                mainController.shields_up.PlayOneShot(mainController.special_healing_audio_clip);
+                mainController.NormalPitchSource.PlayOneShot(mainController.special_healing_audio_clip);
                 PlayerManager.GetInstance().Heal(mainController.normalHeal);
                 Disintegration.CreateField(DisintegratePrefab, mainController);
                 break;
             case 4:
-                mainController.shields_up.PlayOneShot(mainController.special_healing_audio_clip);
+                mainController.NormalPitchSource.PlayOneShot(mainController.special_healing_audio_clip);
                 PlayerManager.GetInstance().Heal(mainController.normalHeal);
                 ShieldReflect.CreateField(ReflectShieldPrefab, mainController);
                 break;

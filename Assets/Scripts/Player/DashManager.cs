@@ -14,12 +14,12 @@ public class DashManager : MonoBehaviour
         {
             case 1:
                 if(mainController.dashCounter > 0)
-                    mainController.shields_up.PlayOneShot(mainController.dashing_audio_clip);
+                    mainController.NormalPitchSource.PlayOneShot(mainController.dashing_audio_clip);
                 StartCoroutine(NormalDash.GoDash(mainController));
                 break;
             case 2:
                 if (mainController.dashCounter > 0)
-                    mainController.shields_up.PlayOneShot(mainController.blinking_audio_clip);
+                    mainController.NormalPitchSource.PlayOneShot(mainController.blinking_audio_clip);
                 StartCoroutine(BlinkDash.GoDash(mainController));
                 break;
             case 3:

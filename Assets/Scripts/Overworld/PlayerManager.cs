@@ -32,6 +32,8 @@ public class PlayerManager : MonoBehaviour
     public bool multiply;
     public int bulletMultiplier;
     public int bulletCaptureProgress, bulletCaptureLimit;
+    private bool death_sound_played = false;
+
     public GameObject stolen_bullet_holder;
     public Animator damage_animation;
     
@@ -126,13 +128,19 @@ public class PlayerManager : MonoBehaviour
     public void AdjustHealth(float deltaHealth) {
         if(deltaHealth < 0)
         {
-            if(!damage_animation.GetBool("isDead"))
+            EffectManager.GetInstance().player_hurt.Invoke();
+            if (!damage_animation.GetBool("isDead"))
                 damage_animation.Play("hurt", -1, 0f);
         }
         m_healthPoint += deltaHealth;
         if(m_healthPoint <= 0)
         {
             damage_animation.SetBool("isDead", true);
+            if (death_sound_played == false)
+            {
+                EffectManager.GetInstance().player_die.Invoke();
+                death_sound_played = true;
+            }
         }
 
         if (m_healthPoint > m_maxHealthPoint)
@@ -189,8 +197,12 @@ public class PlayerManager : MonoBehaviour
     public void AdjustStaminaPoint(float deltaPoint)
     {
         m_currentStamina += deltaPoint;
+        if (deltaPoint <= 0 && m_currentStamina <= 0)
+        {
+            EffectManager.GetInstance().stamina_depleted.Invoke();
+        }
 
-        if(m_currentStamina >= m_maxStaminaPoint)
+        if (m_currentStamina >= m_maxStaminaPoint)
         {
             m_currentStamina = m_maxStaminaPoint;
         }

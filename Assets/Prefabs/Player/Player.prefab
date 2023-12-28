@@ -322,7 +322,7 @@ MonoBehaviour:
   walking_audio_clip: {fileID: 8300000, guid: 90865fd73c732aa4a82ce049c8767769, type: 3}
   shield_summon_audio_clip: {fileID: 8300000, guid: eadd78e026895a5448292bd7a4423751, type: 3}
   shields_up: {fileID: 5496602214049149573}
-  SpecializedForWalking: {fileID: 5712101896700206479}
+  NormalPitchSource: {fileID: 5712101896700206479}
 --- !u!50 &6507202684667143797
 Rigidbody2D:
   serializedVersion: 4

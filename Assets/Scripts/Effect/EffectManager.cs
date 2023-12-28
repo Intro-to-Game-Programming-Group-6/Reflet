@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using UnityEngine.Events;
 //Require: Player, EnemyManager, Player
 
 public class EffectManager : MonoBehaviour
@@ -11,6 +11,13 @@ public class EffectManager : MonoBehaviour
     AudioSource playerAudioSource;
 
     public static EffectManager instance;
+
+    public UnityEvent bullet_reflected;
+    public UnityEvent shield_broken;
+    public UnityEvent player_hurt;
+    public UnityEvent player_die;
+    public UnityEvent stamina_depleted;
+    public UnityEvent bullet_captured;
 
     private void Awake() {
         if(instance == null) {
@@ -21,6 +28,16 @@ public class EffectManager : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
+    public static EffectManager GetInstance()
+    {
+        return instance;
+    }
+
     #region Effect
     [Header("Visual Effects")]
     [SerializeField] EffectCollection effectSettings;
@@ -29,23 +46,40 @@ public class EffectManager : MonoBehaviour
     [Header("Non-Enemy effects")]
     [SerializeField] private GameObject healVFX;
     [SerializeField] private AudioClip bulletBounceSFX;
+    [SerializeField] private AudioClip shieldBreakSFX;
     [SerializeField] private AudioClip playerWalkSFX;
     [SerializeField] private AudioClip playerDashSFX;
+    [SerializeField] private AudioClip playerHurtSFX;
+    [SerializeField] private AudioClip playerDeathSFX;
+    [SerializeField] private AudioClip staminaDepletedSFX;
+    [SerializeField] private AudioClip bulletCapturedSFX;
     #endregion
 
 
     private void Start() {
         effectDict = effectSettings.Dict();
-        playerAudioSource = GameObject.Find("Player")?.GetComponent<AudioSource>();
+        playerAudioSource = PlayerControlScript.GetInstance().NormalPitchSource;
         EnemyManager.GetInstance().EnemyHurt.AddListener(SpawnHurtEffect);
         EnemyManager.GetInstance().EnemyDie.AddListener(SpawnDeathEffect);
         EnemyManager.GetInstance().EnemyShoot.AddListener(SpawnShootingEffect);
+        bullet_reflected.AddListener(BulletReflectSound);
+        shield_broken.AddListener(BrokenShield);
+        player_hurt.AddListener(PlayPlayerHurt);
+        player_die.AddListener(PlayerDeadSound);
+        stamina_depleted.AddListener(OutOfStamina);
+        bullet_captured.AddListener(BulletCaptured);
     }
 
     private void OnDisable() {
         EnemyManager.GetInstance().EnemyHurt.RemoveListener(SpawnHurtEffect);
         EnemyManager.GetInstance().EnemyDie.RemoveListener(SpawnDeathEffect);
         EnemyManager.GetInstance().EnemyShoot.RemoveListener(SpawnShootingEffect);
+        bullet_reflected.RemoveListener(BulletReflectSound);
+        shield_broken.RemoveListener(BrokenShield);
+        player_hurt.RemoveListener(PlayPlayerHurt);
+        player_die.RemoveListener(PlayerDeadSound);
+        stamina_depleted.RemoveListener(OutOfStamina);
+        bullet_captured.RemoveListener(BulletCaptured);
     }
 
     //Positional Effects
@@ -65,6 +99,35 @@ public class EffectManager : MonoBehaviour
         Instantiate(healVFX, position, Quaternion.identity);
     }
 
+    public void BulletReflectSound()
+    {
+        playerAudioSource.PlayOneShot(bulletBounceSFX);
+    }
+
+    public void BrokenShield()
+    {
+        playerAudioSource.PlayOneShot(shieldBreakSFX);
+    }
+
+    public void PlayPlayerHurt()
+    {
+        playerAudioSource.PlayOneShot(playerHurtSFX);
+    }
+
+    public void PlayerDeadSound()
+    {
+        playerAudioSource.PlayOneShot(playerDeathSFX);
+    }
+
+    public void OutOfStamina()
+    {
+        playerAudioSource.PlayOneShot(staminaDepletedSFX);
+    }
+
+    public void BulletCaptured()
+    {
+        playerAudioSource.PlayOneShot(bulletCapturedSFX);
+    }
     //Non-positional effects
 
     // @Booby plz move these to the player script

@@ -64,10 +64,6 @@ public class BurstFireEnemy : BaseEnemyBehavior {
         }
         agent.isStopped = false;
         //Vector3 runFrom = transform.position + (transform.position - player.position + new Vector3(0, Random.Range(-4, 4), 0));
-        if (transform.position == runTo || runTo == null)
-        {
-            runTo = RandomLocation();
-        }
         //agent.SetDestination(runTo);
         yield return new WaitForSeconds(attackDelay);
         runTo = RandomLocation();
@@ -82,6 +78,8 @@ public class BurstFireEnemy : BaseEnemyBehavior {
     }
 
     Vector3 runTo;
+    //didn't use these, will use it in other enemy
+    //////////////
     protected void ReLocation()
     {
         agent.isStopped = false;
@@ -101,6 +99,7 @@ public class BurstFireEnemy : BaseEnemyBehavior {
         runTo = RandomLocation();
         
     }
+    /////////////
 
 
 

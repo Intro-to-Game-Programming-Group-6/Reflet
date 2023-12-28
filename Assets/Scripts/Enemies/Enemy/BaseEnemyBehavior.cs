@@ -115,7 +115,7 @@ public class BaseEnemyBehavior : MonoBehaviour
 
     protected IEnumerator Dizzy()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(5f);
         sleep = false;
     }
 
@@ -230,5 +230,17 @@ public class BaseEnemyBehavior : MonoBehaviour
         yield return new WaitForSeconds(1f);
         heart.GetComponent<SpriteRenderer>().enabled = false;
         heartCoroutines[idx] = null;
+    }
+
+    //check if enemy reach destination
+    //not working
+    protected bool pathComplete(Vector3 dest)
+    {
+        if (transform.position.x - dest.x <= 0.1f && transform.position.y - dest.y <= 0.1f)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

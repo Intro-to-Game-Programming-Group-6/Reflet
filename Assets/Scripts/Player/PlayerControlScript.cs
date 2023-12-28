@@ -479,8 +479,9 @@ public class PlayerControlScript : MonoBehaviour
             PlayerManager.GetInstance().stolen_bullet_holder.SetActive(true);
             PlayerManager.GetInstance().stolen_bullet_holder.transform.position = transform.position;
             // Make the projectile reappear in the game view
-            GameObject newProjectile = PlayerManager.GetInstance().stolen_bullet_holder;            
-            ActivateBullet(newProjectile, get_bullet_type);
+            GameObject newProjectile = PlayerManager.GetInstance().stolen_bullet_holder;
+            newProjectile.GetComponent<BaseBulletBehavior>().Activate();
+            //ActivateBullet(newProjectile, get_bullet_type);
 
             Vector2 direction = (CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - rb.transform.position).normalized;
             newProjectile.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
@@ -489,6 +490,7 @@ public class PlayerControlScript : MonoBehaviour
         }
     }
 
+    /*
     public void ActivateBullet(GameObject newProjectile, string bullet_type)
     {
         switch (bullet_type)
@@ -526,7 +528,7 @@ public class PlayerControlScript : MonoBehaviour
                 break;
         }
         return;
-    }
+    } */
 
     public void OnSteal(InputAction.CallbackContext context)
     {

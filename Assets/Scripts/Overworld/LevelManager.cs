@@ -23,8 +23,9 @@ public class LevelManager : MonoBehaviour
     EnemyManager enemyManager;
     List<GameObject> selectedEnemies = new List<GameObject>();
     
-    private int maxQueueLen = 3;
-    // private int finalBossThresh = 10;
+    public int maxQueueLen = 3;
+    public int finalBossThresh = 5;
+    public int stageCounter = 0;
 
     void Awake()
     {
@@ -176,9 +177,18 @@ public class LevelManager : MonoBehaviour
 
     public void LoadRandomLevel()
     {
-        string nextScene = SelectRandomScene();
-        Enqueue(nextScene);
-        TransitionLoadScene(nextScene);
+        if(stageCounter < finalBossThresh)
+        {
+            string nextScene = SelectRandomScene();
+            Enqueue(nextScene);
+            TransitionLoadScene(nextScene);
+            stageCounter += 1;
+        }
+        else
+        {
+            TransitionLoadScene("Final");
+        }
+        
     }
 
     public void LoadTutorialLevelScene()

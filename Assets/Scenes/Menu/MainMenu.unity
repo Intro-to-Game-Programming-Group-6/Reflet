@@ -717,6 +717,12 @@ MonoBehaviour:
   - Map3
   - Map4
   - Map5
+  - Map6
+  - Map7
+  - Map8
+  maxQueueLen: 5
+  finalBossThresh: 5
+  stageCounter: 0
 --- !u!4 &1184931709469109577
 Transform:
   m_ObjectHideFlags: 0

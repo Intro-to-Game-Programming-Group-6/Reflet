@@ -84,6 +84,12 @@ public class BaseBulletBehavior : MonoBehaviour
         transform.right =  re_dir;
     }
 
+    public virtual void Activate() {
+        PlayerForceOwnership();
+        enabled = true;
+        GetComponent<CircleCollider2D>().enabled = true;
+    }
+
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         //Basic for all bullet
@@ -117,7 +123,7 @@ public class BaseBulletBehavior : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("RotatingReflect"))
         {
-            Vector2 inNorm = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - GameObject.Find("Player").transform.position;
+            Vector2 inNorm = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - collision.gameObject.transform.position;// GameObject.Find("Player").transform.position;
 
             ReflectBullet(inNorm);
 

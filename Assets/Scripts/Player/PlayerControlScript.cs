@@ -30,11 +30,10 @@ public class PlayerControlScript : MonoBehaviour
     [SerializeField] public int dashID = 1;
     [SerializeField] public float dashDuration = 0.5f;
     [SerializeField] public float dashCastTime = 1.5f;
-    [SerializeField] public float dashCooldown = 5f;
+    [SerializeField] public float dashCooldown = 10f;
     [SerializeField] public int dashCounter;
     [SerializeField] public int dashMaxCharge;
     [SerializeField] public float dashRefresh;
-    [SerializeField] public TrailRenderer trail;
     [HideInInspector][SerializeField] public bool canDash = true;
     [HideInInspector][SerializeField] public bool currentlyDashing;
     [HideInInspector][SerializeField] public ParticleSystem BlinkParticle;
@@ -84,9 +83,27 @@ public class PlayerControlScript : MonoBehaviour
     private bool reflect_shield_freeze;
     private bool reflect_force_stop;
     public UnityEvent<Vector3> playerHealEvent;
-    public List<AudioClip> heal_audios = new List<AudioClip>();
-    public AudioSource shields_up;
+    [SerializeField] public AudioClip normal_healing_audio_clip;
+    [SerializeField] public AudioClip aoe_healing_audio_clip;
+    [SerializeField] public AudioClip special_healing_audio_clip;
+    [SerializeField] public AudioClip dashing_audio_clip;
+    [SerializeField] public AudioClip blinking_audio_clip;
+    [SerializeField] public AudioClip walking_audio_clip;
+    [SerializeField] public AudioClip shield_summon_audio_clip;
+    [SerializeField] public AudioClip shield_reflect_audio_clip;
+    [SerializeField] public AudioClip shield_break_audio_clip;
+    [SerializeField] public AudioClip bulletCapturedSFX;
+    [SerializeField] public AudioClip player_hurt_audio_clip;
+    [SerializeField] public AudioClip player_die_audio_clip;
+    [SerializeField] public AudioClip stamina_out_audio_clip;
+    // 0 = normal heal
+    // 1 = aoe heal
+    // 2 = special heal
+    // 3 = dashing effect
+    // 4 = walking
 
+    public AudioSource shields_up;
+    public AudioSource NormalPitchSource;
 
     private void OnEnable()
     {
@@ -121,12 +138,10 @@ public class PlayerControlScript : MonoBehaviour
         playerSprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         dashManager = GetComponent<DashManager>();
-        trail = GetComponent<TrailRenderer>();
         BlinkParticle = GetComponent<ParticleSystem>();
         BlinkParticle.Stop();
 
         rb.gravityScale = 0f;
-        trail.emitting = true;
         isReflecting = false;
         // shield_time = max_shield_time;
         // shield_cooldown = 0f;
@@ -165,7 +180,6 @@ public class PlayerControlScript : MonoBehaviour
     {
         if (currentlyDashing)
         {
-            trail.emitting = true;
             return;
         }
         shields_up.pitch = 1.4f;
@@ -191,7 +205,6 @@ public class PlayerControlScript : MonoBehaviour
 
         rb.velocity = (movementInput) * movementspeed;
 
-        trail.emitting = false;
     }
 
     void ManageSprite()
@@ -216,7 +229,6 @@ public class PlayerControlScript : MonoBehaviour
 
         if (currentlyDashing)
         {
-            trail.emitting = true;
             animator.SetBool("isDashing", true);
             return;
         }
@@ -231,7 +243,6 @@ public class PlayerControlScript : MonoBehaviour
         //     rb.velocity = (movementInput) * movementspeed;
         // }
 
-        trail.emitting = false;
     }
 
     void ManageShieldAction()
@@ -334,11 +345,16 @@ public class PlayerControlScript : MonoBehaviour
     {
         if (context.performed)
         {
+            if (!NormalPitchSource.isPlaying)
+            {
+                NormalPitchSource.Play();
+            }
             movementInput = context.ReadValue<Vector2>();
             movementInput.Normalize();
         }
         if (context.canceled)
         {
+            NormalPitchSource.Stop();
             movementInput = context.ReadValue<Vector2>();
             movementInput.Normalize();
         }
@@ -349,7 +365,7 @@ public class PlayerControlScript : MonoBehaviour
     {
         Debug.Log("animator called");
         reflect_shield_freeze = true;
-        shields_up.Play();
+        shields_up.PlayOneShot(shield_summon_audio_clip);
         animator.Play("skill1", -1, 0f);
         yield return null;
         // Wait until the current animation is finished
@@ -366,6 +382,7 @@ public class PlayerControlScript : MonoBehaviour
         }
         PlayerManager.GetInstance().AdjustStaminaPoint(-5);
         isReflecting = true;
+        float remaining_time = shields_up.clip.length - shields_up.time;
     }
 
 
@@ -375,7 +392,9 @@ public class PlayerControlScript : MonoBehaviour
         {
             isReflecting = false;
             if (!animator.GetBool("isDead") && !animator.GetCurrentAnimatorStateInfo(0).IsName("skill1"))
+            {
                 StartCoroutine(PlayAnimationAndWait(context));
+            }
             //PlayerManager.GetInstance().AdjustStaminaPoint(-5);
             //isReflecting = true;
         }
@@ -396,7 +415,6 @@ public class PlayerControlScript : MonoBehaviour
     {
         if (context.performed && canDash)
         {
-            
             // Debug.Log("Dashing");
             dashManager.StartDash(this);
             playerDashEvent.Invoke();
@@ -405,7 +423,7 @@ public class PlayerControlScript : MonoBehaviour
 
     public void OnHeal(InputAction.CallbackContext context)
     {
-        if(context.performed)// && PlayerManager.GetInstance().m_canHeal)
+        if(context.performed && PlayerManager.GetInstance().m_canHeal)
         {
             // Debug.Log("Healing");
             healManager.StartHeal(this);
@@ -462,13 +480,14 @@ public class PlayerControlScript : MonoBehaviour
         {
             Debug.Log("peluru lagi dibuang");
             float bulletSpeed = 15f;
-            BaseBulletBehavior bulletbehav = PlayerManager.GetInstance().stolen_bullet_holder.GetComponent<BaseBulletBehavior>();
-            string get_bullet_type = bulletbehav.GetBulletType();
+            //BaseBulletBehavior bulletbehav = PlayerManager.GetInstance().stolen_bullet_holder.GetComponent<BaseBulletBehavior>();
+            //string get_bullet_type = bulletbehav.GetBulletType();
             PlayerManager.GetInstance().stolen_bullet_holder.SetActive(true);
             PlayerManager.GetInstance().stolen_bullet_holder.transform.position = transform.position;
             // Make the projectile reappear in the game view
-            GameObject newProjectile = PlayerManager.GetInstance().stolen_bullet_holder;            
-            ActivateBullet(newProjectile, get_bullet_type);
+            GameObject newProjectile = PlayerManager.GetInstance().stolen_bullet_holder;
+            newProjectile.GetComponent<BaseBulletBehavior>().Activate();
+            //ActivateBullet(newProjectile, get_bullet_type);
 
             Vector2 direction = (CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - rb.transform.position).normalized;
             newProjectile.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
@@ -477,6 +496,7 @@ public class PlayerControlScript : MonoBehaviour
         }
     }
 
+    /*
     public void ActivateBullet(GameObject newProjectile, string bullet_type)
     {
         switch (bullet_type)
@@ -507,14 +527,22 @@ public class PlayerControlScript : MonoBehaviour
 
             case "PiercingBullet":
                 PiercingBullet pierce = newProjectile.GetComponent<PiercingBullet>();
-                PolygonCollider2D pierce_collid = newProjectile.GetComponent<PolygonCollider2D>();
+                EdgeCollider2D pierce_collid = newProjectile.GetComponent<EdgeCollider2D>();
                 pierce.PlayerForceOwnership();
                 pierce.enabled = true;
                 pierce_collid.enabled = true;
                 break;
+
+            case "SpreadBullet":
+                SpreadBullet spread = newProjectile.GetComponent<SpreadBullet>();
+                CircleCollider2D spread_collid = newProjectile.GetComponent<CircleCollider2D>();
+                spread.PlayerForceOwnership();
+                spread.enabled = true;
+                spread_collid.enabled = true;
+                break;
         }
         return;
-    }
+    } */
 
     public void OnSteal(InputAction.CallbackContext context)
     {

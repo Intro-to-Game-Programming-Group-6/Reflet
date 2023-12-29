@@ -182,7 +182,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4613113456929466514, guid: 1d37e9f15d3adfb4fbf0baa0acbced53, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4613113456929466514, guid: 1d37e9f15d3adfb4fbf0baa0acbced53, type: 3}
       propertyPath: m_AnchorMax.x
@@ -582,6 +582,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: aeb17a37498bd0845b66cd891942324e, type: 3}
   - {fileID: 21300000, guid: 2a22fa3eeb337234ea3cba871bc7740e, type: 3}
   - {fileID: 21300000, guid: 3a4acaf8fac91514999a37454fd5ddf6, type: 3}
+  - {fileID: 21300000, guid: 3a4acaf8fac91514999a37454fd5ddf6, type: 3}
 --- !u!1 &1578912299
 GameObject:
   m_ObjectHideFlags: 0
@@ -703,7 +704,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1998387410
 RectTransform:
   m_ObjectHideFlags: 0
@@ -806,6 +807,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c375f978ea4dd364b9237303c133ca99, type: 3}
   - {fileID: 21300000, guid: 6921695c2752dbd4aad1e75e303fef9f, type: 3}
   - {fileID: 21300000, guid: acc5072251442fd44b3a5f41c60ed868, type: 3}
+  - {fileID: 21300000, guid: fa48a462511f646498a73df8a5e16cf9, type: 3}
   - {fileID: 21300000, guid: fa48a462511f646498a73df8a5e16cf9, type: 3}
 --- !u!1 &2087765591
 GameObject:

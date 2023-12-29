@@ -23,8 +23,9 @@ public class LevelManager : MonoBehaviour
     EnemyManager enemyManager;
     List<GameObject> selectedEnemies = new List<GameObject>();
     
-    private int maxQueueLen = 2;
-    // private int finalBossThresh = 10;
+    public int maxQueueLen = 3;
+    public int finalBossThresh = 5;
+    public int stageCounter = 0;
 
     void Awake()
     {
@@ -77,8 +78,8 @@ public class LevelManager : MonoBehaviour
             else
             {
                 SelectRandomEnemies();
-                enemyLimit = 5;
-                enemyTotal = 1;
+                enemyLimit = 4 + Mathf.FloorToInt(stageCounter / 2f);
+                enemyTotal = 10 + stageCounter;
             }
 
             enemyManager.SetEnemySelections(selectedEnemies, enemyLimit, enemyTotal);
@@ -93,7 +94,12 @@ public class LevelManager : MonoBehaviour
     {
         for (int i = 0; i < 3; i++)
         {
-            int randomIndex = Random.Range(0, EnemyPrefabs.Count);
+            int difficultyVal = 1 + stageCounter;
+            if(difficultyVal > EnemyPrefabs.Count)
+            {
+                difficultyVal = EnemyPrefabs.Count;
+            }
+            int randomIndex = Random.Range(0, difficultyVal);
 
             selectedEnemies.Add(EnemyPrefabs[randomIndex]);
         }
@@ -176,9 +182,18 @@ public class LevelManager : MonoBehaviour
 
     public void LoadRandomLevel()
     {
-        string nextScene = SelectRandomScene();
-        Enqueue(nextScene);
-        TransitionLoadScene(nextScene);
+        if(stageCounter < finalBossThresh)
+        {
+            string nextScene = SelectRandomScene();
+            Enqueue(nextScene);
+            TransitionLoadScene(nextScene);
+            stageCounter += 1;
+        }
+        else
+        {
+            TransitionLoadScene("Final");
+        }
+        
     }
 
     public void LoadTutorialLevelScene()

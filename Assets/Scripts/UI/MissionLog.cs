@@ -12,8 +12,8 @@ public class MissionLog : MonoBehaviour
     public float duration;
     public bool isUpdating;
 
-    private Vector3 basePosition = new Vector3(0, 280, 0);
-    private Vector3 secondaryPosition = new Vector3(0, 400, 0);
+    private Vector3 basePosition = new Vector3(0, 320, 0);
+    private Vector3 secondaryPosition = new Vector3(0, 560, 0);
 
     void Awake()
     {

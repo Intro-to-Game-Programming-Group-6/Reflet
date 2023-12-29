@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -24,6 +25,11 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private float m_useVialPoint;
     [SerializeField] private float m_vialPoint;
     [SerializeField] public bool m_canHeal;
+
+    [Header("Events")]
+    public UnityEvent playerHurtEvent;
+    public UnityEvent playerDieEvent;
+
     public float maxVial { get { return m_maxVialPoint; } set { m_maxVialPoint = value; } }
     public float useVial { get { return m_useVialPoint; } set { m_maxVialPoint = value; } }
     public float currentVial { get { return m_vialPoint; } }
@@ -32,8 +38,11 @@ public class PlayerManager : MonoBehaviour
     public bool multiply;
     public int bulletMultiplier;
     public int bulletCaptureProgress, bulletCaptureLimit;
+    private bool death_sound_played = false;
+
     public GameObject stolen_bullet_holder;
     public Animator damage_animation;
+    private PlayerControlScript playerController;
     
     public static PlayerManager GetInstance()
     {
@@ -45,6 +54,7 @@ public class PlayerManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            playerController = PlayerControlScript.GetInstance();
         }
         else if (instance != this)
         {
@@ -126,13 +136,21 @@ public class PlayerManager : MonoBehaviour
     public void AdjustHealth(float deltaHealth) {
         if(deltaHealth < 0)
         {
-            if(!damage_animation.GetBool("isDead"))
+            //playerHurtEvent.Invoke();
+            playerController.NormalPitchSource.PlayOneShot(playerController.player_hurt_audio_clip);
+            if (!damage_animation.GetBool("isDead"))
                 damage_animation.Play("hurt", -1, 0f);
         }
         m_healthPoint += deltaHealth;
         if(m_healthPoint <= 0)
         {
             damage_animation.SetBool("isDead", true);
+            if (death_sound_played == false)
+            {
+                //playerDieEvent.Invoke();
+                playerController.NormalPitchSource.PlayOneShot(playerController.player_die_audio_clip);
+                death_sound_played = true;
+            }
         }
 
         if (m_healthPoint > m_maxHealthPoint)
@@ -189,8 +207,12 @@ public class PlayerManager : MonoBehaviour
     public void AdjustStaminaPoint(float deltaPoint)
     {
         m_currentStamina += deltaPoint;
+        if (deltaPoint <= 0 && m_currentStamina <= 0)
+        {
+            playerController.NormalPitchSource.PlayOneShot(playerController.stamina_out_audio_clip);
+        }
 
-        if(m_currentStamina >= m_maxStaminaPoint)
+        if (m_currentStamina >= m_maxStaminaPoint)
         {
             m_currentStamina = m_maxStaminaPoint;
         }

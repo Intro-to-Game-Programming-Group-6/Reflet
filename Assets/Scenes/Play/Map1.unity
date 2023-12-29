@@ -1631,6 +1631,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3330282293773030803, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3330282293773030815, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
       propertyPath: m_textTitle
       value: explore!
@@ -1948,11 +1952,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e81cf5918324d034f9092f0ba3b6162d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bullet_reflected:
+    m_PersistentCalls:
+      m_Calls: []
+  shield_broken:
+    m_PersistentCalls:
+      m_Calls: []
+  bullet_captured:
+    m_PersistentCalls:
+      m_Calls: []
   effectSettings: {fileID: 11400000, guid: 2885d614f05fb454db244933453374fa, type: 2}
   healVFX: {fileID: 5928383561694542103, guid: d250a883993ec544486b744c19e38d19, type: 3}
-  bulletBounceSFX: {fileID: 0}
+  bulletBounceSFX: {fileID: 8300000, guid: e33825c9ac818a54a9045a8d1a43a0c4, type: 3}
+  shieldBreakSFX: {fileID: 8300000, guid: 22ed6987381762d469a27091d95f1830, type: 3}
   playerWalkSFX: {fileID: 0}
   playerDashSFX: {fileID: 8300000, guid: 0cb8e14b731765147b216ddf97c9f876, type: 3}
+  playerHurtSFX: {fileID: 8300000, guid: abe42819f8a57eb4294776028e7fab8c, type: 3}
+  playerDeathSFX: {fileID: 8300000, guid: 044ad4cfe3845b34ca2d3c8b5216eaa7, type: 3}
+  staminaDepletedSFX: {fileID: 8300000, guid: 99ee1b4f082279d40bf0b1bb8fe19730, type: 3}
+  bulletCapturedSFX: {fileID: 8300000, guid: 7f635e5eb27e7a749b5607abac9f8da1, type: 3}
 --- !u!4 &1510886010
 Transform:
   m_ObjectHideFlags: 0
@@ -2100,7 +2118,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1633326608}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.497934, y: -3.5, z: -10}
+  m_LocalPosition: {x: -6.487028, y: -3.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3190,11 +3208,18 @@ MonoBehaviour:
   m_useVialPoint: 8
   m_vialPoint: 0
   m_canHeal: 0
+  playerHurtEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  playerDieEvent:
+    m_PersistentCalls:
+      m_Calls: []
   multiply: 0
   bulletMultiplier: 1
   bulletCaptureProgress: 0
   bulletCaptureLimit: 0
   stolen_bullet_holder: {fileID: 0}
+  damage_animation: {fileID: 0}
 --- !u!1 &1494668446595510597
 GameObject:
   m_ObjectHideFlags: 0
@@ -3244,6 +3269,9 @@ MonoBehaviour:
   levelOffset: 0
   EnemyPrefabs: []
   PlayMaps: []
+  maxQueueLen: 3
+  finalBossThresh: 5
+  stageCounter: 0
 --- !u!1001 &6291776057155058230
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3293,15 +3321,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3838010669413717097, guid: 202e79449df18d14a90cc64f67e1f046, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3838010669413717097, guid: 202e79449df18d14a90cc64f67e1f046, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3838010669413717097, guid: 202e79449df18d14a90cc64f67e1f046, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3838010669413717097, guid: 202e79449df18d14a90cc64f67e1f046, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3334,6 +3362,14 @@ PrefabInstance:
     - target: {fileID: 6109320080078334146, guid: 202e79449df18d14a90cc64f67e1f046, type: 3}
       propertyPath: m_TagString
       value: Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 6291776056710254466, guid: 202e79449df18d14a90cc64f67e1f046, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].y
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6291776056710254466, guid: 202e79449df18d14a90cc64f67e1f046, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[3].y
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 6291776057071205613, guid: 202e79449df18d14a90cc64f67e1f046, type: 3}
       propertyPath: m_TagString

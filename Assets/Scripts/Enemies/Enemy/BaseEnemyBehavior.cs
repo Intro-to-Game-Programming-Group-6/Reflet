@@ -12,6 +12,7 @@ public class BaseEnemyBehavior : MonoBehaviour
     public bool sleep;
 
     [Header("Animation Properties")]
+    protected Vector3 myFront;
     [HideInInspector][SerializeField] Animator animController;
     [HideInInspector][SerializeField] private SpriteRenderer sprite;
     [HideInInspector][SerializeField] static int AnimatorWalk = Animator.StringToHash("Walk");
@@ -33,9 +34,10 @@ public class BaseEnemyBehavior : MonoBehaviour
     [SerializeField] Sprite full;
     [SerializeField] Sprite empty;
     [HideInInspector][SerializeField] List<GameObject> hearts = new List<GameObject>();
-    [SerializeField] private int maxHealth;
-    [HideInInspector][SerializeField] private int currentHealth;
+    [SerializeField] protected int maxHealth;
+    [SerializeField] protected int currentHealth;
     [HideInInspector][SerializeField] Coroutine[] heartCoroutines;
+    [SerializeField] private EnemyHP myHealthBar;
 
     [Header("Effects")]
     [SerializeField] protected GameObject hurtEffect;
@@ -55,11 +57,15 @@ public class BaseEnemyBehavior : MonoBehaviour
         //****
         sleep = true;
         currentHealth = maxHealth;
+        
 
     }
 
     protected virtual void OnEnable()
     {
+        // myHealthBar = GetComponentInChildren<EnemyHP>();
+        // myHealthBar.gameObject.SetActive(false);
+        /*
         heartCoroutines = new Coroutine[maxHealth];
 
         foreach (Transform heart in transform)
@@ -67,6 +73,7 @@ public class BaseEnemyBehavior : MonoBehaviour
             hearts.Add(heart.gameObject);
             heart.gameObject.GetComponent<SpriteRenderer>().enabled = false;
         }
+        */
         
     }
 
@@ -82,19 +89,18 @@ public class BaseEnemyBehavior : MonoBehaviour
             playerInAttackRange = Physics2D.OverlapCircle(transform.position, attackRange, isPlayer);
             // playerInDetectRange = Physics2D.OverlapCircle(transform.position, detectRange, isPlayer);
             
-            Chasing();
 
             if (playerInAttackRange) AttackPlayer();
             // else if (playerInDetectRange && !playerInAttackRange) Chasing();
-            // else Idle();
+            else Chasing();
         }
         
     }
 
     private void FixedUpdate()
     {
-        Vector2 direction = (player.position - transform.position).normalized;
-        sprite.flipX = direction.x > 0f;
+        myFront = (player.position - transform.position).normalized;
+        sprite.flipX = myFront.x > 0f;
     }
 
     protected virtual void Idle()
@@ -157,21 +163,27 @@ public class BaseEnemyBehavior : MonoBehaviour
 
     protected virtual IEnumerator ShootRoutine()
     {
-        
-            //Instantiate(shootEffect, transform.position, Quaternion.identity);
-        EnemyManager.GetInstance().EnemyShoot.Invoke(gameObject.transform.position, enemyName);
-        GameObject bullet = Instantiate(bulletPrefab, agent.transform.position, Quaternion.identity);
-        bullet.GetComponent<BaseBulletBehavior>().ShootAt(player);
+
+        //Instantiate(shootEffect, transform.position, Quaternion.identity);
+        GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        if (bullet != null)
+        {
+            bullet.GetComponent<BaseBulletBehavior>().ShootAt(player);
+            EnemyManager.GetInstance().EnemyShoot.Invoke(gameObject.transform.position, enemyName);
+        }
         yield return new WaitForSeconds(attackDelay);
         isAttacking = false;
         
     }
 
-    public void AdjustHealth(int deltaHealth)
+    public virtual void AdjustHealth(int deltaHealth)
     {
         currentHealth += deltaHealth;
 
-        UpdateHearts();
+        //UpdateHearts();
+        //myHealthBar.UpdateHealth(maxHealth, currentHealth);
+        //StartCoroutine(ShowHealthbar(myHealthBar));
+
         //Instantiate(currentHealth <= 0 ? dieEffect: hurtEffect, transform.position, Quaternion.identity);
         
         if (currentHealth <= 0)
@@ -230,6 +242,13 @@ public class BaseEnemyBehavior : MonoBehaviour
         yield return new WaitForSeconds(1f);
         heart.GetComponent<SpriteRenderer>().enabled = false;
         heartCoroutines[idx] = null;
+    }
+
+    IEnumerator ShowHealthbar(EnemyHP healthbar)
+    {
+        healthbar.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        healthbar.gameObject.SetActive(false);
     }
 
     //check if enemy reach destination

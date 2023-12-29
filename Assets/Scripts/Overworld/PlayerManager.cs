@@ -144,6 +144,7 @@ public class PlayerManager : MonoBehaviour
         m_healthPoint += deltaHealth;
         if(m_healthPoint <= 0)
         {
+            StartCoroutine(Die());
             damage_animation.SetBool("isDead", true);
             if (death_sound_played == false)
             {
@@ -163,6 +164,12 @@ public class PlayerManager : MonoBehaviour
         }
         
         HealthController.GetInstance().SetValue(m_healthPoint);
+    }
+
+    IEnumerator Die()
+    {
+        yield return new WaitForSeconds(1f);
+        LevelManager.GetInstance().DeathScene();
     }
 
     public void AddVialPoint(int deltaPoint)

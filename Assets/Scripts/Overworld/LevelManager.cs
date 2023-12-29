@@ -76,9 +76,9 @@ public class LevelManager : MonoBehaviour
             }
             else
             {
-                SelectRandomEnemies();
-                enemyLimit = 4 + Mathf.FloorToInt(stageCounter / 2f);
-                enemyTotal = 1;//10 + stageCounter;
+                SelectEnemies();
+                enemyLimit = 4 + Mathf.FloorToInt(stageCounter * 0.5f);
+                enemyTotal = 10 + Mathf.FloorToInt(stageCounter * 1.5f);
             }
 
             enemyManager.SetEnemySelections(selectedEnemies, enemyLimit, enemyTotal);
@@ -89,18 +89,17 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    void SelectRandomEnemies()
+    void SelectEnemies()
     {
-        for (int i = 0; i < 3; i++)
+        int difficultyVal = 1 + stageCounter;
+        if(difficultyVal > EnemyPrefabs.Count)
         {
-            int difficultyVal = 1 + stageCounter;
-            if(difficultyVal > EnemyPrefabs.Count)
-            {
-                difficultyVal = EnemyPrefabs.Count;
-            }
-            int randomIndex = Random.Range(0, difficultyVal);
+            difficultyVal = EnemyPrefabs.Count;
+        }
 
-            selectedEnemies.Add(EnemyPrefabs[randomIndex]);
+        for (int i = 0; i < difficultyVal; i++)
+        {
+            selectedEnemies.Add(EnemyPrefabs[i]);
         }
     }
 
@@ -205,6 +204,11 @@ public class LevelManager : MonoBehaviour
         string s = "Scenes/Menu/MainMenu";
         TransitionLoadScene(s);
     }
+    public void DeathScene()
+    {
+        string s = "Scenes/Menu/GameOver";
+        TransitionLoadScene(s);
+    } 
     
 
     public void LoadScene(string string_name)

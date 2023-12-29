@@ -76,7 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 548196675
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -2006544344, guid: 90e4b1deef60a064dab68c4391441839, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -138,10 +138,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd741b08782382f4d8bc21e9806ed7b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 3
-  bulletLifeTime: 5
-  bulletDamage: 1
-  knockbackForce: 2
+  bulletSpeed: 4
+  bulletLifeTime: 10
+  bulletDamage: 8
+  knockbackForce: 8
   isMultiplied: 0
   rb: {fileID: 6577619795748586248}
   status: 1
@@ -149,7 +149,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   explodingRange: 1
-  explosionCountdown: 3
+  areaCheck: {fileID: 0}
   col: {fileID: 4180017433697249695}
 --- !u!95 &8034316953749320834
 Animator:
@@ -244,7 +244,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 548196675
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 0.6117647, b: 0, a: 0.27450982}
@@ -285,6 +285,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62e5b228bc46def46950d3fa1156bce4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectLife: 0
+  showArea: 0
   show: {r: 1, g: 0.6117647, b: 0, a: 0.27450982}
   hide: {r: 1, g: 0.6117647, b: 0, a: 0}

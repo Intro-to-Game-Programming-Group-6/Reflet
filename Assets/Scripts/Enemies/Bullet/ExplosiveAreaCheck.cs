@@ -6,7 +6,7 @@ public class ExplosiveAreaCheck : MonoBehaviour
 {
     SpriteRenderer sprite;
 
-    public bool detectLife;
+    public bool showArea;
     [SerializeField] private Color show;
     [SerializeField] private Color hide;
     void Start()
@@ -16,7 +16,7 @@ public class ExplosiveAreaCheck : MonoBehaviour
 
     private void Update()
     {
-        if (detectLife)
+        if (showArea)
         {
             sprite.color = show;
         }
@@ -26,6 +26,7 @@ public class ExplosiveAreaCheck : MonoBehaviour
         }
     }
 
+    /*
     void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Enemy"))
@@ -41,5 +42,6 @@ public class ExplosiveAreaCheck : MonoBehaviour
             detectLife = false;
         }
     }
+    */
 
 }

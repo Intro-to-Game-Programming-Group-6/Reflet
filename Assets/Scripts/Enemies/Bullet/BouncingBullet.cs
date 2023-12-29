@@ -25,10 +25,19 @@ public class BouncingBullet : BaseBulletBehavior
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (status == Status.OWNED_BY_PLAYER) return;
-
-            PlayerManager.GetInstance().AdjustHealth(-bulletDamage);
-            Destroy(this.gameObject);
+            if (status == Status.OWNED_BY_PLAYER)
+            {
+                Vector2 inNorm = collision.contacts[0].normal;
+                //ReflectBullet
+                ReflectBullet(inNorm);
+            
+            }
+            else
+            {
+                PlayerManager.GetInstance().AdjustHealth(-bulletDamage);
+                Destroy(this.gameObject);
+            }
+            
                 
         }
         else if (collision.gameObject.CompareTag("Enemy"))
@@ -65,11 +74,12 @@ public class BouncingBullet : BaseBulletBehavior
         else if (collision.gameObject.CompareTag("Bullet"))
         {
             //uncommend this if choose bouncing to not collapse with other bouncing
-            //col.isTrigger = true;
+            col.isTrigger = true;
+            rb.velocity = lastvelocity;
             //uncommend this to make bouncing bounce each other
-            Vector2 inNorm = collision.contacts[0].normal;
+            // Vector2 inNorm = collision.contacts[0].normal;
             //ReflectBullet
-            ReflectBullet(inNorm);
+            // ReflectBullet(inNorm);
         }
 
 
@@ -109,7 +119,7 @@ public class BouncingBullet : BaseBulletBehavior
         else if (collider.CompareTag("Bullet"))
         {
             //uncommend this if choose bouncing to not collapse with other bouncing
-            //col.isTrigger = false;
+            col.isTrigger = false;
         }
         else if (collider.CompareTag("Player") && status == Status.OWNED_BY_PLAYER)
         {

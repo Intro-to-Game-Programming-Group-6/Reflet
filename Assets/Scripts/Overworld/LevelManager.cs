@@ -74,6 +74,12 @@ public class LevelManager : MonoBehaviour
                 enemyLimit = 1;
                 enemyTotal = 3;
             }
+            else if(SceneManager.GetActiveScene().name == "Final")
+            {
+                SelectEnemies();
+                enemyLimit = 6;
+                enemyTotal = 20;
+            }
             else
             {
                 SelectEnemies();
@@ -207,6 +213,12 @@ public class LevelManager : MonoBehaviour
     public void DeathScene()
     {
         string s = "Scenes/Menu/GameOver";
+        TransitionLoadScene(s);
+    }
+
+    public void WinScene()
+    {
+        string s = "Scenes/Menu/Ending";
         TransitionLoadScene(s);
     } 
     

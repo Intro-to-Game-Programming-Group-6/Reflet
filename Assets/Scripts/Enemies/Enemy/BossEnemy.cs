@@ -17,6 +17,9 @@ public class BossEnemy : BaseEnemyBehavior
     private Vector3 shootingPoint;
     [SerializeField] private EnemyHP bossHealthBar;
     [SerializeField] private TMP_Text bossName;
+
+    public UnityEvent BossDefeated;
+
     protected override void Awake()
     {
         base.Awake();
@@ -32,6 +35,8 @@ public class BossEnemy : BaseEnemyBehavior
     }
     protected override void Update()
     {
+        if(currentHealth <= 0) return;
+
         shootingPoint = transform.position + new Vector3(myFront.x*2, myFront.y*2, 0);
         playerInAttackRange = Physics2D.OverlapCircle(transform.position, attackRange, isPlayer);
         if (sleep)
@@ -197,5 +202,9 @@ public class BossEnemy : BaseEnemyBehavior
     {
         base.AdjustHealth(deltaHealth);
         bossHealthBar.UpdateHealth(maxHealth, currentHealth);
+        if(currentHealth <= 0)
+        {
+            LevelManager.GetInstance().WinScene();
+        }
     }
 }

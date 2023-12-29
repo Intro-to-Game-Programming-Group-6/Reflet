@@ -107,6 +107,10 @@ public class Transition : MonoBehaviour
     public void Exit(System.Action callback = null)
     {
         textTitle = "";
+        if(BGMManager.GetInstance() != null)
+        {
+            BGMManager.GetInstance().FadeOutMusic();
+        }
         StartTransition(m_transitionType, Color.black, true, m_transitionDuration, m_transitionDelay, callback);
     }
     #endregion

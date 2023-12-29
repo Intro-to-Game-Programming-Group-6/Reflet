@@ -1,163 +1,74 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
-[RequireComponent(typeof(Button))]
-public class UpgradeButtonSystem : MonoBehaviour
+public class TempUpgradeTrigger : MonoBehaviour
 {
-    enum UpgradeType
+    // Start is called before the first frame update
+
+    public string upgrade_mode;
+    public HealUpgradeValues ChosenHealUpgrade;
+    public ReflectUpgradeValues ChosenReflectUpgrade;
+    public DashUpgradeValues ChosenDashUpgrade;
+    PlayerControlScript player_control_info;
+    PlayerManager player_manager_info;
+
+    public void GenerateUpgrades()
     {
-        Reflect,
-        Dash,
-        Heal,
-    }
-    [SerializeField] UpgradeType upgradeMode;
+        player_manager_info = PlayerManager.GetInstance();
+        player_control_info = PlayerControlScript.GetInstance();
 
-    [SerializeField] private Sprite icon;
-
-    private ReflectUpgradeValues ChosenReflectUpgrade;
-    private DashUpgradeValues ChosenDashUpgrade;
-    private HealUpgradeValues ChosenHealUpgrade;
-
-    PlayerControlScript playerControlInfo;
-    PlayerManager playerManagerInfo;
-
-    private void SetupButton()
-    {
-        foreach (Transform g in GetComponentsInChildren<Transform>())
-        {
-            switch (g.name)
-            {
-                case "Image":
-                    if (icon != null)
-                        g.transform.GetComponent<Image>().sprite = icon;
-                    break;
-                case "Title":
-                    g.transform.GetComponent<TextMeshProUGUI>().text = GetUpgradeTitle();
-                    break;
-                case "Details":
-                    g.transform.GetComponent<TextMeshProUGUI>().text = GetUpgradeDesc();
-                    break;
-                default:
-                    g.transform.GetComponent<Button>().onClick.AddListener(() => {
-                        ApplyUpgradeViaButton();
-                        LevelManager.GetInstance().ExitUpgradeScene();
-                        LevelManager.GetInstance().LoadRandomLevel();
-                        }
-                    );
-                    break;
-            }
-        }
-    }
-
-    void Start()
-    {
-        Random.InitState((Mathf.RoundToInt(Time.realtimeSinceStartup)));
-        playerManagerInfo = PlayerManager.GetInstance();
-        playerControlInfo = PlayerControlScript.GetInstance();
-        switch (upgradeMode)
-        {
-            case UpgradeType.Reflect:
-                ChosenReflectUpgrade = GenerateRandomReflectAndStaminaUpgrades();
-                break;
-            case UpgradeType.Dash:
-                ChosenDashUpgrade = GenerateRandomDashUpgrades();
-                break;
-            case UpgradeType.Heal:
-                ChosenHealUpgrade = GenerateRandomHealUpgrades();
-                break;
-            default:
-                Debug.LogError("Upgrade Not Avaiable!");
-                break;
-        }
-        SetupButton();
-    }   
-
-    public void ApplyUpgradeViaButton()
-    {
-        Debug.Log("DONE " + this.name);
-        switch (upgradeMode)
-        {
-            case UpgradeType.Reflect:
-                ApplyReflectUpgrades(ChosenReflectUpgrade);
-                break;
-            case UpgradeType.Dash:
-                ApplyDashUpgrades(ChosenDashUpgrade);
-                break;
-            case UpgradeType.Heal:
-                ApplyHealUpgrades(ChosenHealUpgrade);
-                break;
-            default:
-                Debug.LogError("Upgrade Not Avaiable!");
-                break;
-        }
-    }
-    public string GetUpgradeTitle()
-    {
-        switch (upgradeMode)
-        {
-            case UpgradeType.Dash:
-                return "Dash";
-            case UpgradeType.Heal:
-                return "Heal";
-            case UpgradeType.Reflect:
-                return "Reflect";
-            default:
-                return "None";
-        }
+        ChosenDashUpgrade = GenerateDashUpgrades();
+        ChosenHealUpgrade = GenerateHealUpgrades();
+        ChosenReflectUpgrade = GenerateReflectAndStaminaUpgrades();
     }
 
     public string GetUpgradeDesc()
     {
-        switch (upgradeMode)
-        {
-            case UpgradeType.Dash:
-                return ChosenDashUpgrade.UpgradeDescription;
-            case UpgradeType.Heal:
-                return ChosenHealUpgrade.UpgradeDescription;
-            case UpgradeType.Reflect:
-                return ChosenReflectUpgrade.UpgradeDescription;
-            default:
-                return "None";
-        }
+        if (upgrade_mode == "reflect")
+            return ChosenReflectUpgrade.UpgradeDescription;
+        else if (upgrade_mode == "dash")
+            return ChosenDashUpgrade.UpgradeDescription;
+        else if (upgrade_mode == "heal")
+            return ChosenHealUpgrade.UpgradeDescription;
+        else
+            return "None";
     }
 
-    #region Dash Upgrades
+    #region DashUpgrade
     public enum DashUpgradeType
     {
         DashCharge,
         DashSpeed,
         DashCooldown,
-        BaseMovementSpeed
+        DashCastTime
     }
 
-    struct DashUpgradeValues
+    public struct DashUpgradeValues
     {
         public float increaseSpeed;
         public float reduceCooldown;
-        public float increaseWalkSpeed;
+        public float dashCastTime;
         public string UpgradeDescription;
-        public DashUpgradeType UpgradeID;
+        public DashUpgradeType UpgradeID; 
 
-        public DashUpgradeValues(DashUpgradeType id, float speed, float cooldown, float walkspeed, string desc)
+        public DashUpgradeValues(DashUpgradeType id, float speed, float cooldown, float casttime, string desc)
         {
             UpgradeID = id;
             increaseSpeed = speed;
             reduceCooldown = cooldown;
             UpgradeDescription = desc;
-            increaseWalkSpeed = walkspeed;
+            dashCastTime = casttime;
         }
     }
 
-    DashUpgradeValues GenerateRandomDashUpgrades()
+    DashUpgradeValues GenerateDashUpgrades()
     {
         DashUpgradeType randomUpgrade = (DashUpgradeType)Random.Range(0, System.Enum.GetValues(typeof(DashUpgradeType)).Length);
-        string UpgradeDescription = "";
+        string UpgradeDescription ="";
         float IncreaseSpeed = 0;
         float ReduceCooldown = 0;
-        float MovementSpeedBonus = 0;
+        float ReduceCastTime = 0;
         switch (randomUpgrade)
         {
             case DashUpgradeType.DashCharge:
@@ -173,15 +84,24 @@ public class UpgradeButtonSystem : MonoBehaviour
                 ReduceCooldown = Random.Range(10f, 30f);
                 UpgradeDescription = $"Reduce Dash Cooldown by {ReduceCooldown:F2}%";
                 break;
-            case DashUpgradeType.BaseMovementSpeed:
-                MovementSpeedBonus = Random.Range(10f, 30f);
-                UpgradeDescription = $"Increase Movement Speed by {MovementSpeedBonus:F2}%";
+
+            case DashUpgradeType.DashCastTime:
+                ReduceCastTime = Random.Range(10f, 30f);
+                if (player_control_info.dashID == 2)
+                {
+                    UpgradeDescription = $"Reduce Blink CastTime by {ReduceCastTime:F2}%";
+                }
+                else
+                {
+                    UpgradeDescription = $"Change into Blink Dash";
+                }
                 break;
             default:
                 break;
 
         }
-        DashUpgradeValues retval = new DashUpgradeValues(randomUpgrade, IncreaseSpeed, ReduceCooldown, MovementSpeedBonus, UpgradeDescription);
+        Debug.Log("chosen dash upgrade is: "+ UpgradeDescription);
+        DashUpgradeValues retval = new DashUpgradeValues(randomUpgrade, IncreaseSpeed, ReduceCooldown, ReduceCastTime, UpgradeDescription);
         return retval;
     }
 
@@ -191,19 +111,26 @@ public class UpgradeButtonSystem : MonoBehaviour
         switch (selected_upgrade)
         {
             case DashUpgradeType.DashCharge:
-                playerControlInfo.dashMaxCharge += 1;
+                player_control_info.dashMaxCharge += 1;
                 break;
 
             case DashUpgradeType.DashSpeed:
-                playerControlInfo.dashSpeed *= (1 + upgrade.increaseSpeed / 100);
+                player_control_info.dashSpeed *= (1 + upgrade.increaseSpeed / 100);
                 break;
 
             case DashUpgradeType.DashCooldown:
-                playerControlInfo.dashCooldown *= (1 - upgrade.reduceCooldown / 100);
+                player_control_info.dashCooldown *= (1 - upgrade.reduceCooldown / 100);
                 break;
 
-            case DashUpgradeType.BaseMovementSpeed:
-                playerControlInfo.movementspeed *= (1 + upgrade.increaseWalkSpeed / 100);
+            case DashUpgradeType.DashCastTime:
+                if (player_control_info.dashID == 2)
+                {
+                    player_control_info.dashCastTime *= (1 - upgrade.dashCastTime / 100);
+                }
+                else
+                {
+                    player_control_info.dashID = 2;
+                }
                 break;
             default:
                 break;
@@ -218,21 +145,19 @@ public class UpgradeButtonSystem : MonoBehaviour
         HealID,
         VialCapacity,
         VialResourceDrain,
-        BaseHealing,
-        BaseHP
+        BaseHealing
     }
 
-    struct HealUpgradeValues
+    public struct HealUpgradeValues
     {
         public HealUpgradeType upgradeID;
         public float VialCapacity;
         public float VialDrain;
         public float BaseHealing;
-        public float RawHPBonus;
         public string UpgradeDescription;
         public int ChooseHealingID;
 
-        public HealUpgradeValues(HealUpgradeType upgrade, float capac, float drain, float baseheal, float rawHP, string desc, int healmode)
+        public HealUpgradeValues(HealUpgradeType upgrade, float capac, float drain, float baseheal, string desc, int healmode)
         {
             upgradeID = upgrade;
             VialCapacity = capac;
@@ -240,11 +165,10 @@ public class UpgradeButtonSystem : MonoBehaviour
             BaseHealing = baseheal;
             UpgradeDescription = desc;
             ChooseHealingID = healmode;
-            RawHPBonus = rawHP;
         }
     }
 
-    HealUpgradeValues GenerateRandomHealUpgrades()
+    HealUpgradeValues GenerateHealUpgrades()
     {
         HealUpgradeType randomUpgrade = (HealUpgradeType)Random.Range(0, System.Enum.GetValues(typeof(HealUpgradeType)).Length);
         string UpgradeDescription = "";
@@ -253,7 +177,6 @@ public class UpgradeButtonSystem : MonoBehaviour
         float capac = 0f;
         float drain = 0f;
         float baseheal = 0f;
-        float bonusHP = 0f;
         int ChooseHealingID = 2;
 
         // Generate upgrade values based on the upgrade type
@@ -292,16 +215,11 @@ public class UpgradeButtonSystem : MonoBehaviour
                 UpgradeDescription = $"Increase Base Healing by {baseheal:F2}%";
                 break;
 
-            case HealUpgradeType.BaseHP:
-                bonusHP = Random.Range(10f, 30f);
-                UpgradeDescription = $"Increase HP by {bonusHP:F2}%";
-                break;
-
             default:
                 break;
         }
 
-        HealUpgradeValues retval = new HealUpgradeValues(randomUpgrade, capac, drain, baseheal, bonusHP, UpgradeDescription, ChooseHealingID);
+        HealUpgradeValues retval = new HealUpgradeValues(randomUpgrade, capac, drain, baseheal, UpgradeDescription, ChooseHealingID);
         return retval;
     }
 
@@ -314,22 +232,16 @@ public class UpgradeButtonSystem : MonoBehaviour
                 ApplySpecificHeal(upgradeValues.ChooseHealingID);
                 break;
             case HealUpgradeType.VialCapacity:
-                float newCapacity = Mathf.Round(playerManagerInfo.maxVial * (1 + upgradeValues.VialCapacity / 100));
-                playerManagerInfo.maxVial = newCapacity;
+                player_manager_info.maxVial *= (1 + upgradeValues.VialCapacity / 100);
                 break;
 
             case HealUpgradeType.VialResourceDrain:
-                playerManagerInfo.useVial *= (1 - upgradeValues.VialDrain / 100);
+                player_manager_info.useVial *= (1 - upgradeValues.VialDrain / 100);
                 break;
 
             case HealUpgradeType.BaseHealing:
-                playerControlInfo.normalHeal *= (1 + upgradeValues.BaseHealing / 100);
-                playerControlInfo.normalHeal = Mathf.Round(playerControlInfo.normalHeal);
-                break;
-
-            case HealUpgradeType.BaseHP:
-                float newHP = Mathf.Round(playerManagerInfo.maxHealth * (1 + upgradeValues.RawHPBonus / 100));
-                playerManagerInfo.maxHealth = newHP;
+                player_control_info.normalHeal *= (1 + upgradeValues.BaseHealing / 100);
+                player_control_info.normalHeal = Mathf.Round(player_control_info.normalHeal);
                 break;
 
             default:
@@ -339,35 +251,34 @@ public class UpgradeButtonSystem : MonoBehaviour
 
     string ApplySpecificHeal(int ChooseHealingID)
     {
-        string UpgradeDescription = "";
-        if (ChooseHealingID == playerControlInfo.HealID)
+        string UpgradeDescription ="";
+        if (ChooseHealingID == player_control_info.HealID)
         {
             if (ChooseHealingID == 2) //AoE healing HealActionManager id 2
             {
                 float IncreaseRadius = Random.Range(10f, 30f);
                 float IncreaseAoeHeal = Random.Range(10f, 30f);
                 float CutAoeHealTime = Random.Range(10f, 30f);
-                UpgradeDescription = $"Increase Overall AOE Total heal by {IncreaseAoeHeal:F2}%";
-                playerControlInfo.aoeHealRadius *= (1f + IncreaseRadius / 100);
-                playerControlInfo.aoeHealTime *= (1f - CutAoeHealTime / 100);
-                playerControlInfo.aoeHealTotal *= (1f + IncreaseAoeHeal / 100);
+                player_control_info.aoeHealRadius *= (1f + IncreaseRadius / 100);
+                player_control_info.aoeHealTime *= (1f - CutAoeHealTime / 100);
+                player_control_info.aoeHealTotal *= (1f + IncreaseAoeHeal / 100);
             }
             else if (ChooseHealingID == 3)//HealActionManager Disintegration
             {
                 float IncreaseDisintegrationDuration = Random.Range(10f, 30f);
-                UpgradeDescription = $"Increase Disintegration Shield Duration by {IncreaseDisintegrationDuration:F2}%";
-                playerControlInfo.DisintegrationDuration *= (1f + IncreaseDisintegrationDuration / 100);
+                UpgradeDescription = $"Increase Disintegration Shield Duration by {IncreaseDisintegrationDuration}%";
+                player_control_info.DisintegrationDuration *= (1f + IncreaseDisintegrationDuration / 100);
             }
             else if (ChooseHealingID == 4)//HealActionManager ReflectShield
             {
                 UpgradeDescription = $"Unlocks Reflecting Shield, Increase Shield Durability by 1";
-                playerControlInfo.ReflectShieldHP += 1;
+                player_control_info.ReflectShieldHP += 1;
             }
 
         }
         else
         {
-            playerControlInfo.HealID = ChooseHealingID;
+            player_control_info.HealID = ChooseHealingID;
             switch (ChooseHealingID)
             {
                 case 2:
@@ -384,6 +295,8 @@ public class UpgradeButtonSystem : MonoBehaviour
         }
         return UpgradeDescription;
     }
+
+
     #endregion
 
     #region Reflect and Stamina Upgrades
@@ -393,11 +306,10 @@ public class UpgradeButtonSystem : MonoBehaviour
         Duplication,
         StaminaRegen,
         StaminaCapacity,
-        StaminaDecay,
-        BulletSteal
+        StaminaDecay
     }
 
-    struct ReflectUpgradeValues
+    public struct ReflectUpgradeValues
     {
         public float StaminaRegen;
         public float StaminaCapacity;
@@ -414,28 +326,19 @@ public class UpgradeButtonSystem : MonoBehaviour
             UpgradeDescription = desc;
         }
     }
-    ReflectUpgradeValues GenerateRandomReflectAndStaminaUpgrades()
+    ReflectUpgradeValues GenerateReflectAndStaminaUpgrades()
     {
         string UpgradeDescription = "";
         ReflectUpgradeType randomUpgrade = (ReflectUpgradeType)Random.Range(0, System.Enum.GetValues(typeof(ReflectUpgradeType)).Length);
-
-        if (randomUpgrade.Equals(ReflectUpgradeType.BulletSteal))
-        {
-            if(playerManagerInfo.bulletCaptureLimit <= 1)
-            {
-                randomUpgrade = (ReflectUpgradeType)Random.Range(0, System.Enum.GetValues(typeof(ReflectUpgradeType)).Length-1);
-            }
-        }
-
         float IncreaseRegenRate = 0;
         float ReduceDecayRate = 0;
-        float finalStamina = playerManagerInfo.maxStamina;
+        float finalStamina = player_manager_info.maxStamina;
         switch (randomUpgrade)
         {
             case ReflectUpgradeType.StaminaCapacity:
                 float IncreaseCapacity = Random.Range(10f, 30f);
                 UpgradeDescription = $"Increase Stamina Capacity by {IncreaseCapacity:F2}%";
-                finalStamina = playerManagerInfo.maxStamina * (1 + IncreaseCapacity / 100);
+                finalStamina = player_manager_info.maxStamina * (1 + IncreaseCapacity / 100);
                 break;
             case ReflectUpgradeType.StaminaRegen:
                 IncreaseRegenRate = Random.Range(10f, 30f);
@@ -446,7 +349,7 @@ public class UpgradeButtonSystem : MonoBehaviour
                 UpgradeDescription = $"Reduce Stamina Usage by {ReduceDecayRate:F2}%";
                 break;
             case ReflectUpgradeType.Duplication:
-                if (playerManagerInfo.multiply)
+                if (player_manager_info.multiply)
                 {
                     UpgradeDescription = $"Increase Bullet Multiplication by 1";
                 }
@@ -456,7 +359,7 @@ public class UpgradeButtonSystem : MonoBehaviour
                 }
                 break;
             case ReflectUpgradeType.RotatingShield:
-                if (!playerControlInfo.mirrorRotate)
+                if (!player_control_info.mirrorRotate)
                 {
                     UpgradeDescription = $"Enable Rotating Shields";
                 }
@@ -464,12 +367,6 @@ public class UpgradeButtonSystem : MonoBehaviour
                 {
                     UpgradeDescription = $"Increase Rotating Shields by 1";
                 }
-                break;
-            case ReflectUpgradeType.BulletSteal:
-                UpgradeDescription = $"Reduce Bullet Steal Activation from {playerManagerInfo.bulletCaptureLimit} by 1";
-                break;
-            default:
-                Debug.LogError("Not an available "+ GetUpgradeTitle() + " upgrade choice.");
                 break;
         }
         ReflectUpgradeValues retval = new ReflectUpgradeValues(randomUpgrade, IncreaseRegenRate, finalStamina, ReduceDecayRate, UpgradeDescription);
@@ -482,43 +379,39 @@ public class UpgradeButtonSystem : MonoBehaviour
         switch (selectedUpgrade)
         {
             case ReflectUpgradeType.StaminaCapacity:
-                playerManagerInfo.ModifyStaminaCapacity(Mathf.Round(upgradeValues.StaminaCapacity));
+                player_manager_info.ModifyStaminaCapacity(Mathf.Round(upgradeValues.StaminaCapacity));
                 break;
             case ReflectUpgradeType.StaminaRegen:
-                playerControlInfo.stamina_regen *= (1 + upgradeValues.StaminaRegen / 100);
+                player_control_info.stamina_regen *= (1 + upgradeValues.StaminaRegen / 100);
                 break;
+
             case ReflectUpgradeType.StaminaDecay:
-                playerControlInfo.stamina_decay *= (1 - upgradeValues.StaminaDecay / 100);
+                player_control_info.stamina_decay *= (1 - upgradeValues.StaminaDecay / 100);
                 break;
 
             case ReflectUpgradeType.Duplication:
-                if (playerManagerInfo.multiply)
+                if (player_manager_info.multiply)
                 {
-                    playerManagerInfo.bulletMultiplier += 1;
+                    player_manager_info.bulletMultiplier += 1;
                 }
                 else
                 {
-                    playerManagerInfo.multiply = true;
+                    player_manager_info.multiply = true;
                 }
                 break;
 
             case ReflectUpgradeType.RotatingShield:
-                if (!playerControlInfo.mirrorRotate)
+                if (!player_control_info.mirrorRotate)
                 {
-                    playerControlInfo.mirrorRotate = true;
-                    playerControlInfo.numShields += 1;
-                    playerControlInfo.CreateOrbitingShields();
+                    player_control_info.mirrorRotate = true;
+                    player_control_info.numShields += 1;
+                    player_control_info.CreateOrbitingShields();
                 }
                 else
                 {
-                    playerControlInfo.numShields += 1;
-                    playerControlInfo.CreateOrbitingShields();
+                    player_control_info.numShields += 1;
+                    player_control_info.CreateOrbitingShields();
                 }
-                break;
-
-            case ReflectUpgradeType.BulletSteal:
-                if(playerManagerInfo.bulletCaptureLimit > 1)
-                    playerManagerInfo.bulletCaptureLimit -= 1;
                 break;
 
             default:
@@ -527,4 +420,99 @@ public class UpgradeButtonSystem : MonoBehaviour
     }
 
     #endregion
+
+    /*
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if(upgrade_mode == "reflect")
+            {
+                Debug.Log("Player accessing reflect upgrade");
+                Debug.Log("Player is currently locked to using: " + randomUpgrade);
+                ApplyReflectUpgrades(ChosenReflectUpgrade);
+                Debug.Log("Upgrade Applied");
+            }
+            else if(upgrade_mode == "heal")
+            {
+                Debug.Log("Player accessing heal upgrade");
+                Debug.Log("Player is currently locked to using: " + randomHealUpgrade);
+                ApplyHealUpgrades(ChosenHealUpgrade);
+                Debug.Log("Upgrade Applied");
+            }
+            else if (upgrade_mode == "dash")
+            {
+                Debug.Log("Player accessing dash upgrade");
+                Debug.Log("Player is currently locked to using: " + randomDashUpgrade);
+                ApplyDashUpgrades(ChosenDashUpgrade);
+                Debug.Log("Upgrade Applied");
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if (upgrade_mode == "reflect")
+            {
+                Debug.Log("Randomizing Reflect Upgrade");
+                ChosenReflectUpgrade = GenerateReflectAndStaminaUpgrades();
+                //Debug.Log("Player is currently locked to using: " + randomUpgrade);
+            }
+            else if (upgrade_mode == "heal")
+            {
+                Debug.Log("Randomizing Heal Upgrade");
+                ChosenHealUpgrade = GenerateHealUpgrades();
+                //Debug.Log("Player is currently locked to using: " + randomHealUpgrade);
+            }
+            else if (upgrade_mode == "dash")
+            {
+                Debug.Log("Randomizing Heal Upgrade");
+                ChosenDashUpgrade = GenerateDashUpgrades();
+                //Debug.Log("Player is currently locked to using: " + randomDashUpgrade);
+            }
+        }
+    }
+
+    public void ApplyUpgradeViaButton()
+    {
+        if (upgrade_mode == "reflect")
+        {
+            ApplyReflectUpgrades(ChosenReflectUpgrade);
+            Debug.Log("finish upgrade reflect");
+        }
+        else if (upgrade_mode == "dash")
+        {
+            ApplyDashUpgrades(ChosenDashUpgrade);
+            Debug.Log("finish upgrade dash");
+        }
+        else if (upgrade_mode == "heal")
+        {
+            ApplyHealUpgrades(ChosenHealUpgrade);
+            Debug.Log("finish upgrade heal");
+        }
+    }
+    */
 }
+/*
+
+dependency:
+string upgrade_mode
+
+on enable:
+GenerateReflectAndStaminaUpgrades();
+GenerateHealUpgrades();
+GenerateDashUpgrades();
+
+ApplyReflectUpgrades(ChosenReflectUpgrade);
+
+ 
+callback list:
+ApplyReflectUpgrades(ChosenReflectUpgrade);
+ApplyDashUpgrades(ChosenDashUpgrade);
+ApplyHealUpgrades(ChosenHealUpgrade);
+
+
+
+ */

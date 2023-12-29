@@ -46,8 +46,7 @@ public class MainMenu : MonoBehaviour
 
     public void LoadTutorialLevelScene()
     {
-        DisableOtherButtons();
-        LevelManager.GetInstance().LoadTutorialLevelScene();
+        LevelManager.GetInstance().LoadControlScene();
     }
 
     public void LoadOptionScene()

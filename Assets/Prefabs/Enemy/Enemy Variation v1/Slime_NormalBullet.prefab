@@ -209,8 +209,9 @@ MonoBehaviour:
   full: {fileID: 21300000, guid: fed24bd82cefc0c4a8ef64dab6231b53, type: 3}
   empty: {fileID: 21300002, guid: fed24bd82cefc0c4a8ef64dab6231b53, type: 3}
   hearts: []
-  maxHealth: 3
+  maxHealth: 2
   currentHealth: 0
+  myHealthBar: {fileID: 0}
   hurtEffect: {fileID: 0}
   dieEffect: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}
   shootEffect: {fileID: 2515445351180927889, guid: 97cac7cef0c93364685d7aa055e6e944, type: 3}

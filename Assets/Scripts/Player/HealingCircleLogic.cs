@@ -80,4 +80,10 @@ public class HealingCircleLogic : MonoBehaviour
             other.GetComponent<SpriteRenderer>().color = newColor;
         }
     }
+
+    private void OnDestroy()
+    {
+        ColorUtility.TryParseHtmlString("#FFFFFF", out newColor);
+        PlayerControlScript.GetInstance().GetComponent<SpriteRenderer>().color = newColor;
+    }
 }

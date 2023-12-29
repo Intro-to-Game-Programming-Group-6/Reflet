@@ -88,7 +88,7 @@ public class PlayerManager : MonoBehaviour
         m_currentStamina = m_maxStaminaPoint;
 
         bulletCaptureProgress = 0;
-        bulletCaptureLimit = 6;
+        bulletCaptureLimit = 9;
         damage_animation = GameObject.Find("Player").GetComponent<Animator>();
         //m_staminaController.SetMax(m_maxStamina);
         //m_staminaController.SetValue(m_currentStamina);
@@ -242,6 +242,6 @@ public class PlayerManager : MonoBehaviour
         BaseBulletBehavior bulletbehav = stolen_bullet_holder.GetComponent<BaseBulletBehavior>();
         bulletbehav.PlayerForceOwnership();
 
-        Destroy(bullet);
+        //Destroy(bullet);
     }
 }

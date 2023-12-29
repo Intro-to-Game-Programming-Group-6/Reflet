@@ -65,6 +65,7 @@ GameObject:
   - component: {fileID: 3330282294596991328}
   - component: {fileID: 3330282294596991329}
   - component: {fileID: 3330282294596991330}
+  - component: {fileID: 2606664064838589947}
   m_Layer: 5
   m_Name: InGameUI
   m_TagString: Untagged
@@ -159,6 +160,37 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &2606664064838589947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3330282294596991331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e81cf5918324d034f9092f0ba3b6162d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet_reflected:
+    m_PersistentCalls:
+      m_Calls: []
+  shield_broken:
+    m_PersistentCalls:
+      m_Calls: []
+  bullet_captured:
+    m_PersistentCalls:
+      m_Calls: []
+  effectSettings: {fileID: 11400000, guid: 2885d614f05fb454db244933453374fa, type: 2}
+  healVFX: {fileID: 5928383561694542103, guid: d250a883993ec544486b744c19e38d19, type: 3}
+  bulletBounceSFX: {fileID: 8300000, guid: e33825c9ac818a54a9045a8d1a43a0c4, type: 3}
+  shieldBreakSFX: {fileID: 8300000, guid: 22ed6987381762d469a27091d95f1830, type: 3}
+  playerWalkSFX: {fileID: 0}
+  playerDashSFX: {fileID: 8300000, guid: 0cb8e14b731765147b216ddf97c9f876, type: 3}
+  playerHurtSFX: {fileID: 8300000, guid: abe42819f8a57eb4294776028e7fab8c, type: 3}
+  playerDeathSFX: {fileID: 8300000, guid: 044ad4cfe3845b34ca2d3c8b5216eaa7, type: 3}
+  staminaDepletedSFX: {fileID: 8300000, guid: 99ee1b4f082279d40bf0b1bb8fe19730, type: 3}
+  bulletCapturedSFX: {fileID: 8300000, guid: 7f635e5eb27e7a749b5607abac9f8da1, type: 3}
 --- !u!1001 &3754272453705137563
 PrefabInstance:
   m_ObjectHideFlags: 0

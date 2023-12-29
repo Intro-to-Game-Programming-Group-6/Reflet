@@ -408,7 +408,7 @@ GameObject:
   - component: {fileID: 5603284820093896378}
   - component: {fileID: 5603284820093896381}
   - component: {fileID: 5603284820093896380}
-  - component: {fileID: 8484844311265254944}
+  - component: {fileID: 841763910}
   m_Layer: 0
   m_Name: SkullFlame_ExplosiveBullet
   m_TagString: Enemy
@@ -494,7 +494,7 @@ Animator:
   m_GameObject: {fileID: 2839310737214167404}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 967a00a92657a2a4c9ef509eb8436e8a, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9bc47b7677c91194eb6949b7c181faf7, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -562,7 +562,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.03
   m_Speed: 1.5
-  m_Acceleration: 0.3
+  m_Acceleration: 0.5
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
@@ -573,7 +573,7 @@ NavMeshAgent:
   m_BaseOffset: 0.05
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8484844311265254944
+--- !u!114 &841763910
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -582,7 +582,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2839310737214167404}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e36f26769633331459b09027d213c764, type: 3}
+  m_Script: {fileID: 11500000, guid: 5bcb5918438313e4e809a629e6e558ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 5603284820093896380}
@@ -595,18 +595,20 @@ MonoBehaviour:
   isPlayer:
     serializedVersion: 2
     m_Bits: 8
-  attackRange: 4
-  attackDelay: 5
+  attackRange: 8
+  attackDelay: 4
   detectRange: 7
   playerInAttackRange: 0
   playerInDetectRange: 0
   isAttacking: 0
-  full: {fileID: 21300000, guid: fed24bd82cefc0c4a8ef64dab6231b53, type: 3}
-  empty: {fileID: 21300002, guid: fed24bd82cefc0c4a8ef64dab6231b53, type: 3}
+  full: {fileID: 0}
+  empty: {fileID: 0}
   hearts: []
-  maxHealth: 2
+  maxHealth: 4
   currentHealth: 0
   myHealthBar: {fileID: 0}
   hurtEffect: {fileID: 0}
-  dieEffect: {fileID: 100064942374482488, guid: acaddcaf1f5c5d746933e2f030a75531, type: 3}
-  shootEffect: {fileID: 2515445351180927889, guid: 97cac7cef0c93364685d7aa055e6e944, type: 3}
+  dieEffect: {fileID: 0}
+  shootEffect: {fileID: 0}
+  escapeRange: 6
+  playerTooClose: 0

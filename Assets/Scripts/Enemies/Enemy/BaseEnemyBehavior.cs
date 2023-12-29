@@ -106,7 +106,7 @@ public class BaseEnemyBehavior : MonoBehaviour
 
     protected virtual void Idle()
     {
-        //animController.SetBool(AnimatorWalk, false);
+        animController.SetBool(AnimatorWalk, false);
         agent.isStopped = true;
         agent.SetDestination(transform.position);
     }

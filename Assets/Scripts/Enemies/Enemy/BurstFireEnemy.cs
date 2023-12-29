@@ -56,9 +56,10 @@ public class BurstFireEnemy : BaseEnemyBehavior {
         //Debug.Log("Shoot!");
         for (int i = 0; i < bulletRound; i++)
         {
+            animController.SetTrigger(AnimatorAttack);
             //Instantiate(shootEffect, transform.position, Quaternion.identity);
             GameObject bullet = Instantiate(bulletPrefab, agent.transform.position, Quaternion.identity);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.2f);
             if (bullet != null)
             {
                 bullet.GetComponent<BaseBulletBehavior>().ShootAt(player);

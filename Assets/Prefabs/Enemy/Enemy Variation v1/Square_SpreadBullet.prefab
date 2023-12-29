@@ -494,7 +494,7 @@ Animator:
   m_GameObject: {fileID: 3710981622623732843}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a410a18b54a39d448864753a633a1625, type: 2}
+  m_Controller: {fileID: 9100000, guid: e3781132dc1574e4892ba5aa5f6af6e5, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -595,16 +595,16 @@ MonoBehaviour:
   isPlayer:
     serializedVersion: 2
     m_Bits: 8
-  attackRange: 5
+  attackRange: 7
   attackDelay: 3
-  detectRange: 8
+  detectRange: 10
   playerInAttackRange: 0
   playerInDetectRange: 0
   isAttacking: 0
   full: {fileID: 21300000, guid: fed24bd82cefc0c4a8ef64dab6231b53, type: 3}
   empty: {fileID: 21300002, guid: fed24bd82cefc0c4a8ef64dab6231b53, type: 3}
   hearts: []
-  maxHealth: 10
+  maxHealth: 25
   currentHealth: 0
   myHealthBar: {fileID: 0}
   hurtEffect: {fileID: 0}

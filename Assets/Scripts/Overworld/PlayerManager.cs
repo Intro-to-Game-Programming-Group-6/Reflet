@@ -11,7 +11,7 @@ public class PlayerManager : MonoBehaviour
     [Header("Health")]
     [SerializeField] private float m_maxHealthPoint;
     [SerializeField] private float m_healthPoint;
-    public float maxHealth { get { return m_maxHealthPoint; } }
+    public float maxHealth { get { return m_maxHealthPoint; } set { m_maxHealthPoint = value; } }
     public float currentHealth { get { return m_healthPoint; } }
 
     [Header("Stamina")]
@@ -87,7 +87,7 @@ public class PlayerManager : MonoBehaviour
         m_currentStamina = m_maxStaminaPoint;
 
         bulletCaptureProgress = 0;
-        bulletCaptureLimit = 3;
+        bulletCaptureLimit = 6;
         damage_animation = GameObject.Find("Player").GetComponent<Animator>();
         //m_staminaController.SetMax(m_maxStamina);
         //m_staminaController.SetValue(m_currentStamina);
@@ -144,6 +144,7 @@ public class PlayerManager : MonoBehaviour
         m_healthPoint += deltaHealth;
         if(m_healthPoint <= 0)
         {
+            StartCoroutine(Die());
             damage_animation.SetBool("isDead", true);
             if (death_sound_played == false)
             {
@@ -163,6 +164,12 @@ public class PlayerManager : MonoBehaviour
         }
         
         HealthController.GetInstance().SetValue(m_healthPoint);
+    }
+
+    IEnumerator Die()
+    {
+        yield return new WaitForSeconds(1f);
+        LevelManager.GetInstance().DeathScene();
     }
 
     public void AddVialPoint(int deltaPoint)
@@ -190,7 +197,7 @@ public class PlayerManager : MonoBehaviour
             return false;
         }
         m_canHeal = false;
-        AdjustHealth(10);
+        AdjustHealth(HealValue);
         m_vialPoint -= m_useVialPoint;
         VialController.GetInstance().SetValue(m_vialPoint);
         return true;

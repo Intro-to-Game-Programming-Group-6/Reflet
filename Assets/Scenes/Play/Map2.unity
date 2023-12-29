@@ -2101,7 +2101,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3330282293773030815, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
       propertyPath: m_textTitle
-      value: seek n' find!
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3330282293773030815, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
       propertyPath: m_transitionType

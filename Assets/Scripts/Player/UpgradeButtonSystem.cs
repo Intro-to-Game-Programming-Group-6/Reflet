@@ -54,6 +54,7 @@ public class UpgradeButtonSystem : MonoBehaviour
 
     void Start()
     {
+        Random.InitState((Mathf.RoundToInt(Time.realtimeSinceStartup)));
         playerManagerInfo = PlayerManager.GetInstance();
         playerControlInfo = PlayerControlScript.GetInstance();
         switch (upgradeMode)
@@ -128,22 +129,25 @@ public class UpgradeButtonSystem : MonoBehaviour
     {
         DashCharge,
         DashSpeed,
-        DashCooldown
+        DashCooldown,
+        BaseMovementSpeed
     }
 
     struct DashUpgradeValues
     {
         public float increaseSpeed;
         public float reduceCooldown;
+        public float increaseWalkSpeed;
         public string UpgradeDescription;
         public DashUpgradeType UpgradeID;
 
-        public DashUpgradeValues(DashUpgradeType id, float speed, float cooldown, string desc)
+        public DashUpgradeValues(DashUpgradeType id, float speed, float cooldown, float walkspeed, string desc)
         {
             UpgradeID = id;
             increaseSpeed = speed;
             reduceCooldown = cooldown;
             UpgradeDescription = desc;
+            increaseWalkSpeed = walkspeed;
         }
     }
 
@@ -153,6 +157,7 @@ public class UpgradeButtonSystem : MonoBehaviour
         string UpgradeDescription = "";
         float IncreaseSpeed = 0;
         float ReduceCooldown = 0;
+        float MovementSpeedBonus = 0;
         switch (randomUpgrade)
         {
             case DashUpgradeType.DashCharge:
@@ -168,11 +173,15 @@ public class UpgradeButtonSystem : MonoBehaviour
                 ReduceCooldown = Random.Range(10f, 30f);
                 UpgradeDescription = $"Reduce Dash Cooldown by {ReduceCooldown:F2}%";
                 break;
+            case DashUpgradeType.BaseMovementSpeed:
+                MovementSpeedBonus = Random.Range(10f, 30f);
+                UpgradeDescription = $"Increase Movement Speed by {MovementSpeedBonus:F2}%";
+                break;
             default:
                 break;
 
         }
-        DashUpgradeValues retval = new DashUpgradeValues(randomUpgrade, IncreaseSpeed, ReduceCooldown, UpgradeDescription);
+        DashUpgradeValues retval = new DashUpgradeValues(randomUpgrade, IncreaseSpeed, ReduceCooldown, MovementSpeedBonus, UpgradeDescription);
         return retval;
     }
 
@@ -192,6 +201,10 @@ public class UpgradeButtonSystem : MonoBehaviour
             case DashUpgradeType.DashCooldown:
                 playerControlInfo.dashCooldown *= (1 - upgrade.reduceCooldown / 100);
                 break;
+
+            case DashUpgradeType.BaseMovementSpeed:
+                playerControlInfo.movementspeed *= (1 + upgrade.increaseWalkSpeed / 100);
+                break;
             default:
                 break;
 
@@ -205,7 +218,8 @@ public class UpgradeButtonSystem : MonoBehaviour
         HealID,
         VialCapacity,
         VialResourceDrain,
-        BaseHealing
+        BaseHealing,
+        BaseHP
     }
 
     struct HealUpgradeValues
@@ -214,10 +228,11 @@ public class UpgradeButtonSystem : MonoBehaviour
         public float VialCapacity;
         public float VialDrain;
         public float BaseHealing;
+        public float RawHPBonus;
         public string UpgradeDescription;
         public int ChooseHealingID;
 
-        public HealUpgradeValues(HealUpgradeType upgrade, float capac, float drain, float baseheal, string desc, int healmode)
+        public HealUpgradeValues(HealUpgradeType upgrade, float capac, float drain, float baseheal, float rawHP, string desc, int healmode)
         {
             upgradeID = upgrade;
             VialCapacity = capac;
@@ -225,6 +240,7 @@ public class UpgradeButtonSystem : MonoBehaviour
             BaseHealing = baseheal;
             UpgradeDescription = desc;
             ChooseHealingID = healmode;
+            RawHPBonus = rawHP;
         }
     }
 
@@ -237,6 +253,7 @@ public class UpgradeButtonSystem : MonoBehaviour
         float capac = 0f;
         float drain = 0f;
         float baseheal = 0f;
+        float bonusHP = 0f;
         int ChooseHealingID = 2;
 
         // Generate upgrade values based on the upgrade type
@@ -275,11 +292,16 @@ public class UpgradeButtonSystem : MonoBehaviour
                 UpgradeDescription = $"Increase Base Healing by {baseheal:F2}%";
                 break;
 
+            case HealUpgradeType.BaseHP:
+                bonusHP = Random.Range(10f, 30f);
+                UpgradeDescription = $"Increase HP by {bonusHP:F2}%";
+                break;
+
             default:
                 break;
         }
 
-        HealUpgradeValues retval = new HealUpgradeValues(randomUpgrade, capac, drain, baseheal, UpgradeDescription, ChooseHealingID);
+        HealUpgradeValues retval = new HealUpgradeValues(randomUpgrade, capac, drain, baseheal, bonusHP, UpgradeDescription, ChooseHealingID);
         return retval;
     }
 
@@ -292,7 +314,8 @@ public class UpgradeButtonSystem : MonoBehaviour
                 ApplySpecificHeal(upgradeValues.ChooseHealingID);
                 break;
             case HealUpgradeType.VialCapacity:
-                playerManagerInfo.maxVial *= (1 + upgradeValues.VialCapacity / 100);
+                float newCapacity = Mathf.Round(playerManagerInfo.maxVial * (1 + upgradeValues.VialCapacity / 100));
+                playerManagerInfo.maxVial = newCapacity;
                 break;
 
             case HealUpgradeType.VialResourceDrain:
@@ -302,6 +325,11 @@ public class UpgradeButtonSystem : MonoBehaviour
             case HealUpgradeType.BaseHealing:
                 playerControlInfo.normalHeal *= (1 + upgradeValues.BaseHealing / 100);
                 playerControlInfo.normalHeal = Mathf.Round(playerControlInfo.normalHeal);
+                break;
+
+            case HealUpgradeType.BaseHP:
+                float newHP = Mathf.Round(playerManagerInfo.maxHealth * (1 + upgradeValues.RawHPBonus / 100));
+                playerManagerInfo.maxHealth = newHP;
                 break;
 
             default:
@@ -319,6 +347,7 @@ public class UpgradeButtonSystem : MonoBehaviour
                 float IncreaseRadius = Random.Range(10f, 30f);
                 float IncreaseAoeHeal = Random.Range(10f, 30f);
                 float CutAoeHealTime = Random.Range(10f, 30f);
+                UpgradeDescription = $"Increase Overall AOE Total heal by {IncreaseAoeHeal:F2}%";
                 playerControlInfo.aoeHealRadius *= (1f + IncreaseRadius / 100);
                 playerControlInfo.aoeHealTime *= (1f - CutAoeHealTime / 100);
                 playerControlInfo.aoeHealTotal *= (1f + IncreaseAoeHeal / 100);
@@ -326,7 +355,7 @@ public class UpgradeButtonSystem : MonoBehaviour
             else if (ChooseHealingID == 3)//HealActionManager Disintegration
             {
                 float IncreaseDisintegrationDuration = Random.Range(10f, 30f);
-                UpgradeDescription = $"Increase Disintegration Shield Duration by {IncreaseDisintegrationDuration}%";
+                UpgradeDescription = $"Increase Disintegration Shield Duration by {IncreaseDisintegrationDuration:F2}%";
                 playerControlInfo.DisintegrationDuration *= (1f + IncreaseDisintegrationDuration / 100);
             }
             else if (ChooseHealingID == 4)//HealActionManager ReflectShield
@@ -364,7 +393,8 @@ public class UpgradeButtonSystem : MonoBehaviour
         Duplication,
         StaminaRegen,
         StaminaCapacity,
-        StaminaDecay
+        StaminaDecay,
+        BulletSteal
     }
 
     struct ReflectUpgradeValues
@@ -388,6 +418,15 @@ public class UpgradeButtonSystem : MonoBehaviour
     {
         string UpgradeDescription = "";
         ReflectUpgradeType randomUpgrade = (ReflectUpgradeType)Random.Range(0, System.Enum.GetValues(typeof(ReflectUpgradeType)).Length);
+
+        if (randomUpgrade.Equals(ReflectUpgradeType.BulletSteal))
+        {
+            if(playerManagerInfo.bulletCaptureLimit <= 1)
+            {
+                randomUpgrade = (ReflectUpgradeType)Random.Range(0, System.Enum.GetValues(typeof(ReflectUpgradeType)).Length-1);
+            }
+        }
+
         float IncreaseRegenRate = 0;
         float ReduceDecayRate = 0;
         float finalStamina = playerManagerInfo.maxStamina;
@@ -426,6 +465,9 @@ public class UpgradeButtonSystem : MonoBehaviour
                     UpgradeDescription = $"Increase Rotating Shields by 1";
                 }
                 break;
+            case ReflectUpgradeType.BulletSteal:
+                UpgradeDescription = $"Reduce Bullet Steal Activation from {playerManagerInfo.bulletCaptureLimit} by 1";
+                break;
             default:
                 Debug.LogError("Not an available "+ GetUpgradeTitle() + " upgrade choice.");
                 break;
@@ -445,7 +487,6 @@ public class UpgradeButtonSystem : MonoBehaviour
             case ReflectUpgradeType.StaminaRegen:
                 playerControlInfo.stamina_regen *= (1 + upgradeValues.StaminaRegen / 100);
                 break;
-
             case ReflectUpgradeType.StaminaDecay:
                 playerControlInfo.stamina_decay *= (1 - upgradeValues.StaminaDecay / 100);
                 break;
@@ -473,6 +514,11 @@ public class UpgradeButtonSystem : MonoBehaviour
                     playerControlInfo.numShields += 1;
                     playerControlInfo.CreateOrbitingShields();
                 }
+                break;
+
+            case ReflectUpgradeType.BulletSteal:
+                if(playerManagerInfo.bulletCaptureLimit > 1)
+                    playerManagerInfo.bulletCaptureLimit -= 1;
                 break;
 
             default:

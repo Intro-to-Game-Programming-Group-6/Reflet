@@ -61,7 +61,7 @@ public class PlayerControlScript : MonoBehaviour
     #region Heal/Vial Action Variables
     [Header("Vial Variables")]
     public HealActionManager healManager;
-    public int HealID =2;
+    public int HealID =1;
     public float aoeHealRadius = 3;
     public float aoeHealTime = 100f;
     public float aoeHealTotal = 10f;
@@ -104,6 +104,7 @@ public class PlayerControlScript : MonoBehaviour
 
     public AudioSource shields_up;
     public AudioSource NormalPitchSource;
+    public AudioSource WalkSpecificSource;
 
     private void OnEnable()
     {
@@ -143,6 +144,8 @@ public class PlayerControlScript : MonoBehaviour
 
         rb.gravityScale = 0f;
         isReflecting = false;
+        HealID = 1;
+        dashID = 1;
         // shield_time = max_shield_time;
         // shield_cooldown = 0f;
         mirrorRotate = false;
@@ -151,7 +154,7 @@ public class PlayerControlScript : MonoBehaviour
         reflect_shield_freeze = false;
         reflect_force_stop = false;
 
-        dashMaxCharge = 3;
+        dashMaxCharge = 1;
         dashCounter = 1;
         dashRefresh = 0;
         dashCastTime = 1.5f;
@@ -345,16 +348,16 @@ public class PlayerControlScript : MonoBehaviour
     {
         if (context.performed)
         {
-            if (!NormalPitchSource.isPlaying)
+            if (!WalkSpecificSource.isPlaying)
             {
-                NormalPitchSource.Play();
+                WalkSpecificSource.Play();
             }
             movementInput = context.ReadValue<Vector2>();
             movementInput.Normalize();
         }
         if (context.canceled)
         {
-            NormalPitchSource.Stop();
+            WalkSpecificSource.Stop();
             movementInput = context.ReadValue<Vector2>();
             movementInput.Normalize();
         }

@@ -24,6 +24,9 @@ public class BossEnemy : BaseEnemyBehavior
     static int AnimatorDead = Animator.StringToHash("Dead");
     static int AnimatorRealDead = Animator.StringToHash("Really Dead");
     private Collider2D col;
+
+    public UnityEvent BossDefeated;
+
     protected override void Awake()
     {
         base.Awake();
@@ -40,7 +43,9 @@ public class BossEnemy : BaseEnemyBehavior
     }
     protected override void Update()
     {
-        shootingPoint = transform.position + new Vector3(myFront.x*2.5f, myFront.y*2.5f, 0);
+        if(currentHealth <= 0) return;
+
+        shootingPoint = transform.position + new Vector3(myFront.x*2, myFront.y*2, 0);
         playerInAttackRange = Physics2D.OverlapCircle(transform.position, attackRange, isPlayer);
         if (sleep)
         {
@@ -234,6 +239,11 @@ public class BossEnemy : BaseEnemyBehavior
             EnemyManager.GetInstance().EnemyShoot.Invoke(gameObject.transform.position, enemyName);
         }
         bossHealthBar.UpdateHealth(maxHealth, currentHealth);
+
+        if(currentHealth <= 0)
+        {
+            LevelManager.GetInstance().WinScene();
+        }
     }
 
     private IEnumerator DeadAnim()

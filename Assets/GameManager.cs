@@ -21,8 +21,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] bool m_isWon;
     public bool IsWon { get { return m_isWon; } set { m_isWon = value; } }
 
-
-    private SoundManager SM;
     private LevelManager LM;
     private EffectManager EM;
 
@@ -37,7 +35,6 @@ public class GameManager : MonoBehaviour
 
         // Get Managers
         LM = GetComponent<LevelManager>();
-        SM = GetComponent<SoundManager>();
         EM = GetComponent<EffectManager>();
 
         // Set for Sound Manager Player Prefs

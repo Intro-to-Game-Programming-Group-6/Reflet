@@ -90,6 +90,12 @@ public class PlayerControlScript : MonoBehaviour
     [SerializeField] public AudioClip blinking_audio_clip;
     [SerializeField] public AudioClip walking_audio_clip;
     [SerializeField] public AudioClip shield_summon_audio_clip;
+    [SerializeField] public AudioClip shield_reflect_audio_clip;
+    [SerializeField] public AudioClip shield_break_audio_clip;
+    [SerializeField] public AudioClip bulletCapturedSFX;
+    [SerializeField] public AudioClip player_hurt_audio_clip;
+    [SerializeField] public AudioClip player_die_audio_clip;
+    [SerializeField] public AudioClip stamina_out_audio_clip;
     // 0 = normal heal
     // 1 = aoe heal
     // 2 = special heal

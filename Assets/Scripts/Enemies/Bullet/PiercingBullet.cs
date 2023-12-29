@@ -40,6 +40,6 @@ public class PiercingBullet : BaseBulletBehavior
     public override void Activate() {
         PlayerForceOwnership();
         enabled = true;
-        GetComponent<PolygonCollider2D>().enabled = true;
+        GetComponent<EdgeCollider2D>().enabled = true;
     }
 }

@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Reflect : MonoBehaviour
 {
+    PlayerControlScript refControl;
+    private void OnEnable()
+    {
+        refControl = PlayerControlScript.GetInstance();
+    }
     private void multiplyBullets(Vector2 originalDirection, GameObject bullet)
     {
         bullet.GetComponent<BaseBulletBehavior>().isMultiplied = true;
@@ -44,11 +49,13 @@ public class Reflect : MonoBehaviour
     {
         if (collision.CompareTag("Bullet") && this.gameObject.CompareTag("RotatingReflect"))
         {
+            refControl.NormalPitchSource.PlayOneShot(refControl.shield_reflect_audio_clip);
             DeactivateShields();
             StartCoroutine(Reactivate(10f));
         }
         else if (collision.CompareTag("Bullet"))
         {
+            refControl.NormalPitchSource.PlayOneShot(refControl.shield_reflect_audio_clip);
             if (PlayerManager.GetInstance().multiply && !collision.GetComponent<BaseBulletBehavior>().isMultiplied)
             {
                 Vector2 collisionVelocity = collision.GetComponent<Rigidbody2D>().velocity;
@@ -57,6 +64,7 @@ public class Reflect : MonoBehaviour
             PlayerManager.GetInstance().bulletCaptureProgress += 1;
             if (PlayerManager.GetInstance().WillSteal())
             {
+                refControl.NormalPitchSource.PlayOneShot(refControl.bulletCapturedSFX);
                 PlayerManager.GetInstance().bulletCaptureProgress = 0;
                 PlayerManager.GetInstance().StealProjectile(collision.gameObject);
             }
@@ -65,6 +73,7 @@ public class Reflect : MonoBehaviour
 
     void DeactivateShields()
     {
+        refControl.NormalPitchSource.PlayOneShot(refControl.shield_break_audio_clip);
         this.GetComponent<SpriteRenderer>().enabled = false;
         this.GetComponent<BoxCollider2D>().enabled = false;
         this.GetComponent<Rigidbody2D>().simulated = false;

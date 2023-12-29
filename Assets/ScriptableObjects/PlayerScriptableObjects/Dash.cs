@@ -8,27 +8,25 @@ public class Dash : BaseAbillity
 {
     Vector2 dashDirection;
 
-    public IEnumerator GoDash(PlayerControlScript control)
+    public IEnumerator GoDash(PlayerControlScript control, DashManager manager)
     {
-        if(control.GetRigidBody().velocity.magnitude < 0.1f || control.dashCounter<=0) yield break;
+        if (control.GetRigidBody().velocity.magnitude < 0.1f || manager.dashAvailability <= 0) yield break;
 
-        control.canDash = false;
-        control.currentlyDashing = true;
+        manager.canDash = false;
+        manager.isDashing = true;
 
+        // Dash
         dashDirection = control.GetComponent<Rigidbody2D>().velocity.normalized;
-        control.GetRigidBody().velocity = dashDirection * control.dashSpeed;
+        control.GetRigidBody().velocity = dashDirection * manager.dashSpeed;
         
-        yield return new WaitForSeconds(control.dashDuration);
-        control.currentlyDashing = false;
+        yield return new WaitForSeconds(manager.dashDuration);
+        manager.isDashing = false;
 
-        //add dash charges
-        if (control.dashCounter > 0)
+        if (manager.dashAvailability > 0)
         {
-            control.dashCounter--;
-            control.canDash = true;
+            manager.dashAvailability--;
+            manager.canDash = true;
             yield break;
         }
-        //yield return new WaitForSeconds(control.dashCooldown);
-        //control.canDash = true;
     }
 }

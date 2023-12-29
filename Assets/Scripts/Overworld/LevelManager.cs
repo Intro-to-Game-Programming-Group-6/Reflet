@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using UnityEngine.Events;
 
-
 public class LevelManager : MonoBehaviour
 {
     private static LevelManager Instance;
@@ -23,7 +22,7 @@ public class LevelManager : MonoBehaviour
     EnemyManager enemyManager;
     List<GameObject> selectedEnemies = new List<GameObject>();
     
-    public int maxQueueLen = 3;
+    public int maxQueueLen = 4;
     public int finalBossThresh = 5;
     public int stageCounter = 0;
 

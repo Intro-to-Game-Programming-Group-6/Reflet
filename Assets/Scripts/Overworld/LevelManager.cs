@@ -79,7 +79,7 @@ public class LevelManager : MonoBehaviour
             {
                 SelectRandomEnemies();
                 enemyLimit = 5;
-                enemyTotal = 10;
+                enemyTotal = 2;
             }
 
             enemyManager.SetEnemySelections(selectedEnemies, enemyLimit, enemyTotal);

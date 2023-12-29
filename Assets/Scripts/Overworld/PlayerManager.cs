@@ -42,6 +42,7 @@ public class PlayerManager : MonoBehaviour
 
     public GameObject stolen_bullet_holder;
     public Animator damage_animation;
+    private PlayerControlScript playerController;
     
     public static PlayerManager GetInstance()
     {
@@ -53,6 +54,7 @@ public class PlayerManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            playerController = PlayerControlScript.GetInstance();
         }
         else if (instance != this)
         {
@@ -134,7 +136,8 @@ public class PlayerManager : MonoBehaviour
     public void AdjustHealth(float deltaHealth) {
         if(deltaHealth < 0)
         {
-            playerHurtEvent.Invoke();
+            //playerHurtEvent.Invoke();
+            playerController.NormalPitchSource.PlayOneShot(playerController.player_hurt_audio_clip);
             if (!damage_animation.GetBool("isDead"))
                 damage_animation.Play("hurt", -1, 0f);
         }
@@ -144,7 +147,8 @@ public class PlayerManager : MonoBehaviour
             damage_animation.SetBool("isDead", true);
             if (death_sound_played == false)
             {
-                playerDieEvent.Invoke();
+                //playerDieEvent.Invoke();
+                playerController.NormalPitchSource.PlayOneShot(playerController.player_die_audio_clip);
                 death_sound_played = true;
             }
         }
@@ -205,6 +209,7 @@ public class PlayerManager : MonoBehaviour
         m_currentStamina += deltaPoint;
         if (deltaPoint <= 0 && m_currentStamina <= 0)
         {
+            playerController.NormalPitchSource.PlayOneShot(playerController.stamina_out_audio_clip);
         }
 
         if (m_currentStamina >= m_maxStaminaPoint)

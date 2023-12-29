@@ -270,10 +270,25 @@ MonoBehaviour:
   playerSprite: {fileID: 0}
   animator: {fileID: 0}
   canMove: 0
-  movementSpeed: 3
+  movementspeed: 2
   movementInput: {x: 0, y: 0}
   dashDirection: {x: 0, y: 0}
   dashManager: {fileID: 6247839640659730905}
+  dashSpeed: 10
+  dashID: 1
+  dashDuration: 0.5
+  dashCastTime: 1.5
+  dashCooldown: 1.5
+  dashCounter: 0
+  dashMaxCharge: 0
+  dashRefresh: 0
+  canDash: 1
+  currentlyDashing: 0
+  BlinkParticle: {fileID: 0}
+  blinkRange: 5
+  playerDashEvent:
+    m_PersistentCalls:
+      m_Calls: []
   spawnPoint: {fileID: 2938103797664573493}
   reflector: {fileID: 3048977075214065715, guid: 202e2a44220ba86418e432347c2034cd, type: 3}
   mirrorRotate: 0
@@ -302,6 +317,8 @@ MonoBehaviour:
   normal_healing_audio_clip: {fileID: 8300000, guid: d9d6e54393433dc418f8165812055f1a, type: 3}
   aoe_healing_audio_clip: {fileID: 8300000, guid: fca34d3d7fcc7984b8a4650999f96952, type: 3}
   special_healing_audio_clip: {fileID: 8300000, guid: 021b9ccc47070594b869c77a57cfe703, type: 3}
+  dashing_audio_clip: {fileID: 8300000, guid: b988fb58a7061f245b06b189cf35161e, type: 3}
+  blinking_audio_clip: {fileID: 8300000, guid: 0a6cdd7522b685b46b35c01d19e7473f, type: 3}
   walking_audio_clip: {fileID: 8300000, guid: 90865fd73c732aa4a82ce049c8767769, type: 3}
   shield_summon_audio_clip: {fileID: 8300000, guid: eadd78e026895a5448292bd7a4423751, type: 3}
   shield_reflect_audio_clip: {fileID: 8300000, guid: e33825c9ac818a54a9045a8d1a43a0c4, type: 3}
@@ -393,25 +410,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NormalDash: {fileID: 11400000, guid: 1906fa32c59aa5346afa62713bb6e2dd, type: 2}
   BlinkDash: {fileID: 11400000, guid: e28d939370ea3054cadac72a04f64a67, type: 2}
-  skillIndicator: {fileID: 0}
-  dashSpeed: 5
-  dashID: 1
-  dashDuration: 0.5
-  dashCastTime: 1.5
-  dashCooldown: 10
-  dashAvailability: 0
-  dashMaxCharge: 0
-  dashRefresh: 0
-  canDash: 1
-  m_isDashing: 0
-  blinkParticle: {fileID: 2876837295785591679}
-  blinkRange: 5
-  onActivated:
-    m_PersistentCalls:
-      m_Calls: []
-  normalPitchSource: {fileID: 5712101896700206479}
-  dashingAudioClip: {fileID: 8300000, guid: b988fb58a7061f245b06b189cf35161e, type: 3}
-  blinkingAudioClip: {fileID: 8300000, guid: 0a6cdd7522b685b46b35c01d19e7473f, type: 3}
 --- !u!114 &6663060587384046383
 MonoBehaviour:
   m_ObjectHideFlags: 0

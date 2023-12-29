@@ -18,17 +18,27 @@ public class PlayerControlScript : MonoBehaviour
     #region Movement Variables
     [Header("Movement Variables")]
     [SerializeField] public bool canMove;
-    [SerializeField] public float movementSpeed = 3f;
+    [SerializeField] public float movementspeed = 3f;
     [HideInInspector][SerializeField] private Vector2 movementInput;
     [HideInInspector][SerializeField] private Vector2 dashDirection;
     #endregion
     
     #region Dash Variables
     [Header("Dash Variables")]
-    [HideInInspector] public DashManager dashManager;
-    public bool isDashing => dashManager.isDashing;
-    public bool canDash => dashManager.canDash;
-    public UnityEvent playerDashEvent => dashManager.onActivated;
+    [SerializeField] DashManager dashManager;
+    [SerializeField] public float dashSpeed = 5f;
+    [SerializeField] public int dashID = 1;
+    [SerializeField] public float dashDuration = 0.5f;
+    [SerializeField] public float dashCastTime = 1.5f;
+    [SerializeField] public float dashCooldown = 10f;
+    [SerializeField] public int dashCounter;
+    [SerializeField] public int dashMaxCharge;
+    [SerializeField] public float dashRefresh;
+    [HideInInspector][SerializeField] public bool canDash = true;
+    [HideInInspector][SerializeField] public bool currentlyDashing;
+    [HideInInspector][SerializeField] public ParticleSystem BlinkParticle;
+    [SerializeField] public float blinkRange = 5f;
+    public UnityEvent playerDashEvent;
     #endregion
 
     #region Reflect Variables
@@ -76,7 +86,8 @@ public class PlayerControlScript : MonoBehaviour
     [SerializeField] public AudioClip normal_healing_audio_clip;
     [SerializeField] public AudioClip aoe_healing_audio_clip;
     [SerializeField] public AudioClip special_healing_audio_clip;
-
+    [SerializeField] public AudioClip dashing_audio_clip;
+    [SerializeField] public AudioClip blinking_audio_clip;
     [SerializeField] public AudioClip walking_audio_clip;
     [SerializeField] public AudioClip shield_summon_audio_clip;
     [SerializeField] public AudioClip shield_reflect_audio_clip;
@@ -127,7 +138,8 @@ public class PlayerControlScript : MonoBehaviour
         playerSprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         dashManager = GetComponent<DashManager>();
-
+        BlinkParticle = GetComponent<ParticleSystem>();
+        BlinkParticle.Stop();
 
         rb.gravityScale = 0f;
         isReflecting = false;
@@ -135,9 +147,14 @@ public class PlayerControlScript : MonoBehaviour
         // shield_cooldown = 0f;
         mirrorRotate = false;
         numShields = 0;
-
+        canDash = true;
         reflect_shield_freeze = false;
         reflect_force_stop = false;
+
+        dashMaxCharge = 3;
+        dashCounter = 1;
+        dashRefresh = 0;
+        dashCastTime = 1.5f;
 
         aoeHealRadius = 3;
         aoeHealTime = 10f;
@@ -161,15 +178,32 @@ public class PlayerControlScript : MonoBehaviour
 
     void ManageMovement()
     {
-        if (isDashing) return;
+        if (currentlyDashing)
+        {
+            return;
+        }
         shields_up.pitch = 1.4f;
         // if (isSprinting)
+        // {
         //     rb.velocity = (movementInput) * sprintspeed;
+        // }
         // else
+        // {
         //     rb.velocity = (movementInput) * movementspeed;
-     
+        // }
+        dashRefresh += Time.deltaTime;
 
-        rb.velocity = (movementInput) * movementSpeed;
+        if(dashRefresh >= dashCooldown)
+        {
+            dashRefresh = 0f;
+            if (dashCounter < dashMaxCharge)
+            {
+                dashCounter++;
+                Debug.Log("dash Restored : " + dashCounter);
+            }
+        }
+
+        rb.velocity = (movementInput) * movementspeed;
 
     }
 
@@ -193,6 +227,12 @@ public class PlayerControlScript : MonoBehaviour
             playerSprite.flipX = true;
         }
 
+        if (currentlyDashing)
+        {
+            animator.SetBool("isDashing", true);
+            return;
+        }
+        animator.SetBool("isDashing", false);
         //if (DashAbility.Ability_Status == AbilityStatus.ACTIVE) return;
         // if (isSprinting)
         // {

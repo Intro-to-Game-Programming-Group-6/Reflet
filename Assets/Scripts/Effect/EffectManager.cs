@@ -57,23 +57,27 @@ public class EffectManager : MonoBehaviour
     [SerializeField] private AudioClip staminaDepletedSFX;
     [SerializeField] private AudioClip bulletCapturedSFX;
     #endregion
-    EnemyManager enemyManagerCopy = EnemyManager.GetInstance();
-    PlayerManager PlayerManagerCopy = PlayerManager.GetInstance();
+    EnemyManager enemyManagerCopy;// = EnemyManager.GetInstance();
+    PlayerManager PlayerManagerCopy;// = PlayerManager.GetInstance();
 
     private void Start() {
         effectDict = effectSettings.Dict();
         playerAudioSource = PlayerControlScript.GetInstance().NormalPitchSource;
-        if(enemyManagerCopy != null)
+         enemyManagerCopy = EnemyManager.GetInstance();
+         PlayerManagerCopy = PlayerManager.GetInstance();
+        if (enemyManagerCopy != null)
         {
             enemyManagerCopy.EnemyHurt.AddListener(SpawnHurtEffect);
             enemyManagerCopy.EnemyDie.AddListener(SpawnDeathEffect);
             enemyManagerCopy.EnemyShoot.AddListener(SpawnShootingEffect);
         }
-        if(PlayerManagerCopy != null)
+
+        if (PlayerManagerCopy != null)
         {
             PlayerManager.GetInstance().playerHurtEvent.AddListener(PlayPlayerHurt);
             PlayerManager.GetInstance().playerDieEvent.AddListener(PlayerDeadSound);
         }
+
     }
 
     private void OnDisable() {

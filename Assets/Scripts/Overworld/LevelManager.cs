@@ -28,6 +28,8 @@ public class LevelManager : MonoBehaviour
 
     void Awake()
     {
+        UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+
         if (Instance == null)
         {
             Instance = this;

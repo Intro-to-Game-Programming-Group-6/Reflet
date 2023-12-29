@@ -149,6 +149,16 @@ public class LevelManager : MonoBehaviour
     {
         SceneManager.UnloadSceneAsync("OptionMenu");
     }
+
+    public void LoadControlScene()
+    {
+        SceneManager.LoadScene("Controls", LoadSceneMode.Additive);
+    } 
+
+    public void ExitControlScene()
+    {
+        SceneManager.UnloadSceneAsync("Controls");
+    }
     #endregion
 
     #region Paused Menu
@@ -200,16 +210,12 @@ public class LevelManager : MonoBehaviour
         
     }
 
-    public void LoadTutorialLevelScene()
-    {
-        string s = "Scenes/Play/Tutorial";
-        TransitionLoadScene(s);
-    } 
     public void ExitLevelMenuScene()
     {
         string s = "Scenes/Menu/MainMenu";
         TransitionLoadScene(s);
     }
+
     public void DeathScene()
     {
         string s = "Scenes/Menu/GameOver";

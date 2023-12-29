@@ -135,6 +135,18 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 557864003176873761, guid: 6d98dd0157ad7894a83e19f89c97a83b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 557864003176873761, guid: 6d98dd0157ad7894a83e19f89c97a83b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 557864003176873761, guid: 6d98dd0157ad7894a83e19f89c97a83b, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 557864003176873761, guid: 6d98dd0157ad7894a83e19f89c97a83b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.5
       objectReference: {fileID: 0}
@@ -174,9 +186,61 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 557864003176873761, guid: 6d98dd0157ad7894a83e19f89c97a83b, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1069874942558452089, guid: 6d98dd0157ad7894a83e19f89c97a83b, type: 3}
       propertyPath: m_Name
       value: Boss_AngelOfDeath
+      objectReference: {fileID: 0}
+    - target: {fileID: 7941572209115919512, guid: 6d98dd0157ad7894a83e19f89c97a83b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7941572209115919512, guid: 6d98dd0157ad7894a83e19f89c97a83b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7941572209115919512, guid: 6d98dd0157ad7894a83e19f89c97a83b, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7941572209115919512, guid: 6d98dd0157ad7894a83e19f89c97a83b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7941572209115919512, guid: 6d98dd0157ad7894a83e19f89c97a83b, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7941572209382954306, guid: 6d98dd0157ad7894a83e19f89c97a83b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 59
+      objectReference: {fileID: 0}
+    - target: {fileID: 7941572209382954307, guid: 6d98dd0157ad7894a83e19f89c97a83b, type: 3}
+      propertyPath: m_text
+      value: Robert
+      objectReference: {fileID: 0}
+    - target: {fileID: 7941572209382954307, guid: 6d98dd0157ad7894a83e19f89c97a83b, type: 3}
+      propertyPath: m_fontSize
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7941572209382954307, guid: 6d98dd0157ad7894a83e19f89c97a83b, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 3e0447650b76f5c4299b4bfc0666f57f, type: 2}
+    - target: {fileID: 7941572209382954307, guid: 6d98dd0157ad7894a83e19f89c97a83b, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7941572209382954307, guid: 6d98dd0157ad7894a83e19f89c97a83b, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 6408824048591491338, guid: 3e0447650b76f5c4299b4bfc0666f57f, type: 2}
+    - target: {fileID: 7941572209382954307, guid: 6d98dd0157ad7894a83e19f89c97a83b, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 1024
       objectReference: {fileID: 0}
     - target: {fileID: 7941572210802405003, guid: 6d98dd0157ad7894a83e19f89c97a83b, type: 3}
       propertyPath: m_AnchorMax.x

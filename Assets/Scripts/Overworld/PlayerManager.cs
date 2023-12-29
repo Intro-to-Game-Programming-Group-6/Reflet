@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -87,7 +88,7 @@ public class PlayerManager : MonoBehaviour
         m_currentStamina = m_maxStaminaPoint;
 
         bulletCaptureProgress = 0;
-        bulletCaptureLimit = 6;
+        bulletCaptureLimit = 9;
         damage_animation = GameObject.Find("Player").GetComponent<Animator>();
         //m_staminaController.SetMax(m_maxStamina);
         //m_staminaController.SetValue(m_currentStamina);
@@ -140,6 +141,7 @@ public class PlayerManager : MonoBehaviour
             playerController.NormalPitchSource.PlayOneShot(playerController.player_hurt_audio_clip);
             if (!damage_animation.GetBool("isDead"))
                 damage_animation.Play("hurt", -1, 0f);
+
         }
         m_healthPoint += deltaHealth;
         if(m_healthPoint <= 0)
@@ -149,6 +151,7 @@ public class PlayerManager : MonoBehaviour
             if (death_sound_played == false)
             {
                 //playerDieEvent.Invoke();
+
                 playerController.NormalPitchSource.PlayOneShot(playerController.player_die_audio_clip);
                 death_sound_played = true;
             }
@@ -239,6 +242,6 @@ public class PlayerManager : MonoBehaviour
         BaseBulletBehavior bulletbehav = stolen_bullet_holder.GetComponent<BaseBulletBehavior>();
         bulletbehav.PlayerForceOwnership();
 
-        Destroy(bullet);
+        //Destroy(bullet);
     }
 }

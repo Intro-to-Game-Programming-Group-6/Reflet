@@ -83,7 +83,7 @@ public class BaseEnemyBehavior : MonoBehaviour
         if (sleep)
         {
             StartCoroutine(Dizzy());
-            animController.SetBool(AnimatorWalk, false);
+            //animController.SetBool(AnimatorWalk, false);
         }
         else
         {
@@ -114,7 +114,7 @@ public class BaseEnemyBehavior : MonoBehaviour
     //just walk until reach attack range
     protected virtual void Chasing()
     {
-        animController.SetBool(AnimatorWalk, true);
+        //animController.SetBool(AnimatorWalk, true);
         agent.isStopped = false;
         agent.SetDestination(player.position);
 
@@ -156,7 +156,7 @@ public class BaseEnemyBehavior : MonoBehaviour
         
         if (!isAttacking)
         {
-            animController.SetTrigger(AnimatorAttack);
+            //animController.SetTrigger(AnimatorAttack);
             agent.SetDestination(transform.position);
             StartCoroutine(ShootRoutine());
             isAttacking = true;
@@ -214,7 +214,7 @@ public class BaseEnemyBehavior : MonoBehaviour
 
     private void OnDestroy()
     {
-        EnemyManager.GetInstance().HandleEnemyDeath(transform.position, enemyName);
+        // EnemyManager.GetInstance().HandleEnemyDeath(transform.position, enemyName);
     }
 
     private void UpdateHearts()

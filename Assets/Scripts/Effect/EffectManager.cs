@@ -33,7 +33,7 @@ public class EffectManager : MonoBehaviour
 
     private void OnEnable()
     {
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     public static EffectManager GetInstance()
@@ -57,24 +57,37 @@ public class EffectManager : MonoBehaviour
     [SerializeField] private AudioClip staminaDepletedSFX;
     [SerializeField] private AudioClip bulletCapturedSFX;
     #endregion
-
+    EnemyManager enemyManagerCopy = EnemyManager.GetInstance();
+    PlayerManager PlayerManagerCopy = PlayerManager.GetInstance();
 
     private void Start() {
         effectDict = effectSettings.Dict();
         playerAudioSource = PlayerControlScript.GetInstance().NormalPitchSource;
-        EnemyManager.GetInstance().EnemyHurt.AddListener(SpawnHurtEffect);
-        EnemyManager.GetInstance().EnemyDie.AddListener(SpawnDeathEffect);
-        EnemyManager.GetInstance().EnemyShoot.AddListener(SpawnShootingEffect);
-        PlayerManager.GetInstance().playerHurtEvent.AddListener(PlayPlayerHurt);
-        PlayerManager.GetInstance().playerDieEvent.AddListener(PlayerDeadSound);
+        if(enemyManagerCopy != null)
+        {
+            enemyManagerCopy.EnemyHurt.AddListener(SpawnHurtEffect);
+            enemyManagerCopy.EnemyDie.AddListener(SpawnDeathEffect);
+            enemyManagerCopy.EnemyShoot.AddListener(SpawnShootingEffect);
+        }
+        if(PlayerManagerCopy != null)
+        {
+            PlayerManager.GetInstance().playerHurtEvent.AddListener(PlayPlayerHurt);
+            PlayerManager.GetInstance().playerDieEvent.AddListener(PlayerDeadSound);
+        }
     }
 
     private void OnDisable() {
-        EnemyManager.GetInstance().EnemyHurt.RemoveListener(SpawnHurtEffect);
-        EnemyManager.GetInstance().EnemyDie.RemoveListener(SpawnDeathEffect);
-        EnemyManager.GetInstance().EnemyShoot.RemoveListener(SpawnShootingEffect);
-        PlayerManager.GetInstance().playerHurtEvent.RemoveListener(PlayPlayerHurt);
-        PlayerManager.GetInstance().playerDieEvent.RemoveListener(PlayerDeadSound);
+        if (enemyManagerCopy != null)
+        {
+            EnemyManager.GetInstance().EnemyHurt.RemoveListener(SpawnHurtEffect);
+            EnemyManager.GetInstance().EnemyDie.RemoveListener(SpawnDeathEffect);
+            EnemyManager.GetInstance().EnemyShoot.RemoveListener(SpawnShootingEffect);
+        }
+        if (PlayerManagerCopy != null)
+        {
+            PlayerManager.GetInstance().playerHurtEvent.RemoveListener(PlayPlayerHurt);
+            PlayerManager.GetInstance().playerDieEvent.RemoveListener(PlayerDeadSound);
+        }
     }
 
     //Positional Effects

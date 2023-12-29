@@ -52,8 +52,8 @@ public class StaminaController : MonoBehaviour
     public void SetMax(float value)
     {
         m_maxBar = value;
-        float _width = m_minBarSize + m_perBarSize * (m_maxBar/10 - 1);
-        m_rt.sizeDelta = new Vector2(_width, m_rt.sizeDelta.y);
+        // float _width = m_minBarSize + m_perBarSize * (m_maxBar/10 - 1);
+        // m_rt.sizeDelta = new Vector2(_width, m_rt.sizeDelta.y);
         m_slider.maxValue = m_maxBar;
     }
     

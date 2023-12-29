@@ -7,20 +7,20 @@ using TMPro;
 public class SkillIndicator : MonoBehaviour
 {
     // Game Objects Required
-    TextMeshProUGUI m_countdownTMP;
+    [SerializeField] TextMeshProUGUI m_countdownTMP;
 
-    TextMeshProUGUI m_unpressedKeyTMP;
-    TextMeshProUGUI m_pressedKeyTMP;
+    [SerializeField] TextMeshProUGUI m_unpressedKeyTMP;
+    [SerializeField] TextMeshProUGUI m_pressedKeyTMP;
 
     public string Key
     {
         set { m_unpressedKeyTMP.text = value; m_pressedKeyTMP.text = value; }
     }
 
-    Image m_pressedImage;
-    Image m_pressedImageBG;
-    Image m_unpressedImage;
-    Image m_unpressedImageBG;
+    [SerializeField] Image m_pressedImage;
+    [SerializeField] Image m_pressedImageBG;
+    [SerializeField] Image m_unpressedImage;
+    [SerializeField] Image m_unpressedImageBG;
 
     public float ImageFillAmount
     {
@@ -37,18 +37,19 @@ public class SkillIndicator : MonoBehaviour
     /// </example> 
 
     [SerializeField] 
-    float m_maximumCountdown;
+    float m_maximumValue;
     public float MaximumCountdown
     {
-        get { return m_maximumCountdown; }
-        set { m_maximumCountdown = value; UpdateOnValueChanged(); }
+        get { return m_maximumValue; }
+        set { m_maximumValue = value; UpdateOnValueChanged(); }
     }
-    [SerializeField] 
-    float m_valueCountdown;
+    [SerializeField]
+    float m_prevValue;
+    float m_Value;
     public float ValueCountdown
     {
-        get { return m_valueCountdown; }
-        set { m_valueCountdown = value; UpdateOnValueChanged(); }
+        get { return m_Value; }
+        set { m_prevValue = m_Value;  m_Value = value; UpdateOnValueChanged(); }
     }
     [SerializeField]
     bool m_isPressed;
@@ -56,6 +57,14 @@ public class SkillIndicator : MonoBehaviour
     {
         get { return m_isPressed; }
         set { if (value != m_isPressed) { m_isPressed = value; UpdateColor(); } }
+    }
+
+    [SerializeField]
+    private int m_skillAvailability;
+    public int SkillAvailability
+    {
+        get { return m_skillAvailability; }
+        set { m_skillAvailability = value; UpdateOnValueChanged(); }
     }
 
     Color m_imageColor;
@@ -81,18 +90,25 @@ public class SkillIndicator : MonoBehaviour
 
     private void UpdateOnValueChanged()
     {
-        if (m_valueCountdown >= m_maximumCountdown)
+        if (m_prevValue >= m_maximumValue)
         {
-            m_valueCountdown = m_maximumCountdown;
             ImageColor = new Color(1, 1, 1, 1.0f);
             ImageFillAmount = 1;
-            m_countdownTMP.text = "";
+            if (m_skillAvailability >= 1)
+                m_countdownTMP.text = "" + m_skillAvailability;
+            else
+                m_countdownTMP.text = "";
         }
         else
         {
-            ImageColor = new Color(1, 1, 1, 0.5f);
-            ImageFillAmount = (m_maximumCountdown - m_valueCountdown) / m_maximumCountdown;
-            m_countdownTMP.text = $"{m_valueCountdown:0.00}";
+            ImageColor = new Color(1, 1, 1, 0.75f);
+            ImageFillAmount = m_Value / m_maximumValue;
+            if (m_skillAvailability >= 1)
+                m_countdownTMP.text = "" + m_skillAvailability;
+            else
+                m_countdownTMP.text = $"{(m_maximumValue - m_Value):0.00}";
+
+
         }
     }
 
@@ -114,12 +130,20 @@ public class SkillIndicator : MonoBehaviour
                 case "Background_BG":
                     m_pressedImageBG = g.GetComponent<Image>();
                     break;
-                case "Label":
+
+                case "KeyBackground":
+                    m_pressedKeyTMP = g.GetComponent<TextMeshProUGUI>();
+                    break;
+                case "KeyCheckmark":
+                    m_unpressedKeyTMP = g.GetComponent<TextMeshProUGUI>();
+                    break;
+                case "CountdownLabel":
                     m_countdownTMP = g.GetComponent<TextMeshProUGUI>();
                     break;
                 default:
                     break;
             }
         }
+        m_countdownTMP.color = Color.white;
     }
 }

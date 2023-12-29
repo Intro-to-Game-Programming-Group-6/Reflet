@@ -216,6 +216,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   upgrade_mode: reflect
+  player_control_info: {fileID: 0}
+  player_manager_info: {fileID: 0}
 --- !u!61 &195894047
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -309,6 +311,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &382479980 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8657786124043329830, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
+  m_PrefabInstance: {fileID: 1618890951035542031}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &382479982 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6236861028679145279, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
+  m_PrefabInstance: {fileID: 1618890951035542031}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 382479980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b64f05c1c3f13b4684ced7d01ec472d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!60 &527959116 stripped
 PolygonCollider2D:
   m_CorrespondingSourceObject: {fileID: 1935856624807584099, guid: b1f652f8b3cd23a408948319d514d2dc, type: 3}
@@ -343,10 +361,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e81cf5918324d034f9092f0ba3b6162d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bullet_reflected:
+    m_PersistentCalls:
+      m_Calls: []
+  shield_broken:
+    m_PersistentCalls:
+      m_Calls: []
+  bullet_captured:
+    m_PersistentCalls:
+      m_Calls: []
   effectSettings: {fileID: 11400000, guid: 2885d614f05fb454db244933453374fa, type: 2}
   healVFX: {fileID: 5928383561694542103, guid: d250a883993ec544486b744c19e38d19, type: 3}
   bulletBounceSFX: {fileID: 0}
+  shieldBreakSFX: {fileID: 0}
   playerWalkSFX: {fileID: 0}
+  playerDashSFX: {fileID: 0}
+  playerHurtSFX: {fileID: 0}
+  playerDeathSFX: {fileID: 0}
+  staminaDepletedSFX: {fileID: 0}
+  bulletCapturedSFX: {fileID: 0}
 --- !u!4 &762096802
 Transform:
   m_ObjectHideFlags: 0
@@ -399,11 +432,18 @@ MonoBehaviour:
   m_useVialPoint: 8
   m_vialPoint: 0
   m_canHeal: 0
+  playerHurtEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  playerDieEvent:
+    m_PersistentCalls:
+      m_Calls: []
   multiply: 0
   bulletMultiplier: 1
   bulletCaptureProgress: 0
   bulletCaptureLimit: 0
   stolen_bullet_holder: {fileID: 0}
+  damage_animation: {fileID: 0}
 --- !u!4 &831127246
 Transform:
   m_ObjectHideFlags: 0
@@ -584,7 +624,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 982921492}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5, y: -3.5, z: -10}
+  m_LocalPosition: {x: 0.17411757, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -669,6 +709,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   upgrade_mode: heal
+  player_control_info: {fileID: 0}
+  player_manager_info: {fileID: 0}
 --- !u!61 &1724695275
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1100,6 +1142,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8657786124043329830, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
 --- !u!1001 &1935856624489342255
@@ -1249,11 +1295,9 @@ MonoBehaviour:
   levelOffset: 0
   EnemyPrefabs: []
   PlayMaps: []
---- !u!96 &6507202683048810750 stripped
-TrailRenderer:
-  m_CorrespondingSourceObject: {fileID: 3740100131174927121, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
-  m_PrefabInstance: {fileID: 8980132805176353343}
-  m_PrefabAsset: {fileID: 0}
+  maxQueueLen: 2
+  finalBossThresh: 5
+  stageCounter: 0
 --- !u!114 &6507202683048810754 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6507202684667143754, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
@@ -1283,7 +1327,7 @@ PrefabInstance:
     - target: {fileID: 2350048284375422701, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: myTrail
       value: 
-      objectReference: {fileID: 6507202683048810750}
+      objectReference: {fileID: 0}
     - target: {fileID: 2350048284375422701, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -1320,6 +1364,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6247839640659730905, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
+      propertyPath: skillIndicator
+      value: 
+      objectReference: {fileID: 382479982}
+    - target: {fileID: 6247839640659730905, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
+      propertyPath: skillIndicatorObject
+      value: 
+      objectReference: {fileID: 382479980}
     - target: {fileID: 6507202684667143752, guid: a4376ce57dcf43646ae34bc6ccb3f4c0, type: 3}
       propertyPath: m_Enabled
       value: 1

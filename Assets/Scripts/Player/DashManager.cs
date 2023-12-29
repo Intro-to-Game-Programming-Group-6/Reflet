@@ -9,20 +9,45 @@ public class DashManager : MonoBehaviour
     public Dash NormalDash;
     public DashBlink BlinkDash;
 
+    [SerializeField] private GameObject skillIndicatorObject;
+    private SkillIndicator skillIndicator;
+
     [SerializeField] public float dashSpeed = 5f;
-    [SerializeField] public int dashID = 1;
+    [SerializeField] private int dashID = 1;
     [SerializeField] public float dashDuration = 0.5f;
     [SerializeField] public float dashCastTime = 1.5f;
-    [SerializeField] public float dashCooldown = 10f;
-    [SerializeField] public int dashAvailability;
-    [SerializeField] public int dashMaxCharge;
-    [SerializeField] public float dashRefresh;
-    [SerializeField] public bool canDash = true;
+    [SerializeField] private float m_dashCooldown;
+
+    public float dashCooldown
+    {
+        get { return m_dashCooldown; }
+        set { m_dashCooldown = value; skillIndicator.MaximumCountdown = m_dashCooldown; }
+    }
+    [SerializeField] public int m_dashAvailability;
+    public int dashAvailability
+    {
+        get { return m_dashAvailability; }
+        set { m_dashAvailability = value; skillIndicator.SkillAvailability = m_dashAvailability; }
+    }
+    [SerializeField] private int m_dashMaxCharge;
+    public int dashMaxCharge
+    {
+        get { return m_dashMaxCharge; }
+        set { m_dashMaxCharge = value; }
+    }
+
+    [SerializeField] private float m_dashRefresh;
+    public float dashRefresh
+    {
+        get { return m_dashRefresh; }
+        set { m_dashRefresh = value; skillIndicator.ValueCountdown = m_dashRefresh; }
+    }
+    [SerializeField] public bool canDash;
     [SerializeField] private bool m_isDashing;
     public bool isDashing
     {
         get { return m_isDashing; }
-        set { m_isDashing = value; animator.SetBool("isDashing", value); }
+        set { m_isDashing = value; animator.SetBool("isDashing", value); skillIndicator.IsPressed = value; }
     }
 
     [SerializeField] public ParticleSystem blinkParticle;
@@ -42,9 +67,15 @@ public class DashManager : MonoBehaviour
         blinkParticle = GetComponent<ParticleSystem>();
         blinkParticle.Stop();
 
+        skillIndicator = skillIndicatorObject.GetComponent<SkillIndicator>();
+        skillIndicator.Key = "spc";
+        if (skillIndicator != null){ Debug.LogError(gameObject.name + ": Missing Skill Indicator");}
+
         dashMaxCharge = 3;
+        Debug.Log("dashMaxCharge:"+ dashMaxCharge);
         dashAvailability = 1;
         dashRefresh = 0;
+        dashCooldown = 7f;
         dashCastTime = 1.5f;
 
         canDash = true;
@@ -54,16 +85,18 @@ public class DashManager : MonoBehaviour
     {
         if (dashAvailability < dashMaxCharge)
         {
-            dashRefresh += Time.deltaTime; // Increment cooldown timer by Delta Time per frame;
-            if (dashRefresh >= dashCooldown) // Exceed cooldown timer
-            {
-                dashRefresh -= dashCooldown;
-                dashAvailability++;
+            bool cek = (dashRefresh >= dashCooldown);
+            Debug.Log(""+ cek + "Add"+ dashCooldown);
+            if (dashRefresh >= dashCooldown) {
+                Debug.Log("Ceasd");
+
+                if (dashAvailability == dashMaxCharge - 1) dashRefresh = 0f; 
+                else dashRefresh -= (dashCooldown - Time.deltaTime);
+                dashAvailability = dashAvailability + 1; 
             }
-            if (dashAvailability == dashMaxCharge) dashRefresh = 0f; // Reset cooldown timer
+            else { dashRefresh += Time.deltaTime; }
         }
         if (dashAvailability > dashMaxCharge) Debug.LogError("Availability Exceeding Capacity");
-
     }
 
     public void StartDash(PlayerControlScript mainController)
@@ -83,7 +116,6 @@ public class DashManager : MonoBehaviour
             case 3:
                 break;
         }
-        //shields_up.pitch = 1.4f;
     }
 
     void UpgradeDash(int upgrade_id, PlayerControlScript mainController, float bonus)

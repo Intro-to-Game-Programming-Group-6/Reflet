@@ -393,6 +393,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NormalDash: {fileID: 11400000, guid: 1906fa32c59aa5346afa62713bb6e2dd, type: 2}
   BlinkDash: {fileID: 11400000, guid: e28d939370ea3054cadac72a04f64a67, type: 2}
+  skillIndicator: {fileID: 0}
   dashSpeed: 5
   dashID: 1
   dashDuration: 0.5
@@ -403,7 +404,7 @@ MonoBehaviour:
   dashRefresh: 0
   canDash: 1
   m_isDashing: 0
-  blinkParticle: {fileID: 0}
+  blinkParticle: {fileID: 2876837295785591679}
   blinkRange: 5
   onActivated:
     m_PersistentCalls:

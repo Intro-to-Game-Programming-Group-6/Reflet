@@ -161,19 +161,12 @@ public class PlayerControlScript : MonoBehaviour
 
     void ManageMovement()
     {
-        if (isDashing)
-        {
-            return;
-        }
+        if (isDashing) return;
         shields_up.pitch = 1.4f;
         // if (isSprinting)
-        // {
         //     rb.velocity = (movementInput) * sprintspeed;
-        // }
         // else
-        // {
         //     rb.velocity = (movementInput) * movementspeed;
-        // }
      
 
         rb.velocity = (movementInput) * movementSpeed;

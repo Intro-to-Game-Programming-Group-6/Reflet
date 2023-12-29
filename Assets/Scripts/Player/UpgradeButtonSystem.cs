@@ -191,19 +191,19 @@ public class UpgradeButtonSystem : MonoBehaviour
         switch (selected_upgrade)
         {
             case DashUpgradeType.DashCharge:
-                playerControlInfo.dashMaxCharge += 1;
+                playerControlInfo.dashManager.dashMaxCharge += 1;
                 break;
 
             case DashUpgradeType.DashSpeed:
-                playerControlInfo.dashSpeed *= (1 + upgrade.increaseSpeed / 100);
+                playerControlInfo.dashManager.dashSpeed *= (1 + upgrade.increaseSpeed / 100);
                 break;
 
             case DashUpgradeType.DashCooldown:
-                playerControlInfo.dashCooldown *= (1 - upgrade.reduceCooldown / 100);
+                playerControlInfo.dashManager.dashCooldown *= (1 - upgrade.reduceCooldown / 100);
                 break;
 
             case DashUpgradeType.BaseMovementSpeed:
-                playerControlInfo.movementspeed *= (1 + upgrade.increaseWalkSpeed / 100);
+                playerControlInfo.movementSpeed *= (1 + upgrade.increaseWalkSpeed / 100);
                 break;
             default:
                 break;

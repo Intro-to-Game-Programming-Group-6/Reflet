@@ -3689,6 +3689,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3330282293773030803, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3330282293773030815, guid: e695efe64ea95174aa7ebcd16eb4e970, type: 3}
       propertyPath: m_textTitle
       value: seek n find!

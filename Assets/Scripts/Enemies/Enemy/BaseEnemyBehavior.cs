@@ -13,10 +13,10 @@ public class BaseEnemyBehavior : MonoBehaviour
 
     [Header("Animation Properties")]
     protected Vector3 myFront;
-    [HideInInspector][SerializeField] Animator animController;
-    [HideInInspector][SerializeField] private SpriteRenderer sprite;
-    [HideInInspector][SerializeField] static int AnimatorWalk = Animator.StringToHash("Walk");
-    [HideInInspector][SerializeField] static int AnimatorAttack = Animator.StringToHash("Attack");
+    [HideInInspector][SerializeField] protected Animator animController;
+    [HideInInspector][SerializeField] protected SpriteRenderer sprite;
+    [HideInInspector][SerializeField] public static int AnimatorWalk = Animator.StringToHash("Walk");
+    [HideInInspector][SerializeField] public static int AnimatorAttack = Animator.StringToHash("Attack");
 
     [Header("Player Variables")]
     [SerializeField] protected Transform player;
@@ -35,9 +35,9 @@ public class BaseEnemyBehavior : MonoBehaviour
     [SerializeField] Sprite empty;
     [HideInInspector][SerializeField] List<GameObject> hearts = new List<GameObject>();
     [SerializeField] protected int maxHealth;
-    [SerializeField] protected int currentHealth;
+    [HideInInspector] [SerializeField] protected int currentHealth;
     [HideInInspector][SerializeField] Coroutine[] heartCoroutines;
-    [SerializeField] private EnemyHP myHealthBar;
+    [HideInInspector][SerializeField] private EnemyHP myHealthBar;
 
     [Header("Effects")]
     [SerializeField] protected GameObject hurtEffect;
@@ -63,8 +63,8 @@ public class BaseEnemyBehavior : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        // myHealthBar = GetComponentInChildren<EnemyHP>();
-        // myHealthBar.gameObject.SetActive(false);
+        //myHealthBar = GetComponentInChildren<EnemyHP>();
+        //myHealthBar.gameObject.SetActive(false);
         /*
         heartCoroutines = new Coroutine[maxHealth];
 
@@ -83,6 +83,7 @@ public class BaseEnemyBehavior : MonoBehaviour
         if (sleep)
         {
             StartCoroutine(Dizzy());
+            animController.SetBool(AnimatorWalk, false);
         }
         else
         {
@@ -97,7 +98,7 @@ public class BaseEnemyBehavior : MonoBehaviour
         
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         myFront = (player.position - transform.position).normalized;
         sprite.flipX = myFront.x > 0f;
@@ -113,7 +114,7 @@ public class BaseEnemyBehavior : MonoBehaviour
     //just walk until reach attack range
     protected virtual void Chasing()
     {
-        //animController.SetBool(AnimatorWalk, true);
+        animController.SetBool(AnimatorWalk, true);
         agent.isStopped = false;
         agent.SetDestination(player.position);
 
@@ -155,6 +156,7 @@ public class BaseEnemyBehavior : MonoBehaviour
         
         if (!isAttacking)
         {
+            animController.SetTrigger(AnimatorAttack);
             agent.SetDestination(transform.position);
             StartCoroutine(ShootRoutine());
             isAttacking = true;
@@ -165,6 +167,7 @@ public class BaseEnemyBehavior : MonoBehaviour
     {
 
         //Instantiate(shootEffect, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(1f);
         GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
         if (bullet != null)
         {

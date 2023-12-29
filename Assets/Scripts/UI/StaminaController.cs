@@ -12,8 +12,6 @@ public class StaminaController : MonoBehaviour
     private static StaminaController instance;
 
     [Header("Bar Pixel Size")]
-    [SerializeField] private float m_minBarSize = 20;
-    [SerializeField] private float m_perBarSize = 20;
     [SerializeField] private float m_maxBar;
     [SerializeField] private float m_curBar;
 

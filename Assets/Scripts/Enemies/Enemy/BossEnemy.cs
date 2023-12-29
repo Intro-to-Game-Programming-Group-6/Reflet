@@ -8,21 +8,29 @@ using UnityEngine.UI;
 
 public class BossEnemy : BaseEnemyBehavior
 {
+    [Header("Boss Variable")]
     public GameObject secondBulletPrefab;
-    public GameObject thirdBulletPrefab;
+    public GameObject minionPrefab;
+    public Vector3 minionSpawnPoint;
     protected bool warpAttackOnCooldown;
     protected bool warpAttackDone;
     protected bool bullethellAttackOnCooldown;
     protected bool bullethellAttackDone;
     private Vector3 shootingPoint;
-    [SerializeField] private EnemyHP bossHealthBar;
-    [SerializeField] private TMP_Text bossName;
+    [HideInInspector] [SerializeField] private EnemyHP bossHealthBar;
+    [HideInInspector] [SerializeField] private TMP_Text bossName;
+    static int AnimatorWarp = Animator.StringToHash("Warp");
+    static int AnimatorCast = Animator.StringToHash("Cast");
+    static int AnimatorDead = Animator.StringToHash("Dead");
+    static int AnimatorRealDead = Animator.StringToHash("Really Dead");
+    private Collider2D col;
 
     public UnityEvent BossDefeated;
 
     protected override void Awake()
     {
         base.Awake();
+        col = GetComponent<Collider2D>();
         warpAttackOnCooldown = false;
         warpAttackDone = false;
         bullethellAttackOnCooldown = false;
@@ -91,9 +99,10 @@ public class BossEnemy : BaseEnemyBehavior
     protected override IEnumerator ShootRoutine()
     {
         Debug.Log("shoot Norm");
-        yield return new WaitForSeconds(1f); //attack animation
+        animController.SetBool(AnimatorWalk, false);
+        yield return new WaitForSeconds(0.7f); //attack animation
         GameObject bullet = Instantiate(bulletPrefab, shootingPoint, Quaternion.identity);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         if (bullet != null) 
         { 
             bullet.GetComponent<BaseBulletBehavior>().ShootAt(player);
@@ -103,10 +112,6 @@ public class BossEnemy : BaseEnemyBehavior
         isAttacking = false;
     }
 
-    protected IEnumerator ShootMulti(int bulletNum)
-    {
-        yield return new WaitForSeconds(3f);
-    }
 
     protected IEnumerator Cooldown(float cooldown, int skill)
     {
@@ -121,7 +126,9 @@ public class BossEnemy : BaseEnemyBehavior
     }
     protected IEnumerator WakeUp()
     {
+        animController.SetBool(AnimatorCast, true);
         yield return new WaitForSeconds(3f);
+        animController.SetBool(AnimatorCast, false);
         bossHealthBar.gameObject.SetActive(true);
         bossName.gameObject.SetActive(true);
         sleep = false;
@@ -132,6 +139,8 @@ public class BossEnemy : BaseEnemyBehavior
         if(warpAttackOnCooldown == false)
         {
             Debug.Log("Warp");
+            col.enabled = false;
+            animController.SetBool(AnimatorWalk, false);
             warpAttackDone = false;
             StartCoroutine(Warping());
             warpAttackOnCooldown = true;
@@ -141,19 +150,23 @@ public class BossEnemy : BaseEnemyBehavior
 
     protected IEnumerator Warping()
     {
-        yield return new WaitForSeconds(2f); //wait warp animation
+        animController.SetTrigger(AnimatorWarp);
+        yield return new WaitForSeconds(1.3f); //wait warp animation
         transform.position = player.position + new Vector3(0, 0, 0);
+        col.enabled = true;
         agent.SetDestination(transform.position);
-        yield return new WaitForSeconds(2f); ///warp attack animation
+        yield return new WaitForSeconds(1.2f); ///warp attack animation
         for(int i = 0; i<3; i++)
         {
             GameObject bullet = Instantiate(bulletPrefab, shootingPoint, Quaternion.identity);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.7f);
             if (bullet != null)
             {
                 bullet.GetComponent<BaseBulletBehavior>().ShootAt(player);
                 EnemyManager.GetInstance().EnemyShoot.Invoke(gameObject.transform.position, enemyName);
+                
             }
+            yield return new WaitForSeconds(0.3f);
         }
         warpAttackDone = true;
         StartCoroutine(Cooldown(10f, 0));
@@ -173,16 +186,17 @@ public class BossEnemy : BaseEnemyBehavior
 
     protected IEnumerator SummonBulletHell()
     {
+        animController.SetBool(AnimatorCast, true);
         GameObject[] bulletSet = new GameObject[12];
         yield return new WaitForSeconds(2f); //wait casting animation
         for (int j = 0; j<3; j++)
         {
             for (int i = 0; i < 4; i++)
             {//instantiate bullet hell one by one
-                bulletSet[i] = Instantiate(bulletPrefab, shootingPoint + new Vector3(j*0.2f,2.5f-i,0), Quaternion.identity);
-                yield return new WaitForSeconds(1f);
+                bulletSet[i] = Instantiate(secondBulletPrefab, shootingPoint + new Vector3(j*0.2f,2.5f-i,0), Quaternion.identity);
+                yield return new WaitForSeconds(0.7f);
             }
-
+            Instantiate(minionPrefab,minionSpawnPoint,Quaternion.identity);
             for (int i = 0; i < 4; i++)
             {
                 //shoot all at once
@@ -193,18 +207,51 @@ public class BossEnemy : BaseEnemyBehavior
                 }
             }
         }
+        animController.SetBool(AnimatorCast, false);
         bullethellAttackDone = true;
         StartCoroutine(Cooldown(15f, 1));
     }
 
-    //Temp
+    protected override void FixedUpdate()
+    {
+        myFront = (player.position - transform.position).normalized;
+        sprite.flipX = myFront.x <= 0f;
+    }
+
     public override void AdjustHealth(int deltaHealth)
     {
-        base.AdjustHealth(deltaHealth);
+        currentHealth += deltaHealth;
+
+        //UpdateHearts();
+        //myHealthBar.UpdateHealth(maxHealth, currentHealth);
+        //StartCoroutine(ShowHealthbar(myHealthBar));
+
+        //Instantiate(currentHealth <= 0 ? dieEffect: hurtEffect, transform.position, Quaternion.identity);
+
+        if (currentHealth <= 0)
+        {
+            EnemyManager.GetInstance().EnemyDie.Invoke(transform.position, enemyName);
+            PlayerManager.GetInstance().AddVialPoint(1);
+            StartCoroutine(DeadAnim());
+        }
+        else
+        {
+            EnemyManager.GetInstance().EnemyShoot.Invoke(gameObject.transform.position, enemyName);
+        }
         bossHealthBar.UpdateHealth(maxHealth, currentHealth);
+
         if(currentHealth <= 0)
         {
             LevelManager.GetInstance().WinScene();
         }
+    }
+
+    private IEnumerator DeadAnim()
+    {
+        animController.SetTrigger(AnimatorDead);
+        yield return new WaitForSeconds(4f);
+        animController.SetBool(AnimatorRealDead, true);
+        yield return new WaitForSeconds(2f);
+        Destroy(gameObject);
     }
 }

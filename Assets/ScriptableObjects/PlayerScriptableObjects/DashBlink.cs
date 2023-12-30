@@ -16,9 +16,9 @@ public class DashBlink : BaseAbillity
 
         control.canDash = false;
         control.currentlyDashing = true;
+        Vector2 dashDirection = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - control.GetRigidBody().transform.position;
         yield return new WaitForSeconds(control.dashCastTime);
 
-        Vector2 dashDirection = CameraInstance.GetInstance().GetCamera().ScreenToWorldPoint(Mouse.current.position.ReadValue()) - control.GetRigidBody().transform.position;
         float desired_range = dashDirection.magnitude;
         float max_range = Mathf.Min(control.blinkRange, desired_range);
 

@@ -106,7 +106,7 @@ public class BaseBulletBehavior : MonoBehaviour
         {
             if (status == Status.OWNED_BY_PLAYER)
             {
-                collision.gameObject.GetComponent<BaseEnemyBehavior>().AdjustHealth(-bulletDamage);
+                collision.gameObject.GetComponent<BaseEnemyBehavior>().AdjustHealth(Mathf.FloorToInt(bulletDamage * -0.5f));
                 collision.gameObject.GetComponent<BaseEnemyBehavior>().Knockback(gameObject.transform, knockbackForce);
                 Destroy(this.gameObject);
             }

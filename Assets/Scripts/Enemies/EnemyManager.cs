@@ -129,7 +129,7 @@ public class EnemyManager : MonoBehaviour
     public void HandleEnemyDeath(Vector3 deadEnemyPosition, string enemyName)
     {
         enemyAlive--;
-        EnemyDie?.Invoke(deadEnemyPosition, enemyName);
+        // EnemyDie?.Invoke(deadEnemyPosition, enemyName);
         // EnemyDie?.Invoke();
     }
 

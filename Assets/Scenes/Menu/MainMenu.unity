@@ -740,7 +740,7 @@ MonoBehaviour:
   - Map7
   - Map8
   maxQueueLen: 5
-  finalBossThresh: 0
+  finalBossThresh: 5
   stageCounter: 0
 --- !u!4 &1184931709469109577
 Transform:

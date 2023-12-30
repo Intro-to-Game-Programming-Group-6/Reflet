@@ -87,6 +87,8 @@ public class LevelManager : MonoBehaviour
                 SelectEnemies();
                 enemyLimit = 4 + Mathf.FloorToInt(stageCounter * 0.5f);
                 enemyTotal = 10 + Mathf.FloorToInt(stageCounter * 1.5f);
+                // enemyLimit = 1;
+                // enemyTotal = 1;
             }
 
             enemyManager.SetEnemySelections(selectedEnemies, enemyLimit, enemyTotal);
@@ -272,6 +274,7 @@ public class LevelManager : MonoBehaviour
 
     public void LoadMainMenu()
     {
+        stageCounter = 0;
         SceneManager.LoadScene("MainMenu");
         Time.timeScale = 1.0f;
     }

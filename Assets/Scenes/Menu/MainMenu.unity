@@ -736,6 +736,9 @@ MonoBehaviour:
   - Map2
   - Map4
   - Map5
+  - Map6
+  - Map7
+  - Map8
   maxQueueLen: 5
   finalBossThresh: 5
   stageCounter: 0

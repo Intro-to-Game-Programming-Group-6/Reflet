@@ -37,8 +37,6 @@ public class BouncingBullet : BaseBulletBehavior
                 PlayerManager.GetInstance().AdjustHealth(-bulletDamage);
                 Destroy(this.gameObject);
             }
-            
-                
         }
         else if (collision.gameObject.CompareTag("Enemy"))
         {
@@ -104,6 +102,41 @@ public class BouncingBullet : BaseBulletBehavior
             ReflectBullet(inNorm);
 
             status = Status.OWNED_BY_PLAYER; //allow bullet to hit enemy maybe reverse back to owned by enemy when we add enemy that can also reflect bullet in the future
+        }
+        else if(collision.gameObject.CompareTag("Enemy"))
+        {
+            if (status == Status.OWNED_BY_PLAYER)
+            {
+                collision.gameObject.GetComponent<BaseEnemyBehavior>().AdjustHealth(-bulletDamage);
+                Destroy(gameObject);
+            }
+            else
+            {
+                /*
+                Vector2 inNorm = collision.contacts[0].normal;
+                //ReflectBullet
+                ReflectBullet(inNorm);
+                */
+                rb.velocity = -lastvelocity;
+            }
+        }
+        else if(collision.gameObject.CompareTag("Player"))
+        {
+            if (status == Status.OWNED_BY_PLAYER)
+            {
+                /*
+                Vector2 inNorm = collision.contacts[0].normal;
+                //ReflectBullet
+                ReflectBullet(inNorm);
+                */
+                rb.velocity = -lastvelocity;
+            
+            }
+            else
+            {
+                PlayerManager.GetInstance().AdjustHealth(-bulletDamage);
+                Destroy(this.gameObject);
+            }
         }
 
     }

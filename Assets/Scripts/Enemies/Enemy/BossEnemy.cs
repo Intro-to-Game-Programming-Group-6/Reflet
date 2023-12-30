@@ -41,6 +41,12 @@ public class BossEnemy : BaseEnemyBehavior
         bossName = GetComponentInChildren<TMP_Text>();
         bossName.gameObject.SetActive(false);
     }
+
+    protected override void OnEnable()
+    {
+        
+        
+    }
     protected override void Update()
     {
         if(currentHealth <= 0) return;

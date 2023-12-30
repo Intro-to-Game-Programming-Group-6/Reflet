@@ -246,7 +246,7 @@ public class UpgradeButtonSystem : MonoBehaviour
 
     HealUpgradeValues GenerateRandomHealUpgrades()
     {
-        HealUpgradeType randomUpgrade = (HealUpgradeType)Random.Range(0, System.Enum.GetValues(typeof(HealUpgradeType)).Length);
+        HealUpgradeType randomUpgrade = HealUpgradeType.HealID;//(HealUpgradeType)Random.Range(0, System.Enum.GetValues(typeof(HealUpgradeType)).Length);
         string UpgradeDescription = "";
 
         // Declare variables to store upgrade values
@@ -417,7 +417,7 @@ public class UpgradeButtonSystem : MonoBehaviour
     ReflectUpgradeValues GenerateRandomReflectAndStaminaUpgrades()
     {
         string UpgradeDescription = "";
-        ReflectUpgradeType randomUpgrade = (ReflectUpgradeType)Random.Range(0, System.Enum.GetValues(typeof(ReflectUpgradeType)).Length);
+        ReflectUpgradeType randomUpgrade = (ReflectUpgradeType)Random.Range(0, 2);//System.Enum.GetValues(typeof(ReflectUpgradeType)).Length);
 
         if (randomUpgrade.Equals(ReflectUpgradeType.BulletSteal))
         {

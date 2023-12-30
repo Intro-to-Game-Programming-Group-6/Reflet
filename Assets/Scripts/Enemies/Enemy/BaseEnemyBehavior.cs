@@ -63,8 +63,8 @@ public class BaseEnemyBehavior : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        //myHealthBar = GetComponentInChildren<EnemyHP>();
-        //myHealthBar.gameObject.SetActive(false);
+        myHealthBar = GetComponentInChildren<EnemyHP>();
+        myHealthBar.gameObject.SetActive(false);
         /*
         heartCoroutines = new Coroutine[maxHealth];
 
@@ -184,8 +184,8 @@ public class BaseEnemyBehavior : MonoBehaviour
         currentHealth += deltaHealth;
 
         //UpdateHearts();
-        //myHealthBar.UpdateHealth(maxHealth, currentHealth);
-        //StartCoroutine(ShowHealthbar(myHealthBar));
+        myHealthBar.UpdateHealth(maxHealth, currentHealth);
+        StartCoroutine(ShowHealthbar(myHealthBar));
 
         //Instantiate(currentHealth <= 0 ? dieEffect: hurtEffect, transform.position, Quaternion.identity);
         

@@ -19,10 +19,10 @@ public class EnemyManager : MonoBehaviour
     public UnityEvent<Vector3, string> EnemyShoot;
     public UnityEvent AllEnemyDefeated;
 
-    private int enemyAlive;
-    private int enemyCount;
-    private int enemyLimit;
-    private int enemyTotal;
+    public int enemyAlive;
+    public int enemyCount;
+    public int enemyLimit;
+    public int enemyTotal;
 
     public void Awake()
     {

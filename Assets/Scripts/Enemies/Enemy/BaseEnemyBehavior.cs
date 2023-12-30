@@ -214,7 +214,7 @@ public class BaseEnemyBehavior : MonoBehaviour
 
     private void OnDestroy()
     {
-        // EnemyManager.GetInstance().HandleEnemyDeath(transform.position, enemyName);
+        EnemyManager.GetInstance().HandleEnemyDeath(transform.position, enemyName);
     }
 
     private void UpdateHearts()
